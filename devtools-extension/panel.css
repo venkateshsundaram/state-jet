@@ -1,0 +1,13 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #282c34;
+    color: white;
+  }
+  ul {
+    list-style-type: none;
+  }
+  li {
+    padding: 5px;
+    border-bottom: 1px solid gray;
+  }
+  

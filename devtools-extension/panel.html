@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>State Jet DevTools</title>
+    <script src="panel.js"></script>
+</head>
+
+<body>
+    <button id="prev">← Previous</button>
+    <button id="next">Next →</button>
+
+    <button id="undo">⏪ Undo</button>
+    <button id="redo">⏩ Redo</button>
+    
+    <input type="text" id="search" placeholder="Search state keys..." />
+    <pre id="state"></pre>
+    <div>
+        <h3>State Change Logs</h3>
+        <ul id="logs"></ul>
+    </div>
+    <canvas id="stateChart"></canvas>
+    <canvas id="perfChart"></canvas>
+
+</body>
+
+</html>

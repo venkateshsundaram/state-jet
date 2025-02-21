@@ -1,0 +1,19 @@
+{
+    "manifest_version": 3,
+    "name": "State Jet DevTools",
+    "version": "1.0",
+    "description": "DevTools for State Jet library",
+    "permissions": ["storage"],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "host_permissions": ["<all_urls>"],
+    "devtools_page": "devtools.html",
+    "web_accessible_resources": [
+        {
+          "resources": ["panel.html"],
+          "matches": ["<all_urls>"]
+        }
+    ]
+  }
+  
