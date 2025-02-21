@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
     "outDir": "./dist", // Output directory for compiled files
-    "rootDir": "./src", // Source directory for TypeScript files
+    "rootDir": "./", // Source directory for TypeScript files
     "module": "commonjs",
     "target": "es6",
     "jsx": "react-jsx",
-    "strict": true
+    "strict": true,
+    "esModuleInterop": true
   },
-  "include": ["src/**/*"], // Include all files in the src folder
+  "include": ["src/**/*", "example/App.tsx", "example"], // Include all files in the src folder
   "exclude": ["node_modules"]
 }

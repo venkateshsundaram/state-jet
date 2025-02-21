@@ -1,6 +1,6 @@
 {
   "name": "state-jet",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Ultra-lightweight global state management for React",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -32,23 +32,22 @@
     "test": "vitest",
     "clean": "rm -rf dist/*",
     "publish:npm": "npm publish --access public",
-    "lint": "eslint src --ext .ts,.tsx",
-    "prepare": "npm run clean && npm run build"
+    "lint": "eslint src --ext .ts,.tsx"
   },
   "devDependencies": {
+    "@types/react": "^19.0.3",
+    "@types/react-dom": "^19.0.2",
     "eslint": "^8.57.1",
     "immer": "^10.1.1",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "typescript": "^5.7.3",
-    "use-sync-external-store": "^1.4.0",
     "vitest": "^2.1.8"
   },
   "peerDependencies": {
     "@types/react": ">=18.0.0",
     "immer": ">=9.0.6",
-    "react": ">=18.0.0",
-    "use-sync-external-store": ">=1.2.0"
+    "react": ">=18.0.0"
   },
   "peerDependenciesMeta": {
     "@types/react": {
@@ -58,9 +57,6 @@
       "optional": true
     },
     "react": {
-      "optional": true
-    },
-    "use-sync-external-store": {
       "optional": true
     }
   }
