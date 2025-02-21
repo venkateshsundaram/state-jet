@@ -5,7 +5,7 @@ A zero-boilerplate, ultra-fast global state management library for React. No con
 ## 🚀 Why state-jet?
 - ✅ **No Context, No Providers** – Works outside React, reducing unnecessary re-renders.
 - ✅ **Automatic Re-Renders** – Only components using specific state values update.
-- ✅ **Super Lightweight** – Less than **1KB** minified!
+- ✅ **Super Lightweight** – Ultra minified!
 - ✅ **SSR & Next.js Support** – Works on both client and server.
 
 ## 🛠 Installation
@@ -25,7 +25,7 @@ function Counter() {
 }
 ```
 
-## ⚡ Comparison with Zustand
+## ⚡ Comparison Table
 
 |Feature|Redux|Recoil|MobX|Jotai|state-jet|
 |:----|:----|:----|:----|:----|:----|
