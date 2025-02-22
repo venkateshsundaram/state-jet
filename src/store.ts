@@ -1,6 +1,6 @@
-import { useSyncExternalStore } from 'react';
 import { produce } from "immer";
 import { saveState, restoreState } from "./persistence";
+import { useSyncExternalStore } from './hooks';
 import { notifyDevTools, undoState, redoState, measurePerformance } from "./devtools";
 
 type Listener = () => void;
@@ -71,7 +71,7 @@ export const useStateGlobal = <T>(
 
     const useStore = () => {
         return useSyncExternalStore(
-            (callback) => {
+            (callback: any) => {
                 state.listeners.add(callback);
                 return () => state.listeners.delete(callback);
             },
