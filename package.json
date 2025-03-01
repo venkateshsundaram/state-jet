@@ -1,9 +1,9 @@
 {
   "name": "state-jet",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Ultra-lightweight global state management for React",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "module": "dist/index.mjs",
   "files": [
     "dist"
@@ -36,6 +36,7 @@
     "build": "tsc",
     "test": "vitest",
     "clean": "rm -rf dist/*",
+    "prepare": "npm run build",
     "publish:npm": "npm publish --access public",
     "lint": "eslint src --ext .ts,.tsx"
   },

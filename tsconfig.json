@@ -8,10 +8,10 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "target": "ESNext",
-    "jsx": "react-jsx",
     "lib": ["ESNext", "DOM"],
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
   "include": ["src/**/*"], // Include all files in the src folder
   "exclude": ["node_modules", "dist"]
