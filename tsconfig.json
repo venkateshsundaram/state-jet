@@ -1,18 +1,14 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "outDir": "dist",
+    "module": "ESNext",
+    "target": "ES6",
+    "moduleResolution": "Node",
     "declaration": true,
     "declarationMap": true,
-    "declarationDir": "dist/types",
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "target": "ESNext",
-    "lib": ["ESNext", "DOM"],
-    "strict": true,
+    "emitDeclarationOnly": false,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "strict": true
   },
-  "include": ["src/**/*"], // Include all files in the src folder
-  "exclude": ["node_modules", "dist"]
+  "include": ["src"]
 }

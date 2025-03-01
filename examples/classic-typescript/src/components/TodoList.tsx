@@ -1,4 +1,3 @@
-// src/components/TodoList.tsx
 import { todoStore, filterStore, Todo } from "../store/todoStore";
 import TodoItem from "./TodoItem";
 

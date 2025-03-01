@@ -1,4 +1,3 @@
-// src/components/TodoStats.tsx
 import { todoStore, Todo } from "../store/todoStore";
 
 export default function TodoStats() {

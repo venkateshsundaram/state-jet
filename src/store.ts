@@ -1,6 +1,6 @@
 import { produce } from "immer";
 import { saveState, restoreState } from "./persistence";
-import { useSyncExternalStore } from './hooks';
+import { useSyncExternalStore } from "use-sync-external-store/shim";
 import { notifyDevTools, undoState, redoState, measurePerformance } from "./devtools";
 import { globalObject } from "./global";
 
