@@ -2,6 +2,7 @@ import { produce } from "immer";
 import { saveState, restoreState } from "./persistence";
 import { useSyncExternalStore } from './hooks';
 import { notifyDevTools, undoState, redoState, measurePerformance } from "./devtools";
+import { globalObject } from "./global";
 
 type Listener = () => void;
 type Middleware<T> = (key: string, prev: T, next: T) => T | void;
@@ -81,7 +82,7 @@ export const useStateGlobal = <T>(
 
     const set = (newValue: T) => {
         pendingUpdates.set(key, newValue);
-        if (window?.requestAnimationFrame) window.requestAnimationFrame(batchUpdate);
+        if (globalObject?.window?.requestAnimationFrame) globalObject.window.requestAnimationFrame(batchUpdate);
     };
 
     return {
