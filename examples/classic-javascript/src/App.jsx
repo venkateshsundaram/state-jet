@@ -8,7 +8,7 @@ export default function App() {
   const [text, setText] = useState("");
   const todos = todoStore.useStore();
 
-  const addTodo = (text: string) => {
+  const addTodo = (text) => {
     todoStore.set([...todos, { id: Date.now(), text, completed: false }]);
   };
 
