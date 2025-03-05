@@ -1,5 +1,7 @@
 import { produce } from "immer";
 import { saveState, restoreState } from "./persistence";
+import { saveEncryptedState, restoreEncryptedState } from "./encryption";
+
 import { useSyncExternalStore } from "use-sync-external-store/shim";
 import { notifyDevTools, undoState, redoState, measurePerformance } from "./devtools";
 import { globalObject } from "./global";
@@ -18,7 +20,10 @@ export const useStateGlobal = <T>(
 ) => {
     if (!store.has(key)) {
         store.set(key, { value: initialValue, listeners: new Set() });
-        if (options?.persist) restoreState(key);
+        if (options?.persist) {
+            if (options?.encrypt) restoreEncryptedState(key, initialValue);
+            else restoreState(key, initialValue);
+        }
     }
     const state = store.get(key)!;
     const undo = () => {
@@ -53,7 +58,10 @@ export const useStateGlobal = <T>(
                 state.listeners.forEach((listener) => listener());
                 notifyDevTools(key, nextValue);
                 measurePerformance(key, () => {});
-                if (options?.persist) saveState(key, nextValue, options.encrypt);
+                if (options?.persist) {
+                    if (options?.encrypt) saveEncryptedState(key, nextValue);
+                    else saveState(key, nextValue);
+                }
 
             }
         });
@@ -82,7 +90,7 @@ export const useStateGlobal = <T>(
 
     const set = (newValue: T) => {
         pendingUpdates.set(key, newValue);
-        if (globalObject?.window?.requestAnimationFrame) globalObject.window.requestAnimationFrame(batchUpdate);
+        if (globalObject?.requestAnimationFrame) globalObject.requestAnimationFrame(batchUpdate);
     };
 
     return {

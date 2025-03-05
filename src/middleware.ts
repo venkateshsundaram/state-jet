@@ -55,5 +55,5 @@ export const debounceMiddleware = (delay: number) => {
       }, delay);
       return prev; // Prevent immediate update
     };
-  };
+};
   

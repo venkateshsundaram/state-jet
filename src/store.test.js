@@ -18,9 +18,7 @@ vi.mock('./devtools', () => ({
 
 vi.mock('./global', () => ({
   globalObject: {
-    window: {
-      requestAnimationFrame: vi.fn()
-    }
+    requestAnimationFrame: vi.fn()
   }
 }));
 

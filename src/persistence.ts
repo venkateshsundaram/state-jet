@@ -1,14 +1,15 @@
-export const saveState = (key: string, value: any, encrypt = false) => {
-    if (typeof window !== "undefined") {
-        let data = JSON.stringify(value);
-        if (encrypt) data = btoa(data);
-        localStorage.setItem(key, data);
+import { globalObject } from "./global";
+
+export const saveState = (key: string, value: any) => {
+    if (typeof globalObject !== "undefined") {
+        globalObject.localStorage.setItem(key, JSON.stringify(value));
     }
 };
 
-export const restoreState = (key: string) => {
-    if (typeof window !== "undefined") {
-        const data = localStorage.getItem(key);
-        return data ? JSON.parse(atob(data)) : undefined;
+export const restoreState = (key: string, defaultValue?: any) => {
+    if (typeof globalObject !== "undefined") {
+        const savedData = globalObject.localStorage.getItem(key);
+        return savedData ? JSON.parse(savedData) : defaultValue;
     }
+    return defaultValue;
 };

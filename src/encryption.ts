@@ -1,11 +1,19 @@
-export const encrypt = (data: any) => btoa(JSON.stringify(data));
-export const decrypt = (data: any) => JSON.parse(atob(data));
+import { globalObject } from "./global";
+
+const encrypt = (data: any) => btoa(JSON.stringify(data));
+const decrypt = (data: any) => JSON.parse(atob(data));
 
 export const saveEncryptedState = (key: string, value: any) => {
-  localStorage.setItem(key, encrypt(value));
+  if (typeof globalObject !== "undefined") {
+    globalObject.localStorage.setItem(key, encrypt(value));
+  }
 };
 
-export const loadEncryptedState = (key: string) => {
-  const data = localStorage.getItem(key);
-  return data ? decrypt(data) : null;
+export const restoreEncryptedState = (key: string, defaultValue?: any) => {
+  if (typeof globalObject !== "undefined") {
+    const data = globalObject.localStorage.getItem(key);
+    return data ? decrypt(data) : defaultValue;
+  }
+
+  return defaultValue;
 };

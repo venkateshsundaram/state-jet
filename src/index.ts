@@ -1,5 +1,6 @@
 export { useStateGlobal } from "./store";
 export { saveState, restoreState } from "./persistence";
 export { optimisticUpdate } from "./optimistic";
-export { encrypt, decrypt, saveEncryptedState, loadEncryptedState } from "./encryption";
-export { syncCRDT } from "./crdt";
+export { saveEncryptedState, restoreEncryptedState } from "./encryption";
+export { syncCRDT, mergeCRDT } from "./crdt";
+export { derivedState } from "./derived";
