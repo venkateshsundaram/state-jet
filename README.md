@@ -19,8 +19,23 @@ Tutorials: https://statejet.netlify.app/docs/category/tutorial
 API Reference: https://statejet.netlify.app/docs/category/api-reference
 
 ## 🛠 Installation
+The Statejet package lives in npm. Please see the [installation guide](https://statejet.netlify.app/docs/getting-started/installation-and-setup/).
+
+To install the latest stable version, run the following command:
+
 ```bash
 npm install state-jet
+```
+Or if you're using `yarn`:
+
+```bash
+yarn add state-jet
+```
+
+Or if you're using `cdn`:
+
+```bash
+<script src="https://cdn.jsdelivr.net/npm/state-jet@latest/dist/index.cjs"></script>
 ```
 
 ## Example Usage
