@@ -21,14 +21,18 @@
     "type": "git",
     "url": "https://github.com/venkateshsundaram/state-jet.git"
   },
+  "homepage": "https://github.com/venkateshsundaram/state-jet",
   "keywords": [
     "react",
+    "state",
+    "redux",
     "state-management",
     "global-state",
+    "global-state-management",
     "signals",
     "state-jet",
-    "state",
-    "jet"
+    "jet",
+    "store"
   ],
   "author": "venkateshsundaram",
   "license": "MIT",
@@ -40,7 +44,49 @@
     "test": "vitest",
     "clean": "rimraf dist",
     "publish:npm": "npm publish --access public",
-    "lint": "eslint src --ext .ts,.tsx"
+    "lint": "eslint src --ext .ts,.tsx",
+    "format": "prettier --write .",
+    "release": "standard-version",
+    "postrelease": "git push --follow-tags"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "standard-version": {
+    "types": [
+      {
+        "type": "feat",
+        "section": "Features"
+      },
+      {
+        "type": "fix",
+        "section": "Bug Fixes"
+      },
+      {
+        "type": "chore",
+        "section": "Chores"
+      },
+      {
+        "type": "refactor",
+        "section": "Refactors"
+      },
+      {
+        "type": "docs",
+        "section": "Documentation"
+      },
+      {
+        "type": "test",
+        "section": "Testing"
+      }
+    ]
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.2",
@@ -49,14 +95,22 @@
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@types/use-sync-external-store": "^0.0.6",
+    "@typescript-eslint/eslint-plugin": "^8.26.0",
+    "@typescript-eslint/parser": "^8.26.0",
     "eslint": "^8.57.1",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "husky": "^9.1.7",
     "immer": "^10.1.1",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.5.3",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "rimraf": "^5.0.10",
     "rollup": "^3.29.4",
     "rollup-plugin-dts": "^5.3.0",
     "rollup-plugin-esbuild": "^5.0.0",
+    "standard-version": "^9.5.0",
     "typescript": "^5.7.3",
     "vitest": "^2.1.8"
   },
