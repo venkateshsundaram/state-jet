@@ -55,17 +55,17 @@ function Counter() {
 ```
 
 ## ⚡ Comparison Table
+| Feature                  | Redux  | Recoil | MobX  | Jotai  | Zustand                | state-jet            |
+|--------------------------|--------|--------|-------|--------|------------------------|----------------------|
+| **Easy Setup**           | ❌ No  | ❌ No  | ⚠️ No | ❌ No  | ⚠️ Minimal            | ✅ Ultra-Minimal    |
+| **Bundle Size**          | 🚀 Large | 🚀 Medium | ⚡ Small | ⚡ Small | ⚡ Small | 🔥 Ultra-Small  |
+| **Reactivity**           | ⚠️ Reducers | ✅ Atoms | ✅ Proxy-Based | ✅ Signals | ✅ Proxy-Based | ✅ Signal-Like |
+| **Renders Only Affected** | ❌ No  | ✅ Yes  | ✅ Yes  | ✅ Yes  | ✅ Yes                | ✅ Yes              |
+| **Derived/Computed State** | ❌ No  | ✅ Yes  | ✅ Yes  | ✅ Yes  | ⚠️ Manual Selectors  | ✅ Yes (Automatic) |
+| **Optimistic Updates**    | ❌ No  | ❌ No  | ❌ No  | ❌ No  | ⚠️ Requires Middleware | ✅ Built-in        |
+| **Undo/Redo**            | ❌ No  | ❌ No  | ❌ No  | ❌ No  | ⚠️ Requires Middleware | ✅ Built-in        |
+| **CRDT Conflict Resolution** | ❌ No  | ❌ No  | ❌ No  | ❌ No  | ❌ No                 | ✅ Yes              |
 
-| Feature                  | Redux       | Recoil    | MobX           | Jotai      | Zustand                | state-jet          |
-| ------------------------ | ----------- | --------- | -------------- | ---------- | ---------------------- | ------------------ | --- |
-| Easy Setup               | ❌ No       | ❌ No     | ⚠️ No          | ❌ No      | ⚠️ Minimal             | ✅ Ultra-Minimal   |
-| Bundle Size              | 🚀 Large    | 🚀 Medium | ⚡ Small       | ⚡ Small   | ⚡ Small               | 🔥 Ultra-Small     |
-| Reactivity               | ⚠️ Reducers | ✅ Atoms  | ✅ Proxy-Based | ✅ Signals | ✅ Proxy-Based         | ✅ Signal-Like     |
-| Renders Only Affected    | ❌ No       | ✅ Yes    | ✅ Yes         | ✅ Yes     | ✅ Yes                 | ✅ Yes             |
-| Derived/Computed State   | ❌ No       | ✅ Yes    | ✅ Yes         | ✅ Yes     | ⚠️ Manual Selectors    | ✅ Yes (Automatic) |
-| Optimistic Updates       | ❌ No       | ❌ No     | ❌ No          | ❌ No      | ⚠️ Requires Middleware | ✅ Built-in        |
-| Undo/Redo                | ❌ No       | ❌ No     | ❌ No          | ❌ No      | ⚠️ Requires Middleware | ✅ Built-in        |     |
-| CRDT Conflict Resolution | ❌ No       | ❌ No     | ❌ No          | ❌ No      | ❌ No                  | ✅ Yes             |
 
 ## ⚡ Why state-jet Is More Advanced Than Zustand
 
