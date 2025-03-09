@@ -16,7 +16,14 @@ export default function App() {
     <div>
       <h1>Todo List</h1>
       <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Add a new todo" />
-      <button onClick={() => { addTodo(text); setText(""); }}>Add</button>
+      <button
+        onClick={() => {
+          addTodo(text);
+          setText("");
+        }}
+      >
+        Add
+      </button>
       <TodoFilters />
       <TodoList />
       <TodoStats />

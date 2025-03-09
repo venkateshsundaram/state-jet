@@ -1,19 +1,29 @@
 {
-    "manifest_version": 3,
-    "name": "State Jet DevTools",
-    "version": "1.0",
-    "description": "DevTools for State Jet library",
-    "permissions": ["storage"],
-    "background": {
-        "service_worker": "background.js"
+  "manifest_version": 3,
+  "name": "StateJet DevTools",
+  "version": "1.0",
+  "description": "DevTools for StateJet library",
+  "permissions": ["storage"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "host_permissions": ["<all_urls>"],
+  "devtools_page": "devtools.html",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["libs/chart.js"],
+      "matches": ["<all_urls>"]
     },
-    "host_permissions": ["<all_urls>"],
-    "devtools_page": "devtools.html",
-    "web_accessible_resources": [
-        {
-          "resources": ["panel.html"],
-          "matches": ["<all_urls>"]
-        }
-    ]
+    {
+      "resources": ["panel.html"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "icons": {
+    "128": "icons/icon128.png"
   }
-  
+}

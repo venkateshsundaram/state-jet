@@ -9,4 +9,3 @@ export type Todo = {
 export const todoStore = useStateGlobal<Todo[]>("todos", []);
 
 export const filterStore = useStateGlobal<"all" | "completed" | "pending">("filter", "all");
-

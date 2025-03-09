@@ -7,31 +7,38 @@ export default function TodoItem({ todo }: { todo: Todo }) {
   const todos = todoStore.useStore();
 
   const toggleTodo = (id: number) => {
-    todoStore.set(todos.map((todo: Todo) => 
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    ));
+    todoStore.set(
+      todos.map((todo: Todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo)),
+    );
   };
 
   const editTodo = (id: number, newText: string) => {
-    todoStore.set(todos.map((todo: Todo) => 
-      todo.id === id ? { ...todo, text: newText } : todo
-    ));
+    todoStore.set(todos.map((todo: Todo) => (todo.id === id ? { ...todo, text: newText } : todo)));
   };
-  
+
   const deleteTodo = (id: number) => {
     todoStore.set(todos.filter((todo: Todo) => todo.id !== id));
   };
-  
+
   return (
     <li>
       <input type="checkbox" checked={todo.completed} onChange={() => toggleTodo(todo.id)} />
       {isEditing ? (
-        <input value={newText} onChange={e => setNewText(e.target.value)} />
+        <input value={newText} onChange={(e) => setNewText(e.target.value)} />
       ) : (
-        <span style={{ textDecoration: todo.completed ? "line-through" : "none" }}>{todo.text}</span>
+        <span style={{ textDecoration: todo.completed ? "line-through" : "none" }}>
+          {todo.text}
+        </span>
       )}
       {isEditing ? (
-        <button onClick={() => { editTodo(todo.id, newText); setIsEditing(false); }}>Save</button>
+        <button
+          onClick={() => {
+            editTodo(todo.id, newText);
+            setIsEditing(false);
+          }}
+        >
+          Save
+        </button>
       ) : (
         <button onClick={() => setIsEditing(true)}>Edit</button>
       )}

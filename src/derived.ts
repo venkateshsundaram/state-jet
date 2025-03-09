@@ -1,14 +1,11 @@
-export const derivedState = <T>(
-  dependencies: { useStore: () => any }[],
-  computeFn: (...values: any[]) => T
+export const derivedState = <T, D extends { useStore: () => unknown }[]>(
+  dependencies: D,
+  computeFn: (...values: { [K in keyof D]: ReturnType<D[K]["useStore"]> }) => T,
 ) => {
-  const derived = { value: computeFn(...dependencies.map((dep) => dep.useStore())) };
-
-  dependencies.forEach((dep) =>
-    dep.useStore().listeners.add(() => {
-      derived.value = computeFn(...dependencies.map((dep) => dep.useStore()));
-    })
-  );
-
-  return () => derived.value;
+  return () => {
+    const values = dependencies.map((dep) => dep.useStore()) as {
+      [K in keyof D]: ReturnType<D[K]["useStore"]>;
+    };
+    return computeFn(...values);
+  };
 };

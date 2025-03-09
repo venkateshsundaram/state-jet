@@ -7,15 +7,13 @@ export default function TodoItem({ todo }) {
   const todos = todoStore.useStore();
 
   const toggleTodo = (id) => {
-    todoStore.set(todos.map((todo) =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    ));
+    todoStore.set(
+      todos.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo)),
+    );
   };
 
   const editTodo = (id, newText) => {
-    todoStore.set(todos.map((todo) =>
-      todo.id === id ? { ...todo, text: newText } : todo
-    ));
+    todoStore.set(todos.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo)));
   };
 
   const deleteTodo = (id) => {
@@ -26,12 +24,21 @@ export default function TodoItem({ todo }) {
     <li>
       <input type="checkbox" checked={todo.completed} onChange={() => toggleTodo(todo.id)} />
       {isEditing ? (
-        <input value={newText} onChange={e => setNewText(e.target.value)} />
+        <input value={newText} onChange={(e) => setNewText(e.target.value)} />
       ) : (
-        <span style={{ textDecoration: todo.completed ? "line-through" : "none" }}>{todo.text}</span>
+        <span style={{ textDecoration: todo.completed ? "line-through" : "none" }}>
+          {todo.text}
+        </span>
       )}
       {isEditing ? (
-        <button onClick={() => { editTodo(todo.id, newText); setIsEditing(false); }}>Save</button>
+        <button
+          onClick={() => {
+            editTodo(todo.id, newText);
+            setIsEditing(false);
+          }}
+        >
+          Save
+        </button>
       ) : (
         <button onClick={() => setIsEditing(true)}>Edit</button>
       )}
