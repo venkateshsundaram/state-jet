@@ -1,6 +1,6 @@
 {
   "name": "state-jet",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Ultra-lightweight global state management for React",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -48,8 +48,8 @@
     "format": "prettier --write .",
     "release": "standard-version",
     "postrelease": "git push --follow-tags",
-    "prepare": "npm run build", 
-    "prepublishOnly": "npm run build"    
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build"
   },
   "husky": {
     "hooks": {
