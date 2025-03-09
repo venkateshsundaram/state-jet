@@ -28,23 +28,20 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Auto Version Bump
+      - name: Generate Version Based on Commits
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          npx standard-version --commit-all --release-as auto
+          npx standard-version --commit-all --no-verify
 
-      - name: Push Changes with PAT
+      - name: Push Version Bump to Main
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${GH_PAT}@github.com/venkateshsundaram/state-jet.git
           git push --follow-tags origin main
 
       - name: Publish to NPM
-        if: startsWith(github.event.head_commit.message, 'release:')
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
