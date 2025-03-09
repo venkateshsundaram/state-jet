@@ -1,9 +1,13 @@
-name: Auto Version & Publish
+name: Auto Release & Publish
 
 on:
   push:
     branches:
       - main
+
+permissions:
+  contents: write
+  packages: write
 
 jobs:
   release:
@@ -29,9 +33,17 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           npx standard-version --commit-all --release-as auto
-          git push --follow-tags
 
-      - name: Publish to NPM (Only on Release)
+      - name: Push Changes with PAT
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/venkateshsundaram/state-jet.git
+          git push --follow-tags origin main
+
+      - name: Publish to NPM
         if: startsWith(github.event.head_commit.message, 'release:')
         run: npm publish
         env:
