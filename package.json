@@ -42,10 +42,12 @@
   "scripts": {
     "build": "rimraf dist && rollup -c",
     "test": "vitest",
+    "test:coverage": "vitest run --coverage",
     "clean": "rimraf dist",
     "publish:npm": "npm publish --access public",
     "lint": "eslint src --ext .ts,.tsx",
-    "format": "prettier --write .",
+    "format": "prettier --write src",
+    "format:check": "prettier --check src",
     "release": "standard-version",
     "postrelease": "git push --follow-tags",
     "prepare": "npm run build",
@@ -62,34 +64,6 @@
       "prettier --write"
     ]
   },
-  "standard-version": {
-    "types": [
-      {
-        "type": "feat",
-        "section": "Features"
-      },
-      {
-        "type": "fix",
-        "section": "Bug Fixes"
-      },
-      {
-        "type": "chore",
-        "section": "Chores"
-      },
-      {
-        "type": "refactor",
-        "section": "Refactors"
-      },
-      {
-        "type": "docs",
-        "section": "Documentation"
-      },
-      {
-        "type": "test",
-        "section": "Testing"
-      }
-    ]
-  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -101,11 +75,13 @@
     "@rollup/plugin-commonjs": "^28.0.2",
     "@rollup/plugin-node-resolve": "^15.0.2",
     "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/rollup-linux-x64-gnu": "^4.35.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@types/use-sync-external-store": "^0.0.6",
     "@typescript-eslint/eslint-plugin": "^8.26.0",
     "@typescript-eslint/parser": "^8.26.0",
+    "@vitest/coverage-v8": "^2.1.9",
     "eslint": "^8.57.1",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.2.0",

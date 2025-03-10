@@ -1,3 +1,5 @@
+import { globalObject } from "./global";
+
 type StateHistory<T> = Record<string, T[]>;
 type StateIndex = Record<string, number>;
 type PerformanceData = Record<string, number[]>;
@@ -6,16 +8,14 @@ const stateHistory: StateHistory<unknown> = {};
 const stateIndex: StateIndex = {};
 const performanceData: PerformanceData = {};
 
-declare global {
-  interface Window {
-    __STATE_JET_DEVTOOLS__?: {
-      updateState?: (key: string, value: unknown, history: unknown[]) => void;
-      updatePerformance?: (key: string, duration: number) => void;
-    };
-  }
+interface GlobalObject extends Window {
+  __STATE_JET_DEVTOOLS__?: {
+    updateState?: (key: string, value: unknown, stateHistory: unknown[]) => void;
+    updatePerformance?: (key: string, duration: number) => void;
+  };
 }
 
-const devtoolsEnabled = typeof window !== "undefined" && window.__STATE_JET_DEVTOOLS__;
+const devtools = (globalObject as unknown as GlobalObject).__STATE_JET_DEVTOOLS__;
 
 export const notifyDevTools = <T>(key: string, value: T) => {
   if (!stateHistory[key]) stateHistory[key] = [];
@@ -27,21 +27,21 @@ export const notifyDevTools = <T>(key: string, value: T) => {
   stateHistory[key].push(value);
   stateIndex[key]++;
 
-  if (devtoolsEnabled && window.__STATE_JET_DEVTOOLS__?.updateState) {
-    window.__STATE_JET_DEVTOOLS__.updateState(key, value, stateHistory[key]);
+  if (devtools?.updateState) {
+    devtools.updateState(key, value, [...stateHistory[key]]);
   }
 };
 
 export const measurePerformance = (key: string, callback: () => void) => {
+  if (!performanceData[key]) performanceData[key] = [];
   const start = performance.now();
   callback();
   const duration = performance.now() - start;
 
-  if (!performanceData[key]) performanceData[key] = [];
   performanceData[key].push(duration);
 
-  if (devtoolsEnabled && window.__STATE_JET_DEVTOOLS__?.updatePerformance) {
-    window.__STATE_JET_DEVTOOLS__.updatePerformance(key, duration);
+  if (devtools?.updatePerformance) {
+    devtools.updatePerformance(key, duration);
   }
 };
 
@@ -53,7 +53,7 @@ export const undoState = <T>(key: string): T | undefined => {
 };
 
 export const redoState = <T>(key: string): T | undefined => {
-  if (stateIndex[key] < stateHistory[key].length - 1) {
+  if (stateIndex[key] < stateHistory[key]?.length - 1) {
     stateIndex[key]++;
     return stateHistory[key][stateIndex[key]] as T;
   }
