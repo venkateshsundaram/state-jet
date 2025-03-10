@@ -1,0 +1,179 @@
+---
+sidebar_position: 2
+id: create
+title: Create Todo List App
+slug: /tutorial/create-todo-list-app/
+description: Todo list app
+keywords:
+- todo-list-app
+- todo-app
+---
+
+# Todo List App
+
+**🔹 Step 1: Setup App in root project folder (`src/App.tsx`):**
+
+```tsx title="src/App.tsx"
+import { useState } from "react";
+import { todoStore } from "./store/todoStore";
+import TodoList from "./components/TodoList";
+import TodoStats from "./components/TodoStats";
+import TodoFilters from "./components/TodoFilters";
+
+export default function App() {
+  const [text, setText] = useState("");
+  const todos = todoStore.useStore();
+
+  const addTodo = (text: string) => {
+    todoStore.set([...todos, { id: Date.now(), text, completed: false }]);
+  };
+
+  return (
+    <div>
+      <h1>Todo List</h1>
+      <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Add a new todo" />
+      <button onClick={() => { addTodo(text); setText(""); }}>Add</button>
+      <TodoFilters />
+      <TodoList />
+      <TodoStats />
+    </div>
+  );
+}
+```
+
+## Create store
+
+**🔹 Step 2: Setup store (`src/store/todoStore.ts`):**
+
+```Ts title="src/store/todoStore.ts"
+import { useStateGlobal } from "state-jet";
+
+export type Todo = {
+  id: number;
+  text: string;
+  completed: boolean;
+};
+
+export const todoStore = useStateGlobal<Todo[]>("todos", []);
+
+export const filterStore = useStateGlobal<"all" | "completed" | "pending">("filter", "all");
+```
+
+## Create components
+
+**🔹 Step 3: Setup Todo components (`src/components`):**
+
+```tsx title="src/components/TodoList.tsx"
+import { todoStore, filterStore, Todo } from "../store/todoStore";
+import TodoItem from "./TodoItem";
+
+export default function TodoList() {
+  const todos = todoStore.useStore();
+  const filter = filterStore.useStore();
+
+  const filteredTodos = todos.filter((todo: Todo) => {
+    if (filter === "completed") return todo.completed;
+    if (filter === "pending") return !todo.completed;
+    return true;
+  });
+
+  return (
+    <ul>
+      {filteredTodos.map((todo: Todo) => (
+        <TodoItem key={todo.id} todo={todo} />
+      ))}
+    </ul>
+  );
+}
+```
+
+Create a file at `src/components/TodoItem.tsx`:
+
+```tsx title="src/components/TodoItem.tsx"
+import { useState } from "react";
+import { Todo, todoStore } from "../store/todoStore";
+
+export default function TodoItem({ todo }: { todo: Todo }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [newText, setNewText] = useState(todo.text);
+  const todos = todoStore.useStore();
+
+  const toggleTodo = (id: number) => {
+    todoStore.set(todos.map((todo: Todo) => 
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    ));
+  };
+
+  const editTodo = (id: number, newText: string) => {
+    todoStore.set(todos.map((todo: Todo) => 
+      todo.id === id ? { ...todo, text: newText } : todo
+    ));
+  };
+  
+  const deleteTodo = (id: number) => {
+    todoStore.set(todos.filter((todo: Todo) => todo.id !== id));
+  };
+  
+  return (
+    <li>
+      <input type="checkbox" checked={todo.completed} onChange={() => toggleTodo(todo.id)} />
+      {isEditing ? (
+        <input value={newText} onChange={e => setNewText(e.target.value)} />
+      ) : (
+        <span style={{ textDecoration: todo.completed ? "line-through" : "none" }}>{todo.text}</span>
+      )}
+      {isEditing ? (
+        <button onClick={() => { editTodo(todo.id, newText); setIsEditing(false); }}>Save</button>
+      ) : (
+        <button onClick={() => setIsEditing(true)}>Edit</button>
+      )}
+      <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+    </li>
+  );
+}
+```
+
+Create a file at `src/components/TodoFilters.tsx`:
+
+```tsx title="src/components/TodoFilters.tsx"
+import { filterStore } from "../store/todoStore";
+
+export default function TodoFilters() {
+  const filter = filterStore.useStore();
+
+  return (
+    <div style={{ margin: "1rem 0" }}>
+      <button onClick={() => filterStore.set("all")} disabled={filter === "all"}>All</button>
+      <button onClick={() => filterStore.set("completed")} disabled={filter === "completed"}>Completed</button>
+      <button onClick={() => filterStore.set("pending")} disabled={filter === "pending"}>Pending</button>
+    </div>
+  );
+}
+```
+
+Create a file at `src/components/TodoStats.tsx`:
+
+```tsx title="src/components/TodoStats.tsx"
+import { todoStore, Todo } from "../store/todoStore";
+
+export default function TodoStats() {
+  const todos = todoStore.useStore();
+  const completed = todos.filter((todo: Todo) => todo.completed).length;
+
+  return (
+    <div>
+      <p>Total Todos: {todos.length}</p>
+      <p>Completed: {completed}</p>
+      <p>Pending: {todos.length - completed}</p>
+    </div>
+  );
+}
+```
+
+For the complete code and demo, refer to the Codesandbox example below.
+
+```mdx-code-block
+import {PlaygroundCardsRow} from '@site/src/components/Playground';
+
+<PlaygroundCardsRow />
+```

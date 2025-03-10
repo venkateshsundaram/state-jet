@@ -1,0 +1,84 @@
+name: 🚀 State Jet CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build:
+    name: 🏗️ Build State-Jet
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🏗️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: 📦 Install pnpm
+        run: npm install -g pnpm
+
+      - name: 📦 Install Dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: 🔨 Build Project
+        run: pnpm run build
+
+  lint:
+    name: 🔍 Lint & Format
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🏗️ Setup Node.js & pnpm
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: 📦 Install pnpm
+        run: npm install -g pnpm
+
+      - name: 📦 Install Dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: 🔍 Run Linter
+        run: pnpm run lint
+
+      - name: 🎨 Run Prettier Check
+        run: pnpm run format:check
+
+  test:
+    name: 🧪 Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🏗️ Setup Node.js & pnpm
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: 📦 Install pnpm
+        run: npm install -g pnpm
+  
+      - name: 📦 Install Dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: 🧪 Run Vitest Tests
+        run: pnpm run test:coverage
+
+      - name: 📤 Upload Coverage Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/

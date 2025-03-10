@@ -17,6 +17,15 @@
   "rules": {
     "react/react-in-jsx-scope": "off",
     "no-unused-vars": "warn",
-    "@typescript-eslint/no-unused-vars": "warn"
-  }
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-explicit-any": "error"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts", "**/*.test.js", "**/*.spec.ts", "**/*.spec.js"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off"
+      }
+    }
+  ]
 }
