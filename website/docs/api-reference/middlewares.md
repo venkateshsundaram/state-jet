@@ -45,8 +45,14 @@ const counterStore = useStateGlobal("counter", 0, { middleware: [loggerMiddlewar
 
 ```ts title="src/store/middleware.ts"
 type Action<T> = { type: string; payload?: T };
+type Middleware<T> = (
+  key: string,
+  prev: T,
+  next: T | Action<T> | any,
+  set?: (value: T) => void,
+) => T | void | Promise<void>;
 
-export const reducerMiddleware = (key: string, prev: number, action: Action<any>) => {
+export const reducerMiddleware: Middleware<number> = (key, prev, action: Action<any>) => {
     switch (action.type) {
         case "INCREMENT":
             return prev + 1;
@@ -57,7 +63,7 @@ export const reducerMiddleware = (key: string, prev: number, action: Action<any>
         default:
             return prev;
     }
-};
+  };
 ```
 
 **🔹 Step 2: Use reducerMiddleware in main store `src/store/counterStore.ts`:**
@@ -74,14 +80,15 @@ const counterStore = useStateGlobal("counter", 0, { middleware: [reducerMiddlewa
 **🔹 Step 1: Setup Middleware file (`src/socket/middleware.ts`):**
 
 ```ts title="src/store/middleware.ts"
+let timer: ReturnType<typeof setTimeout>;
 export const debounceMiddleware = (delay: number) => {
-    let timer: any;
     return (key: string, prev: number, next: any) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
         console.log(`[state-jet] Debounced: ${key} → ${next}`);
-      }, delay);
-      return prev; // Prevent immediate update
+          return next;
+        }, delay);
+        return prev;
     };
 };
 ```

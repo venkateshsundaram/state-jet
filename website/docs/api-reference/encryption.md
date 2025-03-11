@@ -62,7 +62,7 @@ import { useStateGlobal, saveEncryptedState, restoreEncryptedState } from "state
 
 export type Todo = { id: number; text: string; completed: boolean };
 
-const todoStore = useStateGlobal<Todo[]>("todos", restoreEncryptedState("todos", []));
+const todoStore = useStateGlobal<Todo[]>("todos", restoreEncryptedState("todos", []) as Todo[]);
 
 export default function TodoApp() {
   const todos = todoStore.useStore() as Todo[];
