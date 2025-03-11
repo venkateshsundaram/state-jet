@@ -22,7 +22,7 @@ import TodoFilters from "./components/TodoFilters";
 
 export default function App() {
   const [text, setText] = useState("");
-  const todos = todoStore.useStore();
+  const todos = todoStore.useStore() as Todo[];
 
   const addTodo = (text: string) => {
     todoStore.set([...todos, { id: Date.now(), text, completed: false }]);
@@ -68,7 +68,7 @@ import { todoStore, filterStore, Todo } from "../store/todoStore";
 import TodoItem from "./TodoItem";
 
 export default function TodoList() {
-  const todos = todoStore.useStore();
+  const todos = todoStore.useStore() as Todo[];
   const filter = filterStore.useStore();
 
   const filteredTodos = todos.filter((todo: Todo) => {
@@ -96,7 +96,7 @@ import { Todo, todoStore } from "../store/todoStore";
 export default function TodoItem({ todo }: { todo: Todo }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newText, setNewText] = useState(todo.text);
-  const todos = todoStore.useStore();
+  const todos = todoStore.useStore() as Todo[];
 
   const toggleTodo = (id: number) => {
     todoStore.set(todos.map((todo: Todo) => 
@@ -157,7 +157,7 @@ Create a file at `src/components/TodoStats.tsx`:
 import { todoStore, Todo } from "../store/todoStore";
 
 export default function TodoStats() {
-  const todos = todoStore.useStore();
+  const todos = todoStore.useStore() as Todo[];
   const completed = todos.filter((todo: Todo) => todo.completed).length;
 
   return (

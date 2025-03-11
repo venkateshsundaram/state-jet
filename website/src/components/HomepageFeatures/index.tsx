@@ -33,7 +33,7 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/cross-app-observation.svg').default,
     description: (
       <>
-        StateJet supports persistence, encryption, redo/undo by observing all state changes across your app, without impairing code-splitting.
+        StateJet supports persistence, encryption, redo/undo by observing all state changes across your app.
       </>
     ),
   },

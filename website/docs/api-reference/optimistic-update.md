@@ -39,7 +39,7 @@ const fakeApiCall = () =>
   new Promise((resolve, reject) => setTimeout(() => (Math.random() > 0.5 ? resolve("OK") : reject("Error")), 1000));
 
 export default function TodoApp() {
-  const todos = todoStore.useStore();
+  const todos = todoStore.useStore() as Todo[];
 
   const addTodo = (text: string) => {
     optimisticUpdate(

@@ -4,7 +4,7 @@ import { Todo, todoStore } from "../store/todoStore";
 export default function TodoItem({ todo }: { todo: Todo }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newText, setNewText] = useState(todo.text);
-  const todos = todoStore.useStore();
+  const todos = todoStore.useStore() as Todo[];
 
   const toggleTodo = (id: number) => {
     todoStore.set(

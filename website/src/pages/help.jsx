@@ -43,10 +43,10 @@ function HelpFeatures() {
       content: (
         <span>
           We are on Twitter as{' '}
-          <a target='_blank' href="https://x.com/state-jet/">@StateJet</a>.
+          <a target='_blank' href="https://x.com/statejet/">@StateJet</a>.
         </span>
       ),
-      title: 'Twitter',
+      title: 'X(Twitter)',
     },
   ];
   return (
