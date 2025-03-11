@@ -21,7 +21,7 @@ This **automatically updates the filtered list when the state changes**.
 
 Create a file at `src/components/TodoApp.tsx`:
 
-```jsx title="src/components/TodoList.tsx"
+```jsx title="src/components/TodoApp.tsx"
 import { useStateGlobal, derivedState } from "state-jet";
 
 export type Todo = { id: number; text: string; completed: boolean };
