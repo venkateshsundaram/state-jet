@@ -9,9 +9,9 @@ keywords:
 - decryption
 ---
 
-A `persist` and `encryption` from `options` enables data persistence and encryption support for State-Jet.
+A `persist` and `encrypt` from `options` enables data persistence and encryption support for State-Jet.
 
-### ✅ Example: Persisting a Counter State Across Reloads `with persist and encryption` options
+### ✅ Example: Persisting a Counter State Across Reloads `with persist and encrypt` options
 
 Create a file at `src/components/TodoApp.tsx`:
 
@@ -20,10 +20,10 @@ import { useStateGlobal } from "state-jet";
 
 export type Todo = { id: number; text: string; completed: boolean };
 
-const todoStore = useStateGlobal<Todo[]>("todos", [], { persist: true, encryption: true });
+const todoStore = useStateGlobal<Todo[]>("todos", [], { persist: true, encrypt: true });
 
 export default function TodoApp() {
-  const todos = todoStore.useStore();
+  const todos = todoStore.useStore() as Todo[];
   const addTodo = (text: string) => {
     const newTodos = [...todos, { id: Date.now(), text, completed: false }];
     todoStore.set(newTodos);
@@ -44,16 +44,16 @@ export default function TodoApp() {
 
 ```
 
-### ✅ Example: Persisting a Counter State Across Reloads `without persist and encryption` options
+### ✅ Example: Persisting a Counter State Across Reloads `without persist and encrypt` options
 
-The `saveEncryptedState` and `restoreEncryptedState` functions helps to override existing global state without `persist, encryption` options
+The `saveEncryptedState` and `restoreEncryptedState` functions helps to override existing global state without `persist, encrypt` options
 
 This example demonstrates how to:
 
-1. **Save the counter state with encryption** (`saveEncryptedState`)
+1. **Save the counter state with encrypt** (`saveEncryptedState`)
 2. **Restore it when the page reloads with decryption** (`restoreEncryptedState`)
 
-By default when you add `persist` and `encryption` as `true`, State-jet internally call above two functions. But this example helps to achieve overriding from toplevel.
+By default when you add `persist` and `encrypt` as `true`, State-jet internally call above two functions. But this example helps to achieve overriding from toplevel.
 
 Create a file at `src/components/TodoApp.tsx`:
 
@@ -65,7 +65,7 @@ export type Todo = { id: number; text: string; completed: boolean };
 const todoStore = useStateGlobal<Todo[]>("todos", restoreEncryptedState("todos", []));
 
 export default function TodoApp() {
-  const todos = todoStore.useStore();
+  const todos = todoStore.useStore() as Todo[];
   const addTodo = (text: string) => {
     const newTodos = [...todos, { id: Date.now(), text, completed: false }];
     todoStore.set(newTodos);

@@ -2,7 +2,7 @@ import { todoStore, filterStore, Todo } from "../store/todoStore";
 import TodoItem from "./TodoItem";
 
 export default function TodoList() {
-  const todos = todoStore.useStore();
+  const todos = todoStore.useStore() as Todo[];
   const filter = filterStore.useStore();
 
   const filteredTodos = todos.filter((todo: Todo) => {

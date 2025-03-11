@@ -21,15 +21,16 @@
     "@mdx-js/react": "^3.0.0",
     "classnames": "^2.2.6",
     "clsx": "^2.0.0",
+    "dotenv": "^16.4.7",
     "prism-react-renderer": "^2.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.7.0",
+    "@docusaurus/plugin-ideal-image": "3.7.0",
     "@docusaurus/tsconfig": "3.7.0",
     "@docusaurus/types": "3.7.0",
-    "@docusaurus/plugin-ideal-image": "3.7.0",
     "typescript": "~5.6.2"
   },
   "browserslist": {

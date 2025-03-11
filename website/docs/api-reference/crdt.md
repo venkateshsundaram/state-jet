@@ -49,7 +49,7 @@ export type Todo = { id: number; text: string; completed: boolean };
 const todoStore = useStateGlobal<Todo[]>("todos", []);
 
 export default function TodoApp() {
-  const todos = todoStore.useStore();
+  const todos = todoStore.useStore() as Todo[];
 
   const addTodo = (text: string) => {
     const newTodos = [...todos, { id: Date.now(), text, completed: false }];

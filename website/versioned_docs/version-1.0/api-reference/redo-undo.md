@@ -31,7 +31,7 @@ export type Todo = { id: number; text: string };
 const todoStore = useStateGlobal<Todo[]>("todos", []);
 
 export default function TodoApp() {
-  const todos = todoStore.useStore();
+  const todos = todoStore.useStore() as Todo[];
 
   const addTodo = (text: string) => {
     todoStore.set([...todos, { id: Date.now(), text }]);
@@ -66,7 +66,7 @@ import { useStateGlobal } from "state-jet";
 const canvasState = useStateGlobal<{ lines: string[] }>("canvas", { lines: [] });
 
 export default function DrawingApp() {
-  const { lines } = canvasState.useStore();
+  const { lines } = canvasState.useStore() as { lines: string[] };
 
   const drawLine = () => {
     const newLine = `Line ${lines.length + 1}`;
@@ -102,7 +102,7 @@ import { useStateGlobal } from "state-jet";
 const counter = useStateGlobal("counter", 0);
 
 export default function Counter() {
-  const count = counter.useStore();
+  const count = counter.useStore() as number;
 
   return (
     <div>

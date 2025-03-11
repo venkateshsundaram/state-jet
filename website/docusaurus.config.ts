@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config(); // Load .env variables
+
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
@@ -126,7 +129,7 @@ const config: Config = {
             },
             {
               label: 'X',
-              href: 'https://x.com/state-jet/',
+              href: 'https://x.com/statejet/',
             },
           ],
         },
@@ -149,6 +152,12 @@ const config: Config = {
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
+    },
+    algolia: {
+      appId: process.env.DOCUSAURUS_ALGOLIA_APP_ID,
+      apiKey: process.env.DOCUSAURUS_ALGOLIA_API_KEY,
+      indexName: process.env.DOCUSAURUS_ALGOLIA_INDEX_NAME,
+      contextualSearch: true,
     },
   } satisfies Preset.ThemeConfig,
 };
