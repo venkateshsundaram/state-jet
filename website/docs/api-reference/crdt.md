@@ -1,5 +1,5 @@
 ---
-sidebar_position: 8
+sidebar_position: 9
 id: crdt
 title: Conflict-Free Replicated Data Type
 slug: /api-reference/crdt/

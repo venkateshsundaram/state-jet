@@ -1,5 +1,5 @@
 ---
-sidebar_position: 7
+sidebar_position: 8
 id: optimistic-update
 title: Optimistic Update
 slug: /api-reference/optimistic-update/
