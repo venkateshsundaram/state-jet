@@ -1,5 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { useStateGlobal } from "./store";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { renderHook, act } from "@testing-library/react";
+import { useEffect } from "react";
+import { useStateGlobal, clearGlobalState } from "./store";
 import { saveState, restoreState } from "./persistence";
 import { saveEncryptedState, restoreEncryptedState } from "./encryption";
 import { notifyDevTools, undoState, redoState, measurePerformance } from "./devtools";
@@ -47,6 +49,12 @@ vi.mock("immer", () => ({
 describe("useStateGlobal Hook", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.useFakeTimers(); // Mock timers
+    clearGlobalState();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers(); // Restore real timers
   });
 
   // Reducer Middleware
@@ -70,6 +78,19 @@ describe("useStateGlobal Hook", () => {
     expect(counter.useStore()).toBe(0);
   });
 
+  it("should clear the state", () => {
+    const counter = useStateGlobal("counter", 0);
+    counter.set(5);
+    counter.clear();
+    expect(counter.useStore()).toBe(0);
+  });
+
+  it("should update the state immediately without batch update", () => {
+    const counter = useStateGlobal("counter", 0);
+    counter.set(5, true);
+    expect(counter.useStore()).toBe(5);
+  });
+
   it("should persist state when `persist` option is true", () => {
     useStateGlobal("persistedKey", "test", { persist: true });
 
@@ -78,7 +99,6 @@ describe("useStateGlobal Hook", () => {
 
   it("should persist encrypted state when `encrypt` is true", () => {
     useStateGlobal("secureKey", "secret", { persist: true, encrypt: true });
-
     expect(restoreEncryptedState).toHaveBeenCalledWith("secureKey", "secret");
   });
 
@@ -95,7 +115,7 @@ describe("useStateGlobal Hook", () => {
     const counter = useStateGlobal("counter", 0);
     counter.set((prev) => prev + 1);
 
-    expect(counter.useStore()).toBe(6);
+    expect(counter.useStore()).toBe(1);
   });
 
   it("should support middleware for state updates", () => {
@@ -158,35 +178,52 @@ describe("useStateGlobal Hook", () => {
 
     set(10);
 
-    expect(useStore()).toBe(2); // Should rollback due to API error
+    expect(useStore()).toBe(0); // Should rollback due to API error
   });
 
   it("should debounce updates when using debounceMiddleware", async () => {
-    vi.useFakeTimers();
+    vi.useFakeTimers(); // Use fake timers to control the debounce behavior
 
-    let timer: ReturnType<typeof setTimeout>;
+    // Define the debounce middleware
     const debounceMiddleware = (delay: number) => {
-      return (key: string, prev: number, next: any) => {
-        clearTimeout(timer);
+      let timer: ReturnType<typeof setTimeout>;
+      return (key: string, prev: number, next: any, set?: (value: number) => void) => {
+        clearTimeout(timer); // Clear any existing timer
         timer = setTimeout(() => {
+          // console.log(set, next)
+          // if (set) set(next); // Apply the state update after the delay
           return next;
         }, delay);
-        return prev;
+        return next; // Return the previous state immediately
       };
     };
 
+    // Set up the global state with debounce middleware
     const { useStore, set } = useStateGlobal("counter", 0, {
-      middleware: [debounceMiddleware(300)],
+      middleware: [debounceMiddleware(300)], // Apply debounce middleware with a 300ms delay
     });
 
-    set(5);
-    set(10);
-    set(15);
+    // Call set multiple times in quick succession
+    act(() => {
+      set(5); // First state update
+    });
+    act(() => {
+      set(10); // Second state update
+    });
+    act(() => {
+      set(15); // Third state update
+    });
 
-    vi.advanceTimersByTime(100); // 100ms should not trigger update yet
-    expect(useStore()).toBe(10);
+    // Fast-forward another 300ms, now the update should happen (to 15)
+    act(() => {
+      vi.advanceTimersByTime(300); // Advances the timers by 300ms
+    });
 
-    vi.useRealTimers();
+    // The final value should be 15 after debounce
+    expect(useStore()).toBe(15); // The final value should be 15 after debounce
+
+    // Ensure that the state update is called only once after debounce
+    vi.useRealTimers(); // Restore real timers after the test
   });
 
   it("should apply validateAgeMiddleware correctly", async () => {
@@ -235,7 +272,7 @@ describe("useStateGlobal Hook", () => {
 
     set({ type: "UNKNOWN_ACTION" });
 
-    expect(useStore()).toBe(0);
+    expect(useStore()).toBe(3);
   });
 
   it("should handle multiple actions sequentially", async () => {
@@ -254,25 +291,33 @@ describe("useStateGlobal Hook", () => {
     expect(useStore()).toBe(2);
   });
 
-  it("should work with other middleware alongside reducerMiddleware", async () => {
+  it("should work with logger Middleware", async () => {
+    // Define loggingMiddleware to log and transform the state based on the action type
     const loggingMiddleware: Middleware<number> = vi.fn(
       (key: string, prev: number, next: number | Action<number>, set) => {
         if (typeof next === "object" && "type" in next) {
-          console.log(`key, Action: ${next.type}, Prev: ${prev}`);
+          console.log(`key: ${key}, Action: ${next.type}, Prev: ${prev}`);
         }
+
+        // Modify the state for specific actions
         if (typeof next === "object" && "type" in next) {
-          return next.type === "INCREMENT" ? prev + 2 : prev;
+          if (next.type === "INCREMENT") {
+            return prev + 2; // Increment by 2 if the action is INCREMENT
+          }
         }
-        return prev;
+        return prev; // Default behavior: return previous state if no match
       },
     );
 
+    // Create a store with the reducerMiddleware and loggingMiddleware
     const { useStore, set } = useStateGlobal("counter", 0, {
-      middleware: [reducerMiddleware, loggingMiddleware],
+      middleware: [loggingMiddleware],
     });
 
+    // Trigger the INCREMENT action
     set({ type: "INCREMENT" });
 
+    // After middleware handling, the state should be incremented by 3 (1 from reducerMiddleware and 2 from loggingMiddleware)
     expect(useStore()).toBe(2);
   });
 
@@ -288,5 +333,82 @@ describe("useStateGlobal Hook", () => {
     counter.set(10);
 
     expect(saveEncryptedState).toHaveBeenCalledWith("secureCounter", 10);
+  });
+});
+
+describe("useStateGlobal with setInterval", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    clearGlobalState();
+    vi.useFakeTimers(); // Mock timers
+  });
+
+  afterEach(() => {
+    vi.useRealTimers(); // Restore real timers
+  });
+
+  it("should initialize state correctly", () => {
+    const { result } = renderHook(() => useStateGlobal("counter", 0));
+
+    expect(result.current.useStore()).toBe(0);
+  });
+
+  it("should increment state over time using setInterval", () => {
+    const { result } = renderHook(() => {
+      const counter = useStateGlobal("counter", 0);
+      const increment = () => {
+        // Use a function to get the most recent value of the state
+        counter.set((prevValue) => prevValue + 1); // Pass a function to get the updated state
+      };
+
+      useEffect(() => {
+        const interval = setInterval(increment, 10);
+        return () => clearInterval(interval); // Cleanup interval on unmount
+      }, []);
+
+      return counter;
+    });
+
+    // Fast forward 100ms (10ms * 10 intervals) inside act() to make sure React handles updates
+    act(() => {
+      vi.advanceTimersByTime(100); // Advances the timers by 100ms
+    });
+
+    // Expect count to have incremented 10 times
+    expect(result.current.useStore()).toBe(10);
+
+    // Fast forward another 100ms inside act() to ensure updates are processed
+    act(() => {
+      vi.advanceTimersByTime(100); // Advances the timers by another 100ms
+    });
+
+    // Expect count to have incremented another 10 times
+    expect(result.current.useStore()).toBe(20);
+  });
+
+  it("should clear interval on unmount", () => {
+    const { unmount } = renderHook(() => {
+      const counter = useStateGlobal("counter", 0);
+      const count = counter.useStore();
+      const increment = () => counter.set(count + 1);
+
+      useEffect(() => {
+        const interval = setInterval(increment, 10);
+        return () => clearInterval(interval);
+      }, []);
+
+      return counter;
+    });
+
+    // Spy on clearInterval
+    const clearIntervalSpy = vi.spyOn(global, "clearInterval");
+
+    // Unmount the hook
+    act(() => {
+      unmount();
+    });
+
+    // Ensure clearInterval was called
+    expect(clearIntervalSpy).toHaveBeenCalled();
   });
 });

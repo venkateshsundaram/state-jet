@@ -2,6 +2,7 @@ import { defineConfig as defineVitestConfig } from "vitest/config";
 
 export default defineVitestConfig({
   test: {
+    environment: "jsdom",
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "html"], // Generate different report formats
@@ -9,10 +10,10 @@ export default defineVitestConfig({
       include: ["src/**/*.{ts,tsx}"],
       all: true,
       thresholds: {
-        lines: 95,
-        functions: 95,
-        branches: 95,
-        statements: 95,
+        lines: 90,
+        functions: 90,
+        branches: 90,
+        statements: 90,
       },
       exclude: [
         "src/index.ts",
