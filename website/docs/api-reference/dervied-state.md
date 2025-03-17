@@ -1,5 +1,5 @@
 ---
-sidebar_position: 6
+sidebar_position: 7
 id: derived-state
 title: Derived State
 slug: /api-reference/derived-state/

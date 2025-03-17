@@ -184,23 +184,24 @@ describe("useStateGlobal Hook", () => {
   it("should debounce updates when using debounceMiddleware", async () => {
     vi.useFakeTimers(); // Use fake timers to control the debounce behavior
 
-    // Define the debounce middleware
+    let timer: ReturnType<typeof setTimeout>;
+
+    // Debounce middleware with delay
     const debounceMiddleware = (delay: number) => {
-      let timer: ReturnType<typeof setTimeout>;
-      return (key: string, prev: number, next: any, set?: (value: number) => void) => {
-        clearTimeout(timer); // Clear any existing timer
-        timer = setTimeout(() => {
-          // console.log(set, next)
-          // if (set) set(next); // Apply the state update after the delay
-          return next;
-        }, delay);
-        return next; // Return the previous state immediately
+      return (key: string, prev: number, next: any, set?: (value: any) => void) => {
+        clearTimeout(timer);
+        if (set) {
+          timer = setTimeout(() => {
+            console.log(`[state-jet] Debounced: ${key} → ${next}`);
+            set(next); // Apply the debounced update
+          }, delay);
+        }
       };
     };
 
     // Set up the global state with debounce middleware
     const { useStore, set } = useStateGlobal("counter", 0, {
-      middleware: [debounceMiddleware(300)], // Apply debounce middleware with a 300ms delay
+      middleware: [debounceMiddleware(300)], // Apply debounce middleware with 300ms delay
     });
 
     // Call set multiple times in quick succession

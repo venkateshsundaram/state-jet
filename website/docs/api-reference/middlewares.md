@@ -63,7 +63,7 @@ export const reducerMiddleware: Middleware<number> = (key, prev, action: Action<
         default:
             return prev;
     }
-  };
+};
 ```
 
 **🔹 Step 2: Use reducerMiddleware in main store `src/store/counterStore.ts`:**
@@ -81,14 +81,17 @@ const counterStore = useStateGlobal("counter", 0, { middleware: [reducerMiddlewa
 
 ```ts title="src/store/middleware.ts"
 let timer: ReturnType<typeof setTimeout>;
-export const debounceMiddleware = (delay: number) => {
-    return (key: string, prev: number, next: any) => {
+
+// Debounce middleware with delay
+const debounceMiddleware = (delay: number) => {
+    return (key: string, prev: number, next: any, set?: (value: any) => void) => {
         clearTimeout(timer);
-        timer = setTimeout(() => {
-        console.log(`[state-jet] Debounced: ${key} → ${next}`);
-          return next;
-        }, delay);
-        return prev;
+        if (set) {
+          timer = setTimeout(() => {
+            console.log(`[state-jet] Debounced: ${key} → ${next}`);
+            set(next); // Apply the debounced update
+          }, delay);
+        }
     };
 };
 ```
