@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/venkateshsundaram/state-jet/compare/v1.3.0...v1.3.1) (2025-03-17)
+
+
+### Documentation
+
+* update state jet document for middleware ([1a63f4c](https://github.com/venkateshsundaram/state-jet/commit/1a63f4cc383b9b0f72e0c769a19ae572d85e4dab))
+
 ## [1.3.0](https://github.com/venkateshsundaram/state-jet/compare/v1.2.7...v1.3.0) (2025-03-17)
 
 
