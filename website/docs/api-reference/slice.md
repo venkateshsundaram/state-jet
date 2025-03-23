@@ -19,7 +19,7 @@ function useSlice<T>(
 
 :::info
 
-`useStateGlobal()` internally utilizes `useSlice()` with the reserved slice name `global`.
+`useStateGlobal()` internally utilizes `useSlice()` with the reserved sliceKey `global`.
 
 :::
 

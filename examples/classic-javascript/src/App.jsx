@@ -6,7 +6,7 @@ import TodoFilters from "./components/TodoFilters";
 
 export default function App() {
   const [text, setText] = useState("");
-  const todos = todoState.useStore();
+  const todos = todoState.useState();
 
   const addTodo = (text) => {
     todoState.set([...todos, { id: Date.now(), text, completed: false }]);

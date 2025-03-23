@@ -1,7 +1,7 @@
 import { filterState } from "../store/state";
 
 export default function TodoFilters() {
-  const filter = filterState.useStore();
+  const filter = filterState.useState();
 
   return (
     <div style={{ margin: "1rem 0" }}>
