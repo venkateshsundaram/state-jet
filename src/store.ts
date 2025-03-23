@@ -175,8 +175,6 @@ export const useSlice = (sliceName: string) => {
       pendingUpdates.clear();
     };
 
-    const get = () => state.value;
-
     const useState = () => {
       return useSyncExternalStore(
         (callback) => {
@@ -221,7 +219,6 @@ export const useSlice = (sliceName: string) => {
     return {
       useState,
       set,
-      get,
       undo,
       redo,
       clear,

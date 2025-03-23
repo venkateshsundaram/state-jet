@@ -8,12 +8,20 @@ import Link from '@docusaurus/Link';
 import Image from '@theme/IdealImage';
 import Heading from '@theme/Heading';
 
-const Playgrounds = [
+interface Props {
+  name: string;
+  image: string;
+  url: string;
+  urlTS: string;
+  description: ReactNode;
+}
+
+const TodoPlaygrounds = [
   {
     name: '📦 CodeSandbox',
     image: require('@site/static/img/playgrounds/codesandbox.png'),
-    url: 'https://codesandbox.io/p/sandbox/github/venkateshsundaram/state-jet/tree/main/examples/classic-javascript?file=%2FREADME.md&privacy=public',
-    urlTS: 'https://codesandbox.io/p/sandbox/github/venkateshsundaram/state-jet/tree/main/examples/classic-typescript?file=%2FREADME.md&privacy=public',
+    url: 'https://codesandbox.io/p/sandbox/github/venkateshsundaram/state-jet/tree/main/examples/todo-list-app/classic-javascript?file=%2FREADME.md&privacy=public',
+    urlTS: 'https://codesandbox.io/p/sandbox/github/venkateshsundaram/state-jet/tree/main/examples/todo-list-app/classic-typescript?file=%2FREADME.md&privacy=public',
     description: (
       <Translate id="playground.codesandbox.description">
         CodeSandbox is an online code editor and development environment that
@@ -24,13 +32,21 @@ const Playgrounds = [
   }
 ];
 
-interface Props {
-  name: string;
-  image: string;
-  url: string;
-  urlTS: string;
-  description: ReactNode;
-}
+const EcommercePlaygrounds = [
+  {
+    name: '📦 CodeSandbox',
+    image: require('@site/static/img/playgrounds/codesandbox.png'),
+    url: 'https://codesandbox.io/p/sandbox/github/venkateshsundaram/state-jet/tree/main/examples/ecommerce-app/classic-javascript?file=%2FREADME.md&privacy=public',
+    urlTS: 'https://codesandbox.io/p/sandbox/github/venkateshsundaram/state-jet/tree/main/examples/ecommerce-app/classic-typescript?file=%2FREADME.md&privacy=public',
+    description: (
+      <Translate id="playground.codesandbox.description">
+        CodeSandbox is an online code editor and development environment that
+        allows developers to create, share and collaborate on web development
+        projects in a browser-based environment
+      </Translate>
+    ),
+  }
+];
 
 function PlaygroundCard({name, image, url, urlTS, description}: Props) {
   return (
@@ -65,10 +81,20 @@ function PlaygroundCard({name, image, url, urlTS, description}: Props) {
   );
 }
 
-export function PlaygroundCardsRow(): ReactNode {
+export function TodoPlayground(): ReactNode {
   return (
     <div className="row">
-      {Playgrounds.map((playground) => (
+      {TodoPlaygrounds.map((playground: Props) => (
+        <PlaygroundCard key={playground.name} {...playground} />
+      ))}
+    </div>
+  );
+}
+
+export function EcommercePlayground(): ReactNode {
+  return (
+    <div className="row">
+      {EcommercePlaygrounds.map((playground: Props) => (
         <PlaygroundCard key={playground.name} {...playground} />
       ))}
     </div>
