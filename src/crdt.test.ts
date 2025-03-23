@@ -26,13 +26,13 @@ describe("mergeCRDT", () => {
 describe("syncCRDT", () => {
   let mockUseStore: Mock;
   let mockSet: Mock;
-  let setState: { useStore: () => any; set: (state: any) => void };
+  let setState: { useState: () => any; set: (state: any) => void };
 
   beforeEach(() => {
     mockUseStore = vi.fn();
     mockSet = vi.fn();
     setState = {
-      useStore: mockUseStore,
+      useState: mockUseStore,
       set: mockSet,
     };
   });
@@ -52,7 +52,7 @@ describe("syncCRDT", () => {
     });
   });
 
-  it("should call useStore to get the local state", () => {
+  it("should call useState to get the local state", () => {
     const remoteState = { b: 3, c: 4 };
     mockUseStore.mockReturnValue({ a: 1, b: 2 });
 

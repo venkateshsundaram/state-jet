@@ -26,11 +26,12 @@ This **syncs todos across multiple users** and **merges conflicting changes auto
 **🔹 Step 1: Setup WebSocket for Syncing (`src/socket/websocket.ts`):**
 
 ```ts title="src/socket/websocket.ts"
+import { todoState } from "../components/TodoApp"
 const socket = new WebSocket("ws://localhost:4000");
 
 socket.onmessage = (event) => {
   const { key, data } = JSON.parse(event.data);
-  if (key === "todos") syncCRDT(data, todoStore);
+  if (key === "todos") syncCRDT(data, todoState);
 };
 
 export const syncTodos = (state) => {
@@ -46,14 +47,14 @@ import { syncTodos } from "../socket/websocket";
 
 export type Todo = { id: number; text: string; completed: boolean };
 
-const todoStore = useStateGlobal<Todo[]>("todos", []);
+export const todoState = useStateGlobal<Todo[]>("todos", []);
 
 export default function TodoApp() {
-  const todos = todoStore.useStore() as Todo[];
+  const todos = todoState.useStore() as Todo[];
 
   const addTodo = (text: string) => {
     const newTodos = [...todos, { id: Date.now(), text, completed: false }];
-    syncCRDT(newTodos, todoStore);
+    syncCRDT(newTodos, todoState);
     syncTodos(newTodos); // Send to WebSocket
   };
 
@@ -80,11 +81,12 @@ This ensures **counter updates don’t get lost** when multiple users increment 
 **🔹 Step 1: Setup WebSocket for Syncing (`src/socket/websocket.ts`)**:
 
 ```ts title="src/socket/websocket.ts"
+import { counterState } from "../components/Counter"
 const socket = new WebSocket("ws://localhost:4000");
 
 socket.onmessage = (event) => {
   const { key, data } = JSON.parse(event.data);
-  if (key === "counter") syncCRDT(data, counterStore);
+  if (key === "counter") syncCRDT(data, counterState);
 };
 
 export const syncCounter = (state) => {
@@ -98,14 +100,14 @@ export const syncCounter = (state) => {
 import { useStateGlobal, syncCRDT } from "state-jet";
 import { syncCounter } from "../socket/websocket";
 
-const counterStore = useStateGlobal("counter", { value: 0, lastUpdated: Date.now() });
+export const counterState = useStateGlobal("counter", { value: 0, lastUpdated: Date.now() });
 
 export default function Counter() {
-  const counter = counterStore.useStore();
+  const counter = counterState.useStore();
 
   const increment = () => {
     const updatedCounter = { value: counter.value + 1, lastUpdated: Date.now() };
-    syncCRDT(updatedCounter, counterStore);
+    syncCRDT(updatedCounter, counterState);
     syncCounter(updatedCounter); // Send update to WebSocket
   };
 
@@ -127,11 +129,12 @@ This **syncs text changes across users** with **CRDT conflict resolution**.
 **🔹 Step 1: WebSocket Sync for Notes (`src/socket/websocket.ts`)**:
 
 ```ts title="src/socket/websocket.ts"
+import { noteState } from "../components/Notes"
 const socket = new WebSocket("ws://localhost:4000");
 
 socket.onmessage = (event) => {
   const { key, data } = JSON.parse(event.data);
-  if (key === "notes") syncCRDT(data, noteStore);
+  if (key === "notes") syncCRDT(data, noteState);
 };
 
 export const syncNotes = (state) => {
@@ -145,14 +148,14 @@ export const syncNotes = (state) => {
 import { useStateGlobal, syncCRDT } from "state-jet";
 import { syncNotes } from "../socket/websocket";
 
-const noteStore = useStateGlobal("notes", { content: "", lastUpdated: Date.now() });
+export const noteState = useStateGlobal("notes", { content: "", lastUpdated: Date.now() });
 
 export default function Notes() {
-  const note = noteStore.useStore();
+  const note = noteState.useStore();
 
   const updateNote = (e) => {
     const updatedNote = { content: e.target.value, lastUpdated: Date.now() };
-    syncCRDT(updatedNote, noteStore);
+    syncCRDT(updatedNote, noteState);
     syncNotes(updatedNote); // Send update to WebSocket
   };
 

@@ -6,9 +6,9 @@ const mockUseStore1 = vi.fn();
 const mockUseStore2 = vi.fn();
 const mockUseStore3 = vi.fn();
 
-const dependency1 = { useStore: mockUseStore1 };
-const dependency2 = { useStore: mockUseStore2 };
-const dependency3 = { useStore: mockUseStore3 };
+const dependency1 = { useState: mockUseStore1 };
+const dependency2 = { useState: mockUseStore2 };
+const dependency3 = { useState: mockUseStore3 };
 
 describe("derivedState", () => {
   beforeEach(() => {

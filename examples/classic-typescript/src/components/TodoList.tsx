@@ -1,9 +1,9 @@
-import { todoStore, filterStore, Todo } from "../store/todoStore";
+import { todoState, filterState, Todo } from "../store/state";
 import TodoItem from "./TodoItem";
 
 export default function TodoList() {
-  const todos = todoStore.useStore() as Todo[];
-  const filter = filterStore.useStore();
+  const todos = todoState.useStore() as Todo[];
+  const filter = filterState.useStore();
 
   const filteredTodos = todos.filter((todo: Todo) => {
     if (filter === "completed") return todo.completed;

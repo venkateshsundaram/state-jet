@@ -32,18 +32,18 @@ import { useStateGlobal, optimisticUpdate } from "state-jet";
 
 export type Todo = { id: number; text: string; completed: boolean };
 
-const todoStore = useStateGlobal<Todo[]>("todos", []);
+const todoState = useStateGlobal<Todo[]>("todos", []);
 
 // Fake API call (50% failure rate)
 const fakeApiCall = () =>
   new Promise((resolve, reject) => setTimeout(() => (Math.random() > 0.5 ? resolve("OK") : reject("Error")), 1000));
 
 export default function TodoApp() {
-  const todos = todoStore.useStore() as Todo[];
+  const todos = todoState.useStore() as Todo[];
 
   const addTodo = (text: string) => {
     optimisticUpdate(
-      todoStore,
+      todoState,
       (prev) => [...prev, { id: Date.now(), text, completed: false }], // Optimistic Add
       fakeApiCall,
       (prev) => prev.slice(0, -1) // Rollback (Remove last added todo)

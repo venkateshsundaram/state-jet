@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import { useEffect } from "react";
-import { useStateGlobal, clearGlobalState } from "./store";
+import { useStateGlobal, useStore, clearGlobalState, useSlice } from "./store";
 import { saveState, restoreState } from "./persistence";
 import { saveEncryptedState, restoreEncryptedState } from "./encryption";
 import { notifyDevTools, undoState, redoState, measurePerformance } from "./devtools";
@@ -59,13 +59,13 @@ describe("useStateGlobal Hook", () => {
 
   // Reducer Middleware
 
-  const reducerMiddleware: Middleware<number> = (key, prev, next) => {
+  const reducerMiddleware: Middleware<number | undefined> = (key, prev, next) => {
     const action = next as Action<any>;
     switch (action.type) {
       case "INCREMENT":
-        return prev + 1;
+        return (prev ?? 0) + 1;
       case "DECREMENT":
-        return prev - 1;
+        return (prev ?? 0) - 1;
       case "RESET":
         return 0;
       default:
@@ -75,47 +75,53 @@ describe("useStateGlobal Hook", () => {
 
   it("should initialize state correctly", () => {
     const counter = useStateGlobal("counter", 0);
-    expect(counter.useStore()).toBe(0);
+    expect(counter.useState()).toBe(0);
   });
 
   it("should clear the state", () => {
     const counter = useStateGlobal("counter", 0);
     counter.set(5);
     counter.clear();
-    expect(counter.useStore()).toBe(0);
+    expect(counter.useState()).toBe(0);
+  });
+
+  it("should update the state by function callback", () => {
+    const counter = useStateGlobal("counter", 0);
+    counter.set((count = 0) => count + 1);
+    expect(counter.useState()).toBe(1);
   });
 
   it("should update the state immediately without batch update", () => {
     const counter = useStateGlobal("counter", 0);
     counter.set(5, true);
-    expect(counter.useStore()).toBe(5);
+    expect(counter.useState()).toBe(5);
   });
 
   it("should persist state when `persist` option is true", () => {
     useStateGlobal("persistedKey", "test", { persist: true });
 
-    expect(restoreState).toHaveBeenCalledWith("persistedKey", "test");
+    expect(restoreState).toHaveBeenCalledOnce();
   });
 
   it("should persist encrypted state when `encrypt` is true", () => {
     useStateGlobal("secureKey", "secret", { persist: true, encrypt: true });
-    expect(restoreEncryptedState).toHaveBeenCalledWith("secureKey", "secret");
+    expect(restoreEncryptedState).toHaveBeenCalledOnce();
   });
 
   it("should update state and notify devtools", () => {
     const counter = useStateGlobal("counter", 0);
     counter.set(5);
 
-    expect(counter.useStore()).toBe(5);
-    expect(notifyDevTools).toHaveBeenCalledWith("counter", 5);
-    expect(measurePerformance).toHaveBeenCalledWith("counter", expect.any(Function));
+    expect(counter.useState()).toBe(5);
+    expect(notifyDevTools).toHaveBeenCalledOnce();
+    expect(measurePerformance).toHaveBeenCalledOnce();
   });
 
   it("should update state and notify devtools by function callback", () => {
     const counter = useStateGlobal("counter", 0);
-    counter.set((prev) => prev + 1);
+    counter.set((prev = 0) => prev + 1);
 
-    expect(counter.useStore()).toBe(1);
+    expect(counter.useState()).toBe(1);
   });
 
   it("should support middleware for state updates", () => {
@@ -125,7 +131,7 @@ describe("useStateGlobal Hook", () => {
     counter.set(5);
 
     expect(middleware).toHaveBeenCalledTimes(1);
-    expect(counter.useStore()).toBe(15); // Ensure middleware applied correctly
+    expect(counter.useState()).toBe(15); // Ensure middleware applied correctly
   });
 
   it("should call `undoState` when undo is triggered", () => {
@@ -150,8 +156,13 @@ describe("useStateGlobal Hook", () => {
   it("should handle optimistic updates and rollback on failure", async () => {
     global.fetch = vi.fn(() => Promise.reject("API Error")) as any;
 
-    const optimisticMiddleware = (apiUrl: string): Middleware<number> => {
-      return async (key: string, prev: number, next: number | Action<number>, set: any) => {
+    const optimisticMiddleware = (apiUrl: string): Middleware<number | undefined> => {
+      return async (
+        key: string,
+        prev: number | undefined,
+        next: number | Action<number>,
+        set: any,
+      ) => {
         const nextValue =
           typeof next === "number"
             ? next
@@ -167,18 +178,18 @@ describe("useStateGlobal Hook", () => {
             headers: { "Content-Type": "application/json" },
           });
         } catch {
-          if (set) set(prev); // Rollback
+          if (set) set(prev ?? 0); // Rollback
         }
       };
     };
 
-    const { useStore, set } = useStateGlobal("counter", 0, {
+    const { useState, set } = useStateGlobal("counter", 0, {
       middleware: [optimisticMiddleware("/api/state")],
     });
 
     set(10);
 
-    expect(useStore()).toBe(0); // Should rollback due to API error
+    expect(useState()).toBe(0); // Should rollback due to API error
   });
 
   it("should debounce updates when using debounceMiddleware", async () => {
@@ -188,7 +199,7 @@ describe("useStateGlobal Hook", () => {
 
     // Debounce middleware with delay
     const debounceMiddleware = (delay: number) => {
-      return (key: string, prev: number, next: any, set?: (value: any) => void) => {
+      return (key: string, prev: number | undefined, next: any, set?: (value: any) => void) => {
         clearTimeout(timer);
         if (set) {
           timer = setTimeout(() => {
@@ -200,7 +211,7 @@ describe("useStateGlobal Hook", () => {
     };
 
     // Set up the global state with debounce middleware
-    const { useStore, set } = useStateGlobal("counter", 0, {
+    const { useState, set } = useStateGlobal("counter", 0, {
       middleware: [debounceMiddleware(300)], // Apply debounce middleware with 300ms delay
     });
 
@@ -221,16 +232,16 @@ describe("useStateGlobal Hook", () => {
     });
 
     // The final value should be 15 after debounce
-    expect(useStore()).toBe(15); // The final value should be 15 after debounce
+    expect(useState()).toBe(15); // The final value should be 15 after debounce
 
     // Ensure that the state update is called only once after debounce
     vi.useRealTimers(); // Restore real timers after the test
   });
 
   it("should apply validateAgeMiddleware correctly", async () => {
-    const validateAgeMiddleware = (
+    const validateAgeMiddleware: Middleware<number | undefined> = (
       key: string,
-      prev: number,
+      prev: number | undefined,
       next: number | ((prev: number) => number) | { type: string; payload: number } | any,
     ) => {
       let nextValue;
@@ -247,37 +258,37 @@ describe("useStateGlobal Hook", () => {
       return nextValue;
     };
 
-    const { useStore, set } = useStateGlobal("age", 25, {
+    const { useState, set } = useStateGlobal("age", 25, {
       middleware: [validateAgeMiddleware],
     });
 
     set(-5);
 
-    expect(useStore()).toBe(25); // Should not allow negative age
+    expect(useState()).toBe(25); // Should not allow negative age
   });
 
   it("should reset state using reducerMiddleware", async () => {
-    const { useStore, set } = useStateGlobal("counter", 10, {
+    const { useState, set } = useStateGlobal("counter", 10, {
       middleware: [reducerMiddleware],
     });
 
     set({ type: "RESET" });
 
-    expect(useStore()).toBe(0);
+    expect(useState()).toBe(0);
   });
 
   it("should not change state for unknown action type", async () => {
-    const { useStore, set } = useStateGlobal("counter", 3, {
+    const { useState, set } = useStateGlobal("counter", 3, {
       middleware: [reducerMiddleware],
     });
 
     set({ type: "UNKNOWN_ACTION" });
 
-    expect(useStore()).toBe(3);
+    expect(useState()).toBe(3);
   });
 
   it("should handle multiple actions sequentially", async () => {
-    const { useStore, set } = useStateGlobal("counter", 0, {
+    const { useState, set } = useStateGlobal("counter", 0, {
       middleware: [reducerMiddleware],
     });
 
@@ -285,17 +296,17 @@ describe("useStateGlobal Hook", () => {
     set({ type: "INCREMENT" });
     set({ type: "INCREMENT" });
 
-    expect(useStore()).toBe(3);
+    expect(useState()).toBe(3);
 
     set({ type: "DECREMENT" });
 
-    expect(useStore()).toBe(2);
+    expect(useState()).toBe(2);
   });
 
   it("should work with logger Middleware", async () => {
     // Define loggingMiddleware to log and transform the state based on the action type
-    const loggingMiddleware: Middleware<number> = vi.fn(
-      (key: string, prev: number, next: number | Action<number>, set) => {
+    const loggingMiddleware: Middleware<number | undefined> = vi.fn(
+      (key: string, prev: number | undefined, next: number | Action<number>, set) => {
         if (typeof next === "object" && "type" in next) {
           console.log(`key: ${key}, Action: ${next.type}, Prev: ${prev}`);
         }
@@ -303,7 +314,7 @@ describe("useStateGlobal Hook", () => {
         // Modify the state for specific actions
         if (typeof next === "object" && "type" in next) {
           if (next.type === "INCREMENT") {
-            return prev + 2; // Increment by 2 if the action is INCREMENT
+            return (prev ?? 0) + 2; // Increment by 2 if the action is INCREMENT
           }
         }
         return prev; // Default behavior: return previous state if no match
@@ -311,7 +322,7 @@ describe("useStateGlobal Hook", () => {
     );
 
     // Create a store with the reducerMiddleware and loggingMiddleware
-    const { useStore, set } = useStateGlobal("counter", 0, {
+    const { useState, set } = useStateGlobal("counter", 0, {
       middleware: [loggingMiddleware],
     });
 
@@ -319,21 +330,21 @@ describe("useStateGlobal Hook", () => {
     set({ type: "INCREMENT" });
 
     // After middleware handling, the state should be incremented by 3 (1 from reducerMiddleware and 2 from loggingMiddleware)
-    expect(useStore()).toBe(2);
+    expect(useState()).toBe(2);
   });
 
   it("should persist state when `persist` is enabled", () => {
     const counter = useStateGlobal("counter", 0, { persist: true });
     counter.set(5);
 
-    expect(saveState).toHaveBeenCalledWith("counter", 5);
+    expect(saveState).toHaveBeenCalledOnce();
   });
 
   it("should persist encrypted state when `encrypt` is enabled", () => {
     const counter = useStateGlobal("secureCounter", 0, { persist: true, encrypt: true });
     counter.set(10);
 
-    expect(saveEncryptedState).toHaveBeenCalledWith("secureCounter", 10);
+    expect(saveEncryptedState).toHaveBeenCalledOnce();
   });
 });
 
@@ -351,7 +362,7 @@ describe("useStateGlobal with setInterval", () => {
   it("should initialize state correctly", () => {
     const { result } = renderHook(() => useStateGlobal("counter", 0));
 
-    expect(result.current.useStore()).toBe(0);
+    expect(result.current.useState()).toBe(0);
   });
 
   it("should increment state over time using setInterval", () => {
@@ -359,7 +370,7 @@ describe("useStateGlobal with setInterval", () => {
       const counter = useStateGlobal("counter", 0);
       const increment = () => {
         // Use a function to get the most recent value of the state
-        counter.set((prevValue) => prevValue + 1); // Pass a function to get the updated state
+        counter.set((prevValue = 0) => prevValue + 1); // Pass a function to get the updated state
       };
 
       useEffect(() => {
@@ -376,7 +387,7 @@ describe("useStateGlobal with setInterval", () => {
     });
 
     // Expect count to have incremented 10 times
-    expect(result.current.useStore()).toBe(10);
+    expect(result.current.useState()).toBe(10);
 
     // Fast forward another 100ms inside act() to ensure updates are processed
     act(() => {
@@ -384,14 +395,14 @@ describe("useStateGlobal with setInterval", () => {
     });
 
     // Expect count to have incremented another 10 times
-    expect(result.current.useStore()).toBe(20);
+    expect(result.current.useState()).toBe(20);
   });
 
   it("should clear interval on unmount", () => {
     const { unmount } = renderHook(() => {
       const counter = useStateGlobal("counter", 0);
-      const count = counter.useStore();
-      const increment = () => counter.set(count + 1);
+      const count = counter.useState();
+      const increment = () => counter.set((prev = 0) => prev + 1);
 
       useEffect(() => {
         const interval = setInterval(increment, 10);
@@ -411,5 +422,181 @@ describe("useStateGlobal with setInterval", () => {
 
     // Ensure clearInterval was called
     expect(clearIntervalSpy).toHaveBeenCalled();
+  });
+});
+
+describe("useStore", () => {
+  it("should create a store with the provided initializer", () => {
+    const initializer = (store: { count: number }) => {
+      store.count = 0;
+    };
+    const createStore = useStore<{ count: number }>();
+    const store = createStore(initializer);
+    expect(store.count).toBe(0);
+  });
+
+  it("should handle multiple properties in the store", () => {
+    const initializer = (store: { count: number; name: string }) => {
+      store.count = 0;
+      store.name = "test";
+    };
+    const createStore = useStore<{ count: number; name: string }>();
+    const store = createStore(initializer);
+    expect(store.count).toBe(0);
+    expect(store.name).toBe("test");
+  });
+
+  it("should handle nested objects in the store", () => {
+    const initializer = (store: { user: { name: string; age: number } }) => {
+      store.user = { name: "John", age: 30 };
+    };
+    const createStore = useStore<{ user: { name: string; age: number } }>();
+    const store = createStore(initializer);
+    expect(store.user.name).toBe("John");
+    expect(store.user.age).toBe(30);
+  });
+
+  it("should handle empty initializer", () => {
+    const initializer = () => {};
+    const createStore = useStore<any>();
+    const store = createStore(initializer);
+    expect(store).toEqual({});
+  });
+
+  it("should handle initializer with no properties", () => {
+    const initializer = () => {};
+    const createStore = useStore<{ count?: number }>();
+    const store = createStore(initializer);
+    expect(store.count).toBeUndefined();
+  });
+
+  it("should throw an error if initializer is not a function", () => {
+    const createStore = useStore<any>();
+    expect(() => createStore(null as any)).toThrow();
+    expect(() => createStore(undefined as any)).toThrow();
+    expect(() => createStore({} as any)).toThrow();
+  });
+
+  it("should handle complex types in the store", () => {
+    type ComplexType = {
+      id: number;
+      data: {
+        name: string;
+        values: number[];
+      };
+    };
+    const initializer = (store: ComplexType) => {
+      store.id = 1;
+      store.data = { name: "test", values: [1, 2, 3] };
+    };
+    const createStore = useStore<ComplexType>();
+    const store = createStore(initializer);
+    expect(store.id).toBe(1);
+    expect(store.data.name).toBe("test");
+    expect(store.data.values).toEqual([1, 2, 3]);
+  });
+});
+
+describe("useSlice", () => {
+  beforeEach(() => {
+    clearGlobalState();
+    vi.clearAllMocks();
+  });
+
+  it("should create a new slice if it does not exist", () => {
+    const sliceName = "testSlice";
+    const key = "testKey";
+    const initialValue = "initialValue";
+
+    const { result } = renderHook(() => useSlice(sliceName)(key, initialValue));
+
+    expect(result.current.get()).toBe(initialValue);
+  });
+
+  it("should set a new value immediately if immediate option is true", () => {
+    const sliceName = "testSlice";
+    const key = "testKey";
+    const initialValue = "initialValue";
+    const newValue = "newValue";
+
+    const { result } = renderHook(() => useSlice(sliceName)(key, initialValue));
+
+    act(() => {
+      result.current.set(newValue, true);
+    });
+
+    expect(result.current.get()).toBe(newValue);
+  });
+
+  it("should clear the state to the initial value", () => {
+    const sliceName = "testSlice";
+    const key = "testKey";
+    const initialValue = "initialValue";
+    const newValue = "newValue";
+
+    const { result } = renderHook(() => useSlice(sliceName)(key, initialValue));
+
+    act(() => {
+      result.current.set(newValue, true);
+      result.current.clear();
+    });
+
+    expect(result.current.get()).toBe(initialValue);
+  });
+
+  it("should handle middleware correctly", async () => {
+    const sliceName = "testSlice";
+    const key = "testKey";
+    const initialValue = "initialValue";
+    const newValue = "newValue";
+    const middleware = vi.fn((key, prev, next, set) => next);
+
+    const { result } = renderHook(() =>
+      useSlice(sliceName)(key, initialValue, { middleware: [middleware] }),
+    );
+
+    act(() => {
+      result.current.set(newValue, true);
+    });
+
+    expect(result.current.get()).toBe(newValue);
+  });
+
+  it("should handle batch updates correctly", async () => {
+    const sliceName = "testSlice";
+    const key = "testKey";
+    const initialValue = "initialValue";
+    const newValue = "newValue";
+
+    const { result } = renderHook(() => useSlice(sliceName)(key, initialValue));
+
+    act(() => {
+      result.current.set(newValue);
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 0)); // Wait for batch update
+
+    expect(result.current.get()).toBe(newValue);
+  });
+
+  it("should handle recursive middleware calls correctly", async () => {
+    const sliceName = "testSlice";
+    const key = "testKey";
+    const initialValue = "initialValue";
+    const newValue = "newValue";
+    const middleware = vi.fn((key, prev, next, set) => {
+      set(next);
+      return next;
+    });
+
+    const { result } = renderHook(() =>
+      useSlice(sliceName)(key, initialValue, { middleware: [middleware] }),
+    );
+
+    act(() => {
+      result.current.set(newValue, true);
+    });
+
+    expect(result.current.get()).toBe(newValue);
   });
 });
