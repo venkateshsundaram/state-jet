@@ -1,0 +1,146 @@
+---
+sidebar_position: 3
+id: ecommerce
+title: Tutorial 2. Ecommerce App using `useSlice` and `useStore`
+slug: /tutorial/ecommerce-app/
+description: Ecommerce app
+keywords:
+- ecommerce-app
+---
+
+# Ecommerce App
+
+In this tutorial, we'll be building a simple **ecommerce** application. Our app will be able to do the following:
+
+- Add products to cart
+- Listing products in cart
+
+**🔹 Step 1: Setup App in root project folder (`src/App.tsx`):**
+
+```tsx title="src/App.tsx"
+import { ProductList } from "./components/ProductList";
+import { Cart } from "./components/Cart";
+import { useEcommerceStore } from "./store";
+import { useEffect } from "react";
+
+function App() {
+  const store = useEcommerceStore();
+
+  useEffect(() => {
+    // Load initial products
+    store.products.set([
+      { name: "Laptop", price: 999 },
+      { name: "Phone", price: 599 },
+      { name: "Tablet", price: 399 },
+    ]);
+  }, []);
+
+  return (
+    <div>
+      <h1>🛒 E-Commerce Store</h1>
+      <ProductList />
+      <Cart />
+    </div>
+  );
+}
+
+export default App;
+```
+
+## Create Store
+
+**🔹 Step 2: Setup store in `src/store/index.ts`:**
+
+```Ts title="src/store/index.ts"
+import { useStore } from "state-jet";
+import { useProductSlice, useCartSlice, useUserSlice } from "./slices";
+
+export const useEcommerceStore = () =>
+  useStore()(() => ({
+    products: useProductSlice(),
+    cart: useCartSlice(),
+    user: useUserSlice(),
+}));
+```
+
+## Create Slices
+
+**🔹 Step 3: Setup slices in `src/store/slices.ts`:**
+
+```Ts title="src/store/slices.ts"
+import { useSlice } from "state-jet";
+
+export const useProductSlice = () => useSlice("products", "list", []);
+
+export const useCartSlice = () =>
+  useSlice("cart", "items", []);
+
+export const useUserSlice = () => useSlice("user", "info", null);
+```
+
+## Create components
+
+**🔹 Step 4: Setup components (`src/components`):**
+
+Create a file at `src/components/ProductList.tsx`:
+
+```tsx title="src/components/ProductList.tsx"
+import { useEcommerceStore } from "../store";
+
+export const ProductList = () => {
+  const store = useEcommerceStore();
+  const products = store.products.useState();
+  const cart = store.cart;
+  const cartItems = cart.useState();
+
+  const addToCart = (product: any) => {
+    cart.set([...cart.cartItems, product]);
+  };
+
+  return (
+    <div>
+      <h2>🛍️ Products</h2>
+      <ul>
+        {products.map((product: { name: string, price: number }, index: number) => (
+          <li key={index}>
+            {product.name} - ${product.price}{" "}
+            <button onClick={() => addToCart(product)}>Add to Cart</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+```
+
+Create a file at `src/components/Cart.tsx`:
+
+```tsx title="src/components/Cart.tsx"
+import { useEcommerceStore } from "../store";
+
+export const Cart = () => {
+  const store = useEcommerceStore();
+  const cart = store.cart.useState();
+
+  return (
+    <div>
+      <h2>🛒 Cart</h2>
+      <ul>
+        {cart.map((item: { name: string, price: number }, index: number) => (
+          <li key={index}>
+            {item.name} - ${item.price}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+```
+
+For the complete code and demo, refer to the Codesandbox example below.
+
+```mdx-code-block
+import {EcommercePlayground} from '@site/src/components/Playground';
+
+<EcommercePlayground />
+```

@@ -510,7 +510,7 @@ describe("useSlice", () => {
 
     const { result } = renderHook(() => useSlice(sliceName)(key, initialValue));
 
-    expect(result.current.get()).toBe(initialValue);
+    expect(result.current.useState()).toBe(initialValue);
   });
 
   it("should set a new value immediately if immediate option is true", () => {
@@ -525,7 +525,7 @@ describe("useSlice", () => {
       result.current.set(newValue, true);
     });
 
-    expect(result.current.get()).toBe(newValue);
+    expect(result.current.useState()).toBe(newValue);
   });
 
   it("should clear the state to the initial value", () => {
@@ -541,7 +541,7 @@ describe("useSlice", () => {
       result.current.clear();
     });
 
-    expect(result.current.get()).toBe(initialValue);
+    expect(result.current.useState()).toBe(initialValue);
   });
 
   it("should handle middleware correctly", async () => {
@@ -559,7 +559,7 @@ describe("useSlice", () => {
       result.current.set(newValue, true);
     });
 
-    expect(result.current.get()).toBe(newValue);
+    expect(result.current.useState()).toBe(newValue);
   });
 
   it("should handle batch updates correctly", async () => {
@@ -576,7 +576,7 @@ describe("useSlice", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 0)); // Wait for batch update
 
-    expect(result.current.get()).toBe(newValue);
+    expect(result.current.useState()).toBe(newValue);
   });
 
   it("should handle recursive middleware calls correctly", async () => {
@@ -597,6 +597,6 @@ describe("useSlice", () => {
       result.current.set(newValue, true);
     });
 
-    expect(result.current.get()).toBe(newValue);
+    expect(result.current.useState()).toBe(newValue);
   });
 });
