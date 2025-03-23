@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/venkateshsundaram/state-jet/compare/v1.3.1...v1.4.0) (2025-03-23)
+
+
+### Features
+
+* supporting slices and store in stateJet ([c2a7def](https://github.com/venkateshsundaram/state-jet/commit/c2a7def7a90f2b21f2050cd301c3e823280e28e5))
+
 ### [1.3.1](https://github.com/venkateshsundaram/state-jet/compare/v1.3.0...v1.3.1) (2025-03-17)
 
 
