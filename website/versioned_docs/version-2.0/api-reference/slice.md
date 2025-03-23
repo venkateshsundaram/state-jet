@@ -19,18 +19,11 @@ function useSlice<T>(
 
 :::info
 
-`useStateGlobal()` internally utilizes `useSlice()` with the reserved slice name `global`.
+`useStateGlobal()` internally utilizes `useSlice()` with the reserved sliceKey `global`.
 
 :::
 
 - `sliceKey` - A unique string used to identify the slice.
-
-   The function returns the following properties:  
-        - **`set()`** – Updates the state data.  
-        - **`useState()`** – Retrieves the latest state data.  
-        - **`undo()`** – Reverts the state to the previous value. *Refer* (**[Undo](/docs/api-reference/redo-undo)**)
-        - **`redo()`** – Restores the undone state. *Refer* (**[Redo](/docs/api-reference/redo-undo)**)
-        - **`clear()`** – Resets the state data. *Refer* (**[Clear](/docs/api-reference/redo-undo)**)
 
 ### ✅ Example: Creating multiple slice for Ecommerce App
 

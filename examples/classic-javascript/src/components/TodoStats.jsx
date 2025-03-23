@@ -1,7 +1,7 @@
 import { todoState } from "../store/state";
 
 export default function TodoStats() {
-  const todos = todoState.useStore();
+  const todos = todoState.useState();
   const completed = todos.filter((todo) => todo.completed).length;
 
   return (

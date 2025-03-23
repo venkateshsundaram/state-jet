@@ -1,7 +1,7 @@
 import { todoState, Todo } from "../store/state";
 
 export default function TodoStats() {
-  const todos = todoState.useStore() as Todo[];
+  const todos = todoState.useState() as Todo[];
   const completed = todos.filter((todo: Todo) => todo.completed).length;
 
   return (
