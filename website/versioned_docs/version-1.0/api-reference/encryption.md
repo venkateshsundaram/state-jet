@@ -20,13 +20,13 @@ import { useStateGlobal } from "state-jet";
 
 export type Todo = { id: number; text: string; completed: boolean };
 
-const todoStore = useStateGlobal<Todo[]>("todos", [], { persist: true, encrypt: true });
+const todoState = useStateGlobal<Todo[]>("todos", [], { persist: true, encrypt: true });
 
 export default function TodoApp() {
-  const todos = todoStore.useStore() as Todo[];
+  const todos = todoState.useStore() as Todo[];
   const addTodo = (text: string) => {
     const newTodos = [...todos, { id: Date.now(), text, completed: false }];
-    todoStore.set(newTodos);
+    todoState.set(newTodos);
   };
 
   return (
@@ -62,13 +62,13 @@ import { useStateGlobal, saveEncryptedState, restoreEncryptedState } from "state
 
 export type Todo = { id: number; text: string; completed: boolean };
 
-const todoStore = useStateGlobal<Todo[]>("todos", restoreEncryptedState("todos", []) as Todo[]);
+const todoState = useStateGlobal<Todo[]>("todos", restoreEncryptedState("todos", []) as Todo[]);
 
 export default function TodoApp() {
-  const todos = todoStore.useStore() as Todo[];
+  const todos = todoState.useStore() as Todo[];
   const addTodo = (text: string) => {
     const newTodos = [...todos, { id: Date.now(), text, completed: false }];
-    todoStore.set(newTodos);
+    todoState.set(newTodos);
     saveEncryptedState("todos", newTodos); // Save new state
   };
 

@@ -1,23 +1,23 @@
 import { useState } from "react";
-import { Todo, todoStore } from "../store/todoStore";
+import { Todo, todoState } from "../store/state";
 
 export default function TodoItem({ todo }: { todo: Todo }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newText, setNewText] = useState(todo.text);
-  const todos = todoStore.useStore() as Todo[];
+  const todos = todoState.useStore() as Todo[];
 
   const toggleTodo = (id: number) => {
-    todoStore.set(
+    todoState.set(
       todos.map((todo: Todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo)),
     );
   };
 
   const editTodo = (id: number, newText: string) => {
-    todoStore.set(todos.map((todo: Todo) => (todo.id === id ? { ...todo, text: newText } : todo)));
+    todoState.set(todos.map((todo: Todo) => (todo.id === id ? { ...todo, text: newText } : todo)));
   };
 
   const deleteTodo = (id: number) => {
-    todoStore.set(todos.filter((todo: Todo) => todo.id !== id));
+    todoState.set(todos.filter((todo: Todo) => todo.id !== id));
   };
 
   return (

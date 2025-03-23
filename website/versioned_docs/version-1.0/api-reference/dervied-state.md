@@ -26,11 +26,11 @@ import { useStateGlobal, derivedState } from "state-jet";
 
 export type Todo = { id: number; text: string; completed: boolean };
 
-const todoStore = useStateGlobal<Todo[]>("todos", []);
-const filterStore = useStateGlobal<"all" | "completed" | "pending">("filter", "all");
+const todoState = useStateGlobal<Todo[]>("todos", []);
+const filterState = useStateGlobal<"all" | "completed" | "pending">("filter", "all");
 
 // Derived state for filtered todos
-const filteredTodos = derivedState([todoStore, filterStore], (todos, filter) => {
+const filteredTodos = derivedState([todoState, filterState], (todos, filter) => {
   if (filter === "completed") return todos.filter((todo) => todo.completed);
   if (filter === "pending") return todos.filter((todo) => !todo.completed);
   return todos;
@@ -40,14 +40,14 @@ export default function TodoApp() {
   const todos = filteredTodos();
 
   const addTodo = (text: string) => {
-    todoStore.set([...todos, { id: Date.now(), text, completed: false }]);
+    todoState.set([...todos, { id: Date.now(), text, completed: false }]);
   };
 
   return (
     <div>
       <h1>Todo List</h1>
       <button onClick={() => addTodo("New Task")}>Add Todo</button>
-      <select onChange={(e) => filterStore.set(e.target.value as any)}>
+      <select onChange={(e) => filterState.set(e.target.value as any)}>
         <option value="all">All</option>
         <option value="completed">Completed</option>
         <option value="pending">Pending</option>

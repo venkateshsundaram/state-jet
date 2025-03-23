@@ -4,14 +4,14 @@ import { optimisticUpdate } from "./optimistic";
 describe("optimisticUpdate", () => {
   let mockSet: Mock;
   let mockUseStore: Mock;
-  let setState: { set: (value: any) => void; useStore: () => any };
+  let setState: { set: (value: any) => void; useState: () => any };
 
   beforeEach(() => {
     mockSet = vi.fn();
     mockUseStore = vi.fn();
     setState = {
       set: mockSet,
-      useStore: mockUseStore,
+      useState: mockUseStore,
     };
   });
 

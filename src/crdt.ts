@@ -4,9 +4,9 @@ export const mergeCRDT = <T>(localState: T, remoteState: T): T => {
 
 export const syncCRDT = <T>(
   remoteState: T,
-  setState: { useStore: () => T; set: (state: T) => void },
+  setState: { useState: () => T; set: (state: T) => void },
 ) => {
-  const localState = setState.useStore();
+  const localState = setState.useState();
   const mergedState = mergeCRDT(localState, remoteState);
   setState.set(mergedState);
 };

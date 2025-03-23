@@ -1,10 +1,10 @@
 export const optimisticUpdate = async <T>(
-  setState: { set: (value: T) => void; useStore: () => T },
+  setState: { set: (value: T) => void; useState: () => T },
   updateFn: (prevState: T) => T,
   apiCall: () => Promise<T>,
   rollbackFn?: (prevState: T) => T,
 ) => {
-  const prevState = setState.useStore(); // Save the previous state
+  const prevState = setState.useState(); // Save the previous state
   const optimisticState = updateFn(prevState);
 
   setState.set(optimisticState); // Apply optimistic update

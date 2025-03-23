@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { todoStore } from "./store/todoStore";
+import { todoState } from "./store/state";
 import TodoList from "./components/TodoList";
 import TodoStats from "./components/TodoStats";
 import TodoFilters from "./components/TodoFilters";
 
 export default function App() {
   const [text, setText] = useState("");
-  const todos = todoStore.useStore();
+  const todos = todoState.useStore();
 
   const addTodo = (text) => {
-    todoStore.set([...todos, { id: Date.now(), text, completed: false }]);
+    todoState.set([...todos, { id: Date.now(), text, completed: false }]);
   };
 
   return (

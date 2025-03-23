@@ -28,21 +28,21 @@ import { useStateGlobal } from "state-jet";
 
 export type Todo = { id: number; text: string };
 
-const todoStore = useStateGlobal<Todo[]>("todos", []);
+const todoState = useStateGlobal<Todo[]>("todos", []);
 
 export default function TodoApp() {
-  const todos = todoStore.useStore() as Todo[];
+  const todos = todoState.useStore() as Todo[];
 
   const addTodo = (text: string) => {
-    todoStore.set([...todos, { id: Date.now(), text }]);
+    todoState.set([...todos, { id: Date.now(), text }]);
   };
 
   return (
     <div>
       <h1>Todo List</h1>
       <button onClick={() => addTodo("New Task")}>Add Todo</button>
-      <button onClick={todoStore.undo} disabled={!todos.length}>Undo</button>
-      <button onClick={todoStore.redo}>Redo</button>
+      <button onClick={todoState.undo} disabled={!todos.length}>Undo</button>
+      <button onClick={todoState.redo}>Redo</button>
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>{todo.text}</li>

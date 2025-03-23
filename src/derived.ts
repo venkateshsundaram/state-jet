@@ -1,10 +1,10 @@
-export const derivedState = <T, D extends { useStore: () => unknown }[]>(
+export const derivedState = <T, D extends { useState: () => unknown }[]>(
   dependencies: D,
-  computeFn: (...values: { [K in keyof D]: ReturnType<D[K]["useStore"]> }) => T,
+  computeFn: (...values: { [K in keyof D]: ReturnType<D[K]["useState"]> }) => T,
 ) => {
   return () => {
-    const values = dependencies.map((dep) => dep.useStore()) as {
-      [K in keyof D]: ReturnType<D[K]["useStore"]>;
+    const values = dependencies.map((dep) => dep.useState()) as {
+      [K in keyof D]: ReturnType<D[K]["useState"]>;
     };
     return computeFn(...values);
   };

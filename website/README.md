@@ -30,7 +30,7 @@ import { useStateGlobal } from "state-jet";
 const counter = useStateGlobal("counter", 0);
 
 function Counter() {
-  const count = counter.useStore();
+  const count = counter.useState();
   return <button onClick={() => counter.set(count + 1)}>Count: {count}</button>;
 }
 ```

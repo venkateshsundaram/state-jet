@@ -19,13 +19,13 @@ import { useStateGlobal } from "state-jet";
 
 export type Todo = { id: number; text: string; completed: boolean };
 
-const todoStore = useStateGlobal<Todo[]>("todos", [], { persist: true });
+const todoState = useStateGlobal<Todo[]>("todos", [], { persist: true });
 
 export default function TodoApp() {
-  const todos = todoStore.useStore() as Todo[];
+  const todos = todoState.useStore() as Todo[];
   const addTodo = (text: string) => {
     const newTodos = [...todos, { id: Date.now(), text, completed: false }];
-    todoStore.set(newTodos);
+    todoState.set(newTodos);
   };
 
   return (
@@ -60,13 +60,13 @@ import { useStateGlobal, saveState, restoreState } from "state-jet";
 
 export type Todo = { id: number; text: string; completed: boolean };
 
-const todoStore = useStateGlobal<Todo[]>("todos", restoreState("todos", []));
+const todoState = useStateGlobal<Todo[]>("todos", restoreState("todos", []));
 
 export default function TodoApp() {
-  const todos = todoStore.useStore() as Todo[];
+  const todos = todoState.useStore() as Todo[];
   const addTodo = (text: string) => {
     const newTodos = [...todos, { id: Date.now(), text, completed: false }];
-    todoStore.set(newTodos);
+    todoState.set(newTodos);
     saveState("todos", newTodos); // Save new state
   };
 
