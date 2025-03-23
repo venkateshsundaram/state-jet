@@ -54,6 +54,12 @@
             "type": "test",
             "section": "Tests",
             "hidden": false
+        },
+        { 
+            "type": "major",
+            "section": "Breaking Changes",
+            "hidden": false,
+            "release": "major" 
         }
     ]
 }
