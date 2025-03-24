@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.5](https://github.com/venkateshsundaram/state-jet/compare/v2.0.4...v2.0.5) (2025-03-24)
+
+
+### Documentation
+
+* updating doc to support useStore in ecommerce app ([3cae7ed](https://github.com/venkateshsundaram/state-jet/commit/3cae7ed34008e825fee128ff4ed0d35f032a882b))
+
 ### [2.0.4](https://github.com/venkateshsundaram/state-jet/compare/v2.0.3...v2.0.4) (2025-03-24)
 
 
