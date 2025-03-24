@@ -19,7 +19,7 @@ interface Props {
 const TodoPlaygrounds = [
   {
     name: '📦 CodeSandbox',
-    image: require('@site/static/img/playgrounds/codesandbox.png'),
+    image: require('@site/static/img/playgrounds/todo-codesandbox.png'),
     url: 'https://codesandbox.io/p/sandbox/github/venkateshsundaram/state-jet/tree/main/examples/todo-list-app/classic-javascript?file=%2FREADME.md&privacy=public',
     urlTS: 'https://codesandbox.io/p/sandbox/github/venkateshsundaram/state-jet/tree/main/examples/todo-list-app/classic-typescript?file=%2FREADME.md&privacy=public',
     description: (
@@ -35,7 +35,7 @@ const TodoPlaygrounds = [
 const EcommercePlaygrounds = [
   {
     name: '📦 CodeSandbox',
-    image: require('@site/static/img/playgrounds/codesandbox.png'),
+    image: require('@site/static/img/playgrounds/ecommerce-codesandbox.png'),
     url: 'https://codesandbox.io/p/sandbox/github/venkateshsundaram/state-jet/tree/main/examples/ecommerce-app/classic-javascript?file=%2FREADME.md&privacy=public',
     urlTS: 'https://codesandbox.io/p/sandbox/github/venkateshsundaram/state-jet/tree/main/examples/ecommerce-app/classic-typescript?file=%2FREADME.md&privacy=public',
     description: (
