@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Todo, todoState } from "./store/state";
+import { todoState } from "./store/state";
 import TodoList from "./components/TodoList";
 import TodoStats from "./components/TodoStats";
 import TodoFilters from "./components/TodoFilters";
+import { Todo } from "./types";
 
 export default function App() {
   const [text, setText] = useState("");

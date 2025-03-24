@@ -1,10 +1,5 @@
 import { useStateGlobal } from "state-jet";
-
-export type Todo = {
-  id: number;
-  text: string;
-  completed: boolean;
-};
+import { Todo } from "../types";
 
 export const todoState = useStateGlobal<Todo[]>("todos", []);
 

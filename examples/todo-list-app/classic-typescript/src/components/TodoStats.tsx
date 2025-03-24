@@ -1,4 +1,5 @@
-import { todoState, Todo } from "../store/state";
+import { todoState } from "../store/state";
+import { Todo } from "../types";
 
 export default function TodoStats() {
   const todos = todoState.useState() as Todo[];
