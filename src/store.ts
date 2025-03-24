@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { produce } from "immer";
 import { saveState, restoreState } from "./persistence";
 import { saveEncryptedState, restoreEncryptedState } from "./encryption";
@@ -229,10 +230,15 @@ export const useSlice = (sliceName: string) => {
 /**
  * Creates a store with multiple slices.
  */
-export const useStore = <T extends Record<string, unknown>>() => {
-  return <S extends (store: T) => void>(initializer: S) => {
-    const combinedStore: T = {} as T;
-    initializer(combinedStore);
-    return combinedStore;
-  };
+export const useStore = <T extends Record<string, ReturnType<typeof useSlice>>>(
+  initializer: () => T,
+) => {
+  // Store the initialized slices in a ref to persist them across renders
+  const storeRef = useRef<T | null>(null);
+
+  if (!storeRef.current) {
+    storeRef.current = initializer();
+  }
+
+  return storeRef.current;
 };

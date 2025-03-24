@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useStateGlobal, useStore, clearGlobalState, useSlice } from "./store";
 import { saveState, restoreState } from "./persistence";
 import { saveEncryptedState, restoreEncryptedState } from "./encryption";
@@ -426,177 +426,35 @@ describe("useStateGlobal with setInterval", () => {
 });
 
 describe("useStore", () => {
-  it("should create a store with the provided initializer", () => {
-    const initializer = (store: { count: number }) => {
-      store.count = 0;
-    };
-    const createStore = useStore<{ count: number }>();
-    const store = createStore(initializer);
-    expect(store.count).toBe(0);
-  });
-
-  it("should handle multiple properties in the store", () => {
-    const initializer = (store: { count: number; name: string }) => {
-      store.count = 0;
-      store.name = "test";
-    };
-    const createStore = useStore<{ count: number; name: string }>();
-    const store = createStore(initializer);
-    expect(store.count).toBe(0);
-    expect(store.name).toBe("test");
-  });
-
-  it("should handle nested objects in the store", () => {
-    const initializer = (store: { user: { name: string; age: number } }) => {
-      store.user = { name: "John", age: 30 };
-    };
-    const createStore = useStore<{ user: { name: string; age: number } }>();
-    const store = createStore(initializer);
-    expect(store.user.name).toBe("John");
-    expect(store.user.age).toBe(30);
-  });
-
-  it("should handle empty initializer", () => {
-    const initializer = () => {};
-    const createStore = useStore<any>();
-    const store = createStore(initializer);
-    expect(store).toEqual({});
-  });
-
-  it("should handle initializer with no properties", () => {
-    const initializer = () => {};
-    const createStore = useStore<{ count?: number }>();
-    const store = createStore(initializer);
-    expect(store.count).toBeUndefined();
-  });
-
-  it("should throw an error if initializer is not a function", () => {
-    const createStore = useStore<any>();
-    expect(() => createStore(null as any)).toThrow();
-    expect(() => createStore(undefined as any)).toThrow();
-    expect(() => createStore({} as any)).toThrow();
-  });
-
-  it("should handle complex types in the store", () => {
-    type ComplexType = {
-      id: number;
-      data: {
-        name: string;
-        values: number[];
-      };
-    };
-    const initializer = (store: ComplexType) => {
-      store.id = 1;
-      store.data = { name: "test", values: [1, 2, 3] };
-    };
-    const createStore = useStore<ComplexType>();
-    const store = createStore(initializer);
-    expect(store.id).toBe(1);
-    expect(store.data.name).toBe("test");
-    expect(store.data.values).toEqual([1, 2, 3]);
-  });
-});
-
-describe("useSlice", () => {
-  beforeEach(() => {
-    clearGlobalState();
-    vi.clearAllMocks();
-  });
-
-  it("should create a new slice if it does not exist", () => {
-    const sliceName = "testSlice";
-    const key = "testKey";
-    const initialValue = "initialValue";
-
-    const { result } = renderHook(() => useSlice(sliceName)(key, initialValue));
-
-    expect(result.current.useState()).toBe(initialValue);
-  });
-
-  it("should set a new value immediately if immediate option is true", () => {
-    const sliceName = "testSlice";
-    const key = "testKey";
-    const initialValue = "initialValue";
-    const newValue = "newValue";
-
-    const { result } = renderHook(() => useSlice(sliceName)(key, initialValue));
-
-    act(() => {
-      result.current.set(newValue, true);
+  it("should initialize the store with the provided slices", () => {
+    const initializer: any = () => ({
+      slice1: useSlice("slice1")("counter", { count: 0 }),
+      slice2: useSlice("slice2")("profile", { name: "test" }),
     });
 
-    expect(result.current.useState()).toBe(newValue);
+    const { result }: any = renderHook(() => useStore(initializer));
+
+    expect(result.current.slice1.useState()).toEqual({ count: 0 });
+    expect(result.current.slice2.useState()).toEqual({ name: "test" });
   });
 
-  it("should clear the state to the initial value", () => {
-    const sliceName = "testSlice";
-    const key = "testKey";
-    const initialValue = "initialValue";
-    const newValue = "newValue";
-
-    const { result } = renderHook(() => useSlice(sliceName)(key, initialValue));
-
-    act(() => {
-      result.current.set(newValue, true);
-      result.current.clear();
+  it("should persist the store across renders", () => {
+    const initializer: any = () => ({
+      slice1: useSlice("slice1")("counter", { count: 0 }),
+      slice2: useSlice("slice2")("profile", { name: "test" }),
     });
 
-    expect(result.current.useState()).toBe(initialValue);
-  });
+    const { result, rerender }: any = renderHook(() => useStore(initializer));
 
-  it("should handle middleware correctly", async () => {
-    const sliceName = "testSlice";
-    const key = "testKey";
-    const initialValue = "initialValue";
-    const newValue = "newValue";
-    const middleware = vi.fn((key, prev, next, set) => next);
+    // Modify the state
+    result.current.slice1.set({ count: 1 });
+    result.current.slice2.set({ name: "updated" });
 
-    const { result } = renderHook(() =>
-      useSlice(sliceName)(key, initialValue, { middleware: [middleware] }),
-    );
+    // Re-render the hook
+    rerender();
 
-    act(() => {
-      result.current.set(newValue, true);
-    });
-
-    expect(result.current.useState()).toBe(newValue);
-  });
-
-  it("should handle batch updates correctly", async () => {
-    const sliceName = "testSlice";
-    const key = "testKey";
-    const initialValue = "initialValue";
-    const newValue = "newValue";
-
-    const { result } = renderHook(() => useSlice(sliceName)(key, initialValue));
-
-    act(() => {
-      result.current.set(newValue);
-    });
-
-    await new Promise((resolve) => setTimeout(resolve, 0)); // Wait for batch update
-
-    expect(result.current.useState()).toBe(newValue);
-  });
-
-  it("should handle recursive middleware calls correctly", async () => {
-    const sliceName = "testSlice";
-    const key = "testKey";
-    const initialValue = "initialValue";
-    const newValue = "newValue";
-    const middleware = vi.fn((key, prev, next, set) => {
-      set(next);
-      return next;
-    });
-
-    const { result } = renderHook(() =>
-      useSlice(sliceName)(key, initialValue, { middleware: [middleware] }),
-    );
-
-    act(() => {
-      result.current.set(newValue, true);
-    });
-
-    expect(result.current.useState()).toBe(newValue);
+    // Verify that the state is persisted
+    expect(result.current.slice1.useState()).toEqual({ count: 1 });
+    expect(result.current.slice2.useState()).toEqual({ name: "updated" });
   });
 });

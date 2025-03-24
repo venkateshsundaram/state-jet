@@ -2,6 +2,7 @@ import { useEcommerceStore } from "../store";
 
 export const ProductList = () => {
   const store = useEcommerceStore();
+  console.log(store)
   const products = store.products.useState();
   const cart = store.cart;
   const cartItems = cart.useState();
