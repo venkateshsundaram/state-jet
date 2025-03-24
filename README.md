@@ -53,6 +53,45 @@ function Counter() {
   return <button onClick={() => counter.set(count + 1)}>Count: {count}</button>;
 }
 ```
+## ⚡ Why state-jet Is More Advanced Than Zustand
+
+- **No Proxies Needed** → Zustand uses proxies for state updates, but state-jet uses signals, making it even faster.
+- **Derived State Is Automatic** → No need for selectors; state updates only trigger where necessary.
+- **Optimistic Updates & Rollback** → Unlike Zustand, state-jet has built-in support for instant UI updates and auto-revert on failures.
+- **Multi-Tab Sync** → global state persists across browser tabs and devices.
+- **CRDT Support** → Automatic conflict resolution for real-time apps, something even Zustand lacks.
+
+### ✅Conclusion
+
+If you need the simplest, fastest, and most advanced state management solution for React, state-jet beats Redux, Recoil, MobX, Jotai, and even Zustand in performance, reactivity, and developer experience. 🚀
+
+## Create Slice
+
+```bash
+import { useSlice } from "state-jet";
+
+export const useProductSlice = () => useSlice("products")("list", []);
+
+export const useCartSlice = () =>
+  useSlice("cart")("items", []);
+
+export const useUserSlice = () => useSlice("user")("info", null);
+```
+
+## Create Store
+
+```bash
+import { useStore } from "state-jet";
+import { useProductSlice, useCartSlice, useUserSlice } from "./slices";
+
+const initializer: any = () => ({
+  products: useProductSlice(),
+  cart: useCartSlice(),
+  user: useUserSlice()
+});
+
+export const useEcommerceStore = () =>  useStore(initializer);
+```
 
 ## ⚡ Comparison Table
 | Feature                  | Redux  | Recoil | MobX  | Jotai  | Zustand                | state-jet            |
@@ -66,54 +105,6 @@ function Counter() {
 | **Undo/Redo**            | ❌ No  | ❌ No  | ❌ No  | ❌ No  | ⚠️ Requires Middleware | ✅ Built-in        |
 | **CRDT Conflict Resolution** | ❌ No  | ❌ No  | ❌ No  | ❌ No  | ❌ No                 | ✅ Yes              |
 
-
-## ⚡ Why state-jet Is More Advanced Than Zustand
-
-- **No Proxies Needed** → Zustand uses proxies for state updates, but state-jet uses signals, making it even faster.
-- **Derived State Is Automatic** → No need for selectors; state updates only trigger where necessary.
-- **Optimistic Updates & Rollback** → Unlike Zustand, state-jet has built-in support for instant UI updates and auto-revert on failures.
-- **Multi-Tab Sync** → global state persists across browser tabs and devices.
-- **CRDT Support** → Automatic conflict resolution for real-time apps, something even Zustand lacks.
-
-✅ Conclusion
-
-If you need the simplest, fastest, and most advanced state management solution for React, state-jet beats Redux, Recoil, MobX, Jotai, and even Zustand in performance, reactivity, and developer experience. 🚀
-
-## 🎯 Why Use `optimisticUpdate`?
-
-| Feature                 | Without `optimisticUpdate` | With `optimisticUpdate`     |
-| ----------------------- | -------------------------- | --------------------------- |
-| **UI Responsiveness**   | Delayed (Waits for API)    | Instant update (Optimistic) |
-| **User Experience**     | Slow & Janky               | Fast & Smooth               |
-| **Rollback on Failure** | Manual Handling            | Automatic                   |
-| **Code Complexity**     | High                       | Low                         |
-
-## 🎯 Why Use `syncCRDT`?
-
-| Feature                | Without `syncCRDT` | With `syncCRDT`            |
-| ---------------------- | ------------------ | -------------------------- |
-| **Multi-User Sync**    | Possible Conflicts | ✅ Automatic Merging       |
-| **Real-Time Updates**  | Needs Manual Fixes | ✅ No Data Loss            |
-| **Handles Conflicts**  | Can Lose Changes   | ✅ Merges Automatically    |
-| **Scalable for Teams** | Hard to Maintain   | ✅ Ideal for Collaboration |
-
-## 🎯 Why Use `derivedState`?
-
-| Feature                   | Without `derivedState`      | With `derivedState`            |
-| ------------------------- | --------------------------- | ------------------------------ |
-| **Manual Recalculations** | ❌ Yes (Recompute manually) | ✅ Automatic                   |
-| **Reactivity**            | ❌ Requires `useEffect`     | ✅ Updates only when needed    |
-| **Performance**           | ❌ Unoptimized              | ✅ Only recalculates on change |
-| **Code Complexity**       | ❌ High                     | ✅ Minimal                     |
-
-## 🎯 Why Use `undo & redo`?
-
-| Feature                | Without Undo/Redo        | With Undo/Redo             |
-| ---------------------- | ------------------------ | -------------------------- |
-| **Accidental Changes** | ❌ Lost forever          | ✅ Easily undone           |
-| **User Experience**    | ❌ Frustrating           | ✅ Smooth & intuitive      |
-| **Multi-Step Editing** | ❌ Hard to track         | ✅ Easy to restore history |
-| **Performance**        | ❌ Needs manual tracking | ✅ Automatic               |
 
 ## Contributing
 
