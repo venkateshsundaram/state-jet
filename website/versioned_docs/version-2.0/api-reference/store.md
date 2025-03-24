@@ -11,14 +11,8 @@ keywords:
 ---
 
 A `useStore()` function in State-jet represents a global store, enabling the combination of slices.
-```jsx
-export const useStore = <T extends Record<string, any>>() => {
-  return <S extends (store: T) => void>(initializer: S) => {
-    const combinedStore: T = {} as T;
-    initializer(combinedStore);
-    return combinedStore;
-  };
-};
+```tsx
+function useStore<T extends Record<string, ReturnType<typeof useSlice>>>(initializer: () => T)
 ```
 
 Refer this **[tutorial](/docs/tutorial/ecommerce-app#create-store)** for `useStore` usage
