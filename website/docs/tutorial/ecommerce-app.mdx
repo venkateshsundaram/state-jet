@@ -14,6 +14,7 @@ In this tutorial, we'll be building a simple **ecommerce** application. Our app 
 
 - Add products to cart
 - Listing products in cart
+- Remove products from cart
 
 **🔹 Step 1: Setup App in root project folder (`src/App.tsx`):**
 
@@ -24,7 +25,7 @@ import { useEcommerceStore } from "./store";
 import { useEffect } from "react";
 
 function App() {
-  const store = useEcommerceStore();
+  const store: any = useEcommerceStore();
 
   useEffect(() => {
     // Load initial products
@@ -55,11 +56,13 @@ export default App;
 import { useStore } from "state-jet";
 import { useProductSlice, useCartSlice, useUserSlice } from "./slices";
 
-export const useEcommerceStore = () => useStore(() => ({
+const initializer: any = () => ({
   products: useProductSlice(),
   cart: useCartSlice(),
-  user: useUserSlice(),
-}));
+  user: useUserSlice()
+});
+
+export const useEcommerceStore = () =>  useStore(initializer);
 ```
 
 ## Create Slices
@@ -69,12 +72,12 @@ export const useEcommerceStore = () => useStore(() => ({
 ```Ts title="src/store/slices.ts"
 import { useSlice } from "state-jet";
 
-export const useProductSlice = () => useSlice("products", "list", []);
+export const useProductSlice = () => useSlice("products")("list", []);
 
 export const useCartSlice = () =>
-  useSlice("cart", "items", []);
+  useSlice("cart")("items", []);
 
-export const useUserSlice = () => useSlice("user", "info", null);
+export const useUserSlice = () => useSlice("user")("info", null);
 ```
 
 ## Create components
@@ -86,24 +89,45 @@ Create a file at `src/components/ProductList.tsx`:
 ```tsx title="src/components/ProductList.tsx"
 import { useEcommerceStore } from "../store";
 
+type ProductType = {
+    name: string,
+    price: number
+}
+  
+type CartType = {
+  name: string,
+  price: number,
+  count: number
+}
+
 export const ProductList = () => {
   const store = useEcommerceStore();
-  const products = store.products.useState();
-  const cart = store.cart;
-  const cartItems = cart.useState();
+  const products: any = store.products;
+  const cart: any = store.cart;
+  const productItems = products.useState() as ProductType[];
+  const cartItems = cart.useState() as CartType[];
 
-  const addToCart = (product: any) => {
-    cart.set([...cart.cartItems, product]);
+  const addToCart = (product: ProductType) => {
+    if (cartItems.some((cartItem: CartType) => cartItem.name === product.name)) {
+      cart.set(cartItems.map((cartItem: CartType) => {
+        if (cartItem.name === product.name) {
+          return { ...cartItem, count: (cartItem.count || 0) + 1 };
+        }
+        return cartItem;
+      }));
+    } else {
+      cart.set([...cartItems, { ...product, count: 1 }]);
+    }
   };
 
   return (
     <div>
       <h2>🛍️ Products</h2>
       <ul>
-        {products.map((product: { name: string, price: number }, index: number) => (
+        {productItems.map((productItem: ProductType, index: number) => (
           <li key={index}>
-            {product.name} - ${product.price}{" "}
-            <button onClick={() => addToCart(product)}>Add to Cart</button>
+            {productItem.name} - ${productItem.price}{" "}
+            <button onClick={() => addToCart(productItem)}>Add to Cart</button>
           </li>
         ))}
       </ul>
@@ -117,23 +141,36 @@ Create a file at `src/components/Cart.tsx`:
 ```tsx title="src/components/Cart.tsx"
 import { useEcommerceStore } from "../store";
 
+type CartType = {
+  name: string,
+  price: number,
+  count: number
+};
+
 export const Cart = () => {
   const store = useEcommerceStore();
-  const cart = store.cart.useState();
+  const cart: any = store.cart;
+  const cartItems = cart.useState() as CartType[];
+
+  const removeFromCart = (cartObj: CartType) => {
+    cart.set(cartItems.filter((cartItem: CartType) => cartItem.name !== cartObj.name));
+  };
 
   return (
     <div>
       <h2>🛒 Cart</h2>
       <ul>
-        {cart.map((item: { name: string, price: number }, index: number) => (
+        {cartItems.map((item: CartType, index: number) => (
           <li key={index}>
-            {item.name} - ${item.price}
+            {item.name} - ${item.price} - {item.count} {" "}
+            <button onClick={() => removeFromCart(item)}>Remove from Cart</button>
           </li>
         ))}
       </ul>
     </div>
   );
 };
+
 ```
 
 For the complete code and demo, refer to the Codesandbox example below.

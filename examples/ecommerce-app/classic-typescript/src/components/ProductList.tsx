@@ -1,24 +1,34 @@
 import { useEcommerceStore } from "../store";
+import { ProductType, CartType } from "../types"
 
 export const ProductList = () => {
   const store = useEcommerceStore();
-  console.log(store)
-  const products = store.products.useState();
-  const cart = store.cart;
-  const cartItems = cart.useState();
+  const products: any = store.products;
+  const cart: any = store.cart;
+  const productItems = products.useState() as ProductType[];
+  const cartItems = cart.useState() as CartType[];
 
-  const addToCart = (product: any) => {
-    cart.set([...cartItems, product]);
+  const addToCart = (product: ProductType) => {
+    if (cartItems.some((cartItem: CartType) => cartItem.name === product.name)) {
+      cart.set(cartItems.map((cartItem: CartType) => {
+        if (cartItem.name === product.name) {
+          return { ...cartItem, count: (cartItem.count || 0) + 1 };
+        }
+        return cartItem;
+      }));
+    } else {
+      cart.set([...cartItems, { ...product, count: 1 }]);
+    }
   };
 
   return (
     <div>
       <h2>🛍️ Products</h2>
       <ul>
-        {products.map((product: { name: string, price: number }, index: number) => (
+        {productItems.map((productItem: ProductType, index: number) => (
           <li key={index}>
-            {product.name} - ${product.price}{" "}
-            <button onClick={() => addToCart(product)}>Add to Cart</button>
+            {productItem.name} - ${productItem.price}{" "}
+            <button onClick={() => addToCart(productItem)}>Add to Cart</button>
           </li>
         ))}
       </ul>

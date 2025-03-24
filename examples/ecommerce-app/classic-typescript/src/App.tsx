@@ -4,7 +4,7 @@ import { useEcommerceStore } from "./store";
 import { useEffect } from "react";
 
 function App() {
-  const store = useEcommerceStore();
+  const store: any = useEcommerceStore();
 
   useEffect(() => {
     // Load initial products

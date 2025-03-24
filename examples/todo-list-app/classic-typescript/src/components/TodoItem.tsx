@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Todo, todoState } from "../store/state";
+
+import { Todo } from "../types";
+import { todoState } from "../store/state";
 
 export default function TodoItem({ todo }: { todo: Todo }) {
   const [isEditing, setIsEditing] = useState(false);
