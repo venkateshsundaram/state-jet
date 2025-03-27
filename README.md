@@ -70,26 +70,23 @@ import { useSlice } from "state-jet";
 
 const productSlice = useSlice("products");
 const cartSlice = useSlice("cart");
-const userSlice =  useSlice("user");
 
 export const useProductSlice = () => productSlice("list", []);
-export const useCartSlice = () => cartSlice("items", []);
-export const useUserSlice = () => userSlice("info", null);
+export const useCartSlice = () => cartSlice("list", []);
 ```
 
 ## Create Store
 
 ```tsx
 import { useStore } from "state-jet";
-import { useProductSlice, useCartSlice, useUserSlice } from "./slices";
+import { useProductSlice, useCartSlice } from "./slices";
 
 const initializer: any = () => ({
   products: useProductSlice(),
   cart: useCartSlice(),
-  user: useUserSlice()
 });
 
-export const useEcommerceStore = () =>  useStore(initializer);
+export const store = () =>  useStore(initializer);
 ```
 
 ## Middlewares
@@ -98,8 +95,8 @@ Unlike other libraries, you do not need to rely on any external dependencies. A 
 
 ```bash
 function useStateGlobal<T>(
-    ...
-    options?: { middleware?: Middleware<T>[] }
+  ...
+  options?: { middleware?: [] }
 ) 
 ```
 
@@ -197,7 +194,7 @@ const optimisticMiddleware = (apiUrl: string) => {
   };
 };
 const profile = useStateGlobal("profile", { name: "John" }, { 
-    middleware: [optimisticMiddleware("/update-profile")],
+  middleware: [optimisticMiddleware("/update-profile")],
 });
 ```
 
@@ -225,7 +222,7 @@ export default function Profile() {
       <h1>Age: {age}</h1>
       <button 
         onClick={() => {
-          counter.set(-5) //Age will be 0 eventhough it updated with negative value due to middleware logic
+          counter.set(-5) // Age will be 0 eventhough it updated with negative value due to middleware logic
         }}>
           Set negative
       </button> 

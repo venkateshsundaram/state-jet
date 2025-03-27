@@ -1,10 +1,9 @@
 import { useStore } from "state-jet";
-import { useProductSlice, useCartSlice, useUserSlice } from "./slices";
+import { useProductSlice, useCartSlice } from "./slices";
 
 const initializer: any = () => ({
   products: useProductSlice(),
-  cart: useCartSlice(),
-  user: useUserSlice()
+  cart: useCartSlice()
 });
 
 export const useEcommerceStore = () =>  useStore(initializer)

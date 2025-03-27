@@ -38,7 +38,7 @@ StateJet is a global state management library for React that allows you to store
 
 ## Stack
 
-StateJet operates on both the client and server sides. It is framework-agnostic, compatible with Next.js, Create React App, Vite, and more. It also supports TypeScript.
+StateJet operates on both the client and server sides. It is framework-agnostic, compatible with Next.js, Create React App, Vite, and more.
 
 ## Where to Go from Here
 
