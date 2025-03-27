@@ -72,12 +72,13 @@ export const useEcommerceStore = () =>  useStore(initializer);
 ```Ts title="src/store/slices.ts"
 import { useSlice } from "state-jet";
 
-export const useProductSlice = () => useSlice("products")("list", []);
+const productSlice = useSlice("products");
+const cartSlice = useSlice("cart");
+const userSlice =  useSlice("user");
 
-export const useCartSlice = () =>
-  useSlice("cart")("items", []);
-
-export const useUserSlice = () => useSlice("user")("info", null);
+export const useProductSlice = () => productSlice("list", []);
+export const useCartSlice = () => cartSlice("items", []);
+export const useUserSlice = () => userSlice("info", null);
 ```
 
 ## Create components
