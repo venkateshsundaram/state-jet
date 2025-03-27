@@ -1,4 +1,4 @@
-A zero-boilerplate, ultra-fast global state management library for React. No context, reducers, or providers—just simple reactive state.
+A zero-boilerplate, ultra-fast global state management library for React.
 
 For more details, see [here](https://statejet.netlify.app).
 
@@ -41,7 +41,7 @@ Or if you're using `cdn`:
 
 ## Basic Example Usage
 
-```bash
+```tsx
 import { useStateGlobal } from "state-jet";
 
 const counter = useStateGlobal("counter", 0);
@@ -51,7 +51,7 @@ function Counter() {
   return <button onClick={() => counter.set(count + 1)}>Count: {count}</button>;
 }
 ```
-## ⚡ Why state-jet Is More Advanced Than Zustand
+## Why state-jet Is More Advanced Than Zustand
 
 - **No Proxies Needed** → Zustand uses proxies for state updates, but state-jet uses signals, making it even faster.
 - **Derived State Is Automatic** → No need for selectors; state updates only trigger where necessary.
@@ -65,20 +65,21 @@ If you need the simplest, fastest, and most advanced state management solution f
 
 ## Create Slice
 
-```bash
+```tsx
 import { useSlice } from "state-jet";
 
-export const useProductSlice = () => useSlice("products")("list", []);
+const productSlice = useSlice("products");
+const cartSlice = useSlice("cart");
+const userSlice =  useSlice("user");
 
-export const useCartSlice = () =>
-  useSlice("cart")("items", []);
-
-export const useUserSlice = () => useSlice("user")("info", null);
+export const useProductSlice = () => productSlice("list", []);
+export const useCartSlice = () => cartSlice("items", []);
+export const useUserSlice = () => userSlice("info", null);
 ```
 
 ## Create Store
 
-```bash
+```tsx
 import { useStore } from "state-jet";
 import { useProductSlice, useCartSlice, useUserSlice } from "./slices";
 
@@ -106,7 +107,7 @@ function useStateGlobal<T>(
 
 You can log your store for every action.
 
-```bash
+```tsx
 import { useStateGlobal } from "state-jet";
 
 const loggerMiddleware = (key: string, prev: number, next: number) => {
@@ -132,7 +133,7 @@ export default function Counter() {
 
 Can't live without reducer?. No worries. StateJet supports reducer middleware
 
-```bash
+```tsx
 import { useStateGlobal } from "state-jet";
 
 type Action<T> = { type: string; payload?: T };
@@ -176,7 +177,7 @@ export default function Counter() {
 
 You can optimistically update global state with rollback support
 
-```bash
+```tsx
 import { useStateGlobal } from "state-jet";
 
 const optimisticMiddleware = (apiUrl: string) => {
@@ -204,7 +205,7 @@ const profile = useStateGlobal("profile", { name: "John" }, {
 
 You can create your own custom middleware in state-jet
 
-```bash
+```tsx
 import { useStateGlobal } from "state-jet";
 
 const validateAgeMiddleware = (key: string, prev: number, next: number) => {
@@ -239,7 +240,7 @@ A more complete middleware usage is [here](https://statejet.netlify.app/docs/api
 
 Here is the example for creating global state with typescript definition.
 
-```bash
+```tsx
 interface Todo = {
   id: number;
   text: string;

@@ -1,11 +1,9 @@
 import { useSlice } from "state-jet";
 
-// 🛍️ Product Slice
-export const useProductSlice = () => useSlice("products")("list", []);
+const productSlice = useSlice("products");
+const cartSlice = useSlice("cart");
+const userSlice =  useSlice("user");
 
-// 🛒 Cart Slice
-export const useCartSlice = () =>
-  useSlice("cart")("items", []);
-
-// 👤 User Slice
-export const useUserSlice = () => useSlice("user")("info", null);
+export const useProductSlice = () => productSlice("list", []);
+export const useCartSlice = () => cartSlice("items", []);
+export const useUserSlice = () => userSlice("info", null);
