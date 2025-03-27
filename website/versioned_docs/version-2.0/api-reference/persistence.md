@@ -8,7 +8,7 @@ keywords:
 - persistence
 ---
 
-A `persist` property from `options` enables data persistence support for State-Jet. If encryption is required, you can secure your stored data, Refer (**[Encryption](/docs/api-reference/encryption)**)
+The `persist` property from `options` enables data persistence support for State-Jet. If encryption is required, you can secure your stored data, Refer (**[Encryption](/docs/api-reference/encryption)**)
 
 ### ✅ Example: Persisting a Counter State Across Reloads `with persist` option
 

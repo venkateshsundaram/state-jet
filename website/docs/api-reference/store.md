@@ -17,29 +17,23 @@ function useStore<T extends Record<string, ReturnType<typeof useSlice>>>(initial
 
 `useStore()` returns the same properties as mentioned **[here](/docs/api-reference/global-state/)** for each slice instances.
 
-### ✅ Example: Creating store for EcommerceApp
+### ✅ Example: Creating store for Ecommerce App
 
 ```tsx 
 import { useStore, useSlice } from "state-jet";
 
 const productSlice = useSlice("products");
 const cartSlice = useSlice("cart");
-const userSlice =  useSlice("user");
+
 const useProductSlice = () => productSlice("list", []);
-const useCartSlice = () => cartSlice("items", []);
-const useUserSlice = () => userSlice("info", null);
+const useCartSlice = () => cartSlice("list", []);
 
 const initializer: any = () => ({
   products: useProductSlice(),
-  cart: useCartSlice(),
-  user: useUserSlice()
+  cart: useCartSlice()
 });
-const useEcommerceStore = () =>  useStore(initializer);
-const store = useEcommerceStore();
-const products = store.products;
-const cart = store.cart;
-const productItems = products.useState();
-const cartItems = cart.useState();
+
+export const useEcommerceStore = () =>  useStore(initializer);
 ```
 
-Refer this **[tutorial](/docs/tutorial/ecommerce-app#create-store)** for `useStore` full example usage
+Check out this **[tutorial](/docs/tutorial/ecommerce-app#create-store)** for a complete example of `useStore` in action.

@@ -11,11 +11,7 @@ keywords:
 
 A `optimisticUpdate` function from `state-jet` helps for Fast UI Updates with Rollback.
 
-```jsx
-    import { optimisticUpdate } from "state-jet"
-```
-
-The `optimisticUpdate` function allows you to:
+It allows you to:
 
 1. **Instantly update the UI** (without waiting for a server response).
 2. **Revert changes (rollback)** if the API request fails.

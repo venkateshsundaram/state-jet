@@ -10,7 +10,7 @@ keywords:
 
 # Ecommerce App
 
-In this tutorial, we'll be building a simple **ecommerce** application. Our app will be able to do the following:
+In this tutorial, we'll create a simple **ecommerce** application with the following features:
 
 - Add products to cart
 - Listing products in cart
@@ -54,12 +54,11 @@ export default App;
 
 ```Ts title="src/store/index.ts"
 import { useStore } from "state-jet";
-import { useProductSlice, useCartSlice, useUserSlice } from "./slices";
+import { useProductSlice, useCartSlice } from "./slices";
 
 const initializer: any = () => ({
   products: useProductSlice(),
-  cart: useCartSlice(),
-  user: useUserSlice()
+  cart: useCartSlice()
 });
 
 export const useEcommerceStore = () =>  useStore(initializer);
@@ -74,11 +73,9 @@ import { useSlice } from "state-jet";
 
 const productSlice = useSlice("products");
 const cartSlice = useSlice("cart");
-const userSlice =  useSlice("user");
 
 export const useProductSlice = () => productSlice("list", []);
-export const useCartSlice = () => cartSlice("items", []);
-export const useUserSlice = () => userSlice("info", null);
+export const useCartSlice = () => cartSlice("list", []);
 ```
 
 ## Create components

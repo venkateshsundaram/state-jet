@@ -25,20 +25,18 @@ function useSlice<T>(
 
 - `sliceKey` - A unique string used to identify the slice.
 
-Since `useStateGlobal()` uses slice internally, `useSlice()` also supports similar input parameters and returns the same properties as mentioned **[here](/docs/api-reference/global-state/)**
+Since `useStateGlobal()` utilizes slices internally, `useSlice()` supports similar input parameters and returns the same properties as described **[here](/docs/api-reference/global-state/)**.
 
-### ✅ Example: Creating slice for EcommerceApp
+### ✅ Example: Creating slice for Ecommerce App
 
 ```tsx 
 import { useSlice } from "state-jet";
 
 const productSlice = useSlice("products");
 const cartSlice = useSlice("cart");
-const userSlice =  useSlice("user");
 
 export const useProductSlice = () => productSlice("list", []);
-export const useCartSlice = () => cartSlice("items", []);
-export const useUserSlice = () => userSlice("info", null);
+export const useCartSlice = () => cartSlice("list", []);
 ```
 
-Refer this **[tutorial](/docs/tutorial/ecommerce-app#create-slices)** for `useSlice` full example usage
+Check out this **[tutorial](/docs/tutorial/ecommerce-app#create-slices)** for a complete example of `useSlice` in action.

@@ -8,8 +8,7 @@ keywords:
 - prerequisites
 ---
 
-
-Before you start using **StateJet**, please ensure that the following infrastructure is already set up and that you have some familiarity with the topics listed below.
+Before using StateJet, make sure the required infrastructure is set up and you are familiar with the following topics.
 
 ## Typescript
 

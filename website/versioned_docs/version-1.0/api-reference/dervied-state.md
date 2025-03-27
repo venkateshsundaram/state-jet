@@ -67,7 +67,7 @@ export default function TodoApp() {
 
 | Feature                   | Without `derivedState`     | With `derivedState`           |
 | ------------------------- | -------------------------- | ----------------------------- |
-| **Manual Recalculations** | ❌ Yes (Recompute manually) | ✅ Automatic                   |
-| **Reactivity**            | ❌ Requires `useEffect`     | ✅ Updates only when needed    |
-| **Performance**           | ❌ Unoptimized              | ✅ Only recalculates on change |
-| **Code Complexity**       | ❌ High                     | ✅ Minimal                     |
+| **Manual Recalculations** | Yes (Recompute manually) | ✅ Automatic                   |
+| **Reactivity**            | Requires `useEffect`     | ✅ Updates only when needed    |
+| **Performance**           | Unoptimized              | ✅ Only recalculates on change |
+| **Code Complexity**       | High                     | ✅ Minimal                     |
