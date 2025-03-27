@@ -8,7 +8,7 @@ keywords:
 - Middlewares
 ---
 
-A `middleware` from `options` helps to add middleware for state-jet. Unlike other libraries, you do not need to rely on any external dependencies.
+A `middleware` property from `options` helps to add middleware for state-jet. Unlike other libraries, you do not need to rely on any external dependencies.
 
 ```tsx
 function useStateGlobal<T>(
