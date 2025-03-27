@@ -9,7 +9,7 @@ keywords:
 - decryption
 ---
 
-A `persist` and `encrypt` from `options` enables data persistence and encryption support for State-Jet.
+A `persist` and `encrypt` properties from `options` enables data persistence and encryption support for State-Jet.
 
 ### ✅ Example: Persisting a Counter State Across Reloads `with persist and encrypt` options
 
