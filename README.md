@@ -63,7 +63,13 @@ function Counter() {
 
 If you need the simplest, fastest, and most advanced state management solution for React, state-jet beats Redux, Recoil, MobX, Jotai, and even Zustand in performance, reactivity, and developer experience. 🚀
 
-## Create Slice
+## Introduction to Slices
+
+Slices in state-jet represent logical groupings of state that help organize application data into manageable pieces. Unlike the global state approach which uses a single namespace, slices allow for partitioning state into named segments, making state management more modular and maintainable.
+
+Each slice can contain multiple state values, each identified by a unique key within that slice. This hierarchical organization helps prevent naming collisions and improves code readability in larger applications.
+
+### Create Slice
 
 ```tsx
 import { useSlice } from "state-jet";
@@ -75,7 +81,11 @@ export const useProductSlice = () => productSlice("list", []);
 export const useCartSlice = () => cartSlice("list", []);
 ```
 
-## Create Store
+## Introduction to Store
+
+The useStore hook serves as a mechanism to group related slices of state into a cohesive store, enabling modular and organized state management in React applications. It creates a persistent reference to a collection of slice instances that can be accessed throughout an application component tree.
+
+### Create Store
 
 ```tsx
 import { useStore } from "state-jet";
@@ -206,7 +216,7 @@ You can create your own custom middleware in state-jet
 import { useStateGlobal } from "state-jet";
 
 const validateAgeMiddleware = (key: string, prev: number, next: number) => {
-  if (key === "age" && next < 0) {
+  if (next < 0) {
     console.warn("Age cannot be negative!");
     return prev;
   }

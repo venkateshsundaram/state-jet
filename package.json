@@ -21,7 +21,7 @@
     "type": "git",
     "url": "https://github.com/venkateshsundaram/state-jet.git"
   },
-  "homepage": "https://github.com/venkateshsundaram/state-jet",
+  "homepage": "https://statejet.netlify.app",
   "keywords": [
     "react",
     "state",

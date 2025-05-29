@@ -26,7 +26,7 @@ This command generates static content into the build directory and can be served
 
 ## Tutorial Intro
 
-In this tutorial, we'll be building a simple ecommerce application. Our app will be able to do the following:
+In this tutorial, we'll be building an ecommerce application. Our app will be able to do the following:
 
 - Add products to cart
 - Listing products in cart

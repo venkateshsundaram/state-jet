@@ -145,7 +145,7 @@ const profileStore = useStateGlobal("profile", { name: "John" }, {
 
 ```ts title="src/store/middleware.ts"
 export const validateAgeMiddleware = (key: string, prev: number, next: number) => {
-    if (key === "age" && next < 0) {
+    if (next < 0) {
         console.warn("Age cannot be negative!");
         return prev;
     }

@@ -17,6 +17,7 @@ type Options<T> = {
   middleware?: Middleware<T | undefined>[];
   persist?: boolean;
   encrypt?: boolean;
+  frameSync?: boolean; // Whether to sync updates with requestAnimationFrame
 };
 type StoreValue<T> = {
   value: T;
@@ -24,6 +25,7 @@ type StoreValue<T> = {
   middleware?: Middleware<T>[];
   persist?: boolean;
   encrypt?: boolean;
+  frameSync?: boolean; // Whether to sync updates with requestAnimationFrame
 };
 type StoreSlice = Record<string, StoreValue<unknown>>;
 type HistoryState<T> = {
@@ -66,13 +68,16 @@ export const useSlice = (sliceName: string) => {
   return <T>(key: string, initialValue: T, options?: Options<T | undefined>) => {
     const slice = store.get(sliceName)!;
 
+    const fullKey = `${sliceName}:${key}`;
+
     if (!slice[key]) {
       let restoredValue = initialValue;
       if (options?.persist) {
         restoredValue = options?.encrypt
-          ? (restoreEncryptedState(`${sliceName}:${key}`, initialValue) as T)
-          : restoreState(`${sliceName}:${key}`, initialValue);
+          ? (restoreEncryptedState(fullKey, initialValue) as T)
+          : restoreState(fullKey, initialValue);
       }
+
       slice[key] = {
         value: restoredValue as T,
         listeners: new Set(),
@@ -83,22 +88,24 @@ export const useSlice = (sliceName: string) => {
     const state = slice[key];
 
     const undo = () => {
-      if (history[key]?.past.length) {
-        history[key].future.unshift(history[key].present);
-        history[key].present = history[key].past.pop()!;
-        state.value = history[key].present;
+      if (history[fullKey]?.past.length) {
+        history[fullKey].future.unshift(history[fullKey].present);
+        history[fullKey].present = history[fullKey].past.pop()!;
+        state.value = history[fullKey].present;
         state.listeners.forEach((listener) => listener());
-        undoState(key);
+        undoState(fullKey);
+        notifyDevTools(`${sliceName}.undo`, history[fullKey].present);
       }
     };
 
     const redo = () => {
-      if (history[key]?.future.length) {
-        history[key].past.push(history[key].present);
-        history[key].present = history[key].future.shift()!;
-        state.value = history[key].present;
+      if (history[fullKey]?.future.length) {
+        history[fullKey].past.push(history[fullKey].present);
+        history[fullKey].present = history[fullKey].future.shift()!;
+        state.value = history[fullKey].present;
         state.listeners.forEach((listener) => listener());
-        redoState(key);
+        redoState(fullKey);
+        notifyDevTools(`${sliceName}.redo`, history[fullKey].present);
       }
     };
 
@@ -111,36 +118,41 @@ export const useSlice = (sliceName: string) => {
       const updates = Array.from(pendingUpdates.entries()); // Convert Map to Array
       pendingUpdates.clear(); // Prevent infinite loops
 
-      for (const [updatesKey, newValue] of updates) {
-        const state = slice[key];
+      for (const [fullKey, newValue] of updates) {
+        const [sliceNameFromKey, keyFromKey] = fullKey.split(":");
+        const slice = store.get(sliceNameFromKey);
+        if (!slice) continue;
 
-        if (activeMiddleware.has(updatesKey)) {
-          console.warn(`[state-jet] Skipping recursive middleware call for: ${updatesKey}`);
-          continue; // Prevent recursive execution
+        const state = slice[keyFromKey];
+        if (!state) continue;
+
+        if (activeMiddleware.has(fullKey)) {
+          console.warn(`[state-jet] Skipping recursive middleware for: ${fullKey}`);
+          continue;
         }
 
-        let nextValue = newValue as unknown as T;
+        let nextValue = newValue as T;
         const stateValue = state.value as T;
 
-        if (!history[updatesKey]) {
-          history[updatesKey] = { past: [], present: stateValue, future: [] };
+        if (!history[fullKey]) {
+          history[fullKey] = { past: [], present: stateValue, future: [] };
         }
-        history[updatesKey].past.push(stateValue);
-        history[updatesKey].present = nextValue;
-        history[updatesKey].future = [];
+        history[fullKey].past.push(stateValue);
+        history[fullKey].present = nextValue;
+        history[fullKey].future = [];
 
         // ✅ Prevent recursive calls
-        activeMiddleware.add(updatesKey);
+        activeMiddleware.add(fullKey);
 
         if (state?.middleware) {
           for (const mw of state.middleware) {
             try {
-              console.log(`[state-jet] Running middleware for ${updatesKey}`);
-
+              console.log(`[state-jet] Running middleware for ${fullKey}`);
               // Pass state through each middleware in sequence
-              const result = mw(updatesKey, stateValue, nextValue, (value: unknown) => {
+              const result = mw(fullKey, stateValue, nextValue, (value: unknown) => {
                 nextValue = value as T;
               });
+
               if (result !== undefined) {
                 if (result instanceof Promise) {
                   const awaitedResult = await result;
@@ -152,28 +164,27 @@ export const useSlice = (sliceName: string) => {
                 }
               }
             } catch (error) {
-              console.error(`[state-jet] Middleware error in ${updatesKey}:`, error);
+              console.error(`[state-jet] Middleware error in ${fullKey}:`, error);
             }
           }
         }
 
-        activeMiddleware.delete(updatesKey); // ✅ Allow future updates for this key
+        activeMiddleware.delete(fullKey);
 
         if (typeof nextValue === "function") {
           state.value = produce(state.value, nextValue as (draft: T) => T);
         } else if (stateValue !== nextValue) {
           state.value = nextValue;
           state.listeners.forEach((listener) => listener());
-          notifyDevTools(`${sliceName}.${updatesKey}`, nextValue);
-          measurePerformance(`${sliceName}.${updatesKey}`, () => {});
+          notifyDevTools(`${sliceNameFromKey}.${keyFromKey}`, nextValue);
+          measurePerformance(`${sliceNameFromKey}.${keyFromKey}`, () => {});
 
           if (state?.persist) {
-            if (state?.encrypt) saveEncryptedState(`${sliceName}:${updatesKey}`, nextValue);
-            else saveState(`${sliceName}:${updatesKey}`, nextValue);
+            if (state?.encrypt) saveEncryptedState(fullKey, nextValue);
+            else saveState(fullKey, nextValue);
           }
         }
       }
-      pendingUpdates.clear();
     };
 
     const useState = () => {
@@ -189,9 +200,10 @@ export const useSlice = (sliceName: string) => {
     const clear = () => {
       state.value = initialValue;
       clearGlobalState();
+      notifyDevTools(`${sliceName}.clear`, initialValue);
     };
 
-    const set = (newValue: T | ((prev: T) => T) | Action<T>, immediate: boolean = false) => {
+    const set = async (newValue: T | ((prev: T) => T) | Action<T>, immediate: boolean = false) => {
       const currentValue = state.value as T;
       const nextValue =
         typeof newValue === "function" ? (newValue as (prev: T) => T)(currentValue) : newValue;
@@ -200,19 +212,22 @@ export const useSlice = (sliceName: string) => {
       if (immediate) {
         state.value = nextValue as T;
         state.listeners.forEach((listener) => listener());
+        notifyDevTools(`${sliceName}.${key}`, nextValue);
         return;
       }
 
       // Otherwise, queue the update for batch processing
-      pendingUpdates.set(key, nextValue);
+      pendingUpdates.set(fullKey, nextValue);
 
       // Trigger batchUpdate for non-immediate updates
       if (!updateScheduled) {
         updateScheduled = true;
-        if (globalObject?.requestAnimationFrame) {
-          globalObject.requestAnimationFrame(batchUpdate);
+        if (state.frameSync && globalObject?.requestAnimationFrame) {
+          await new Promise((resolve) =>
+            globalObject.requestAnimationFrame(() => resolve(batchUpdate())),
+          );
         } else {
-          batchUpdate(); // Schedule a batch update
+          await batchUpdate();
         }
       }
     };
