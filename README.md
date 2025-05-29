@@ -43,6 +43,8 @@ Or if you're using `cdn`:
 
 ## Introduction to GlobalState
 
+The `useStateGlobal` hook is the simplest entry point to State-Jet. It allows you to create stateful values that can be accessed and updated from any component in your application, regardless of their location in the component tree.
+
 ### Create GlobalState
 
 ```tsx
@@ -76,7 +78,7 @@ export const useCartSlice = () => cartSlice("list", []);
 
 ## Introduction to Store
 
-The useStore hook serves as a mechanism to group related slices of state into a cohesive store, enabling modular and organized state management in React applications. It creates a persistent reference to a collection of slice instances that can be accessed throughout an application component tree.
+The `useStore` hook serves as a mechanism to group related slices of state into a cohesive store, enabling modular and organized state management in React applications. It creates a persistent reference to a collection of slice instances that can be accessed throughout an application component tree.
 
 ### Create Store
 
