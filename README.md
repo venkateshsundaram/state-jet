@@ -41,7 +41,7 @@ Or if you're using `cdn`:
 <script src="https://cdn.jsdelivr.net/npm/state-jet@latest/dist/index.cjs"></script>
 ```
 
-## Introduction to GlobalState
+## GlobalState
 
 The `useStateGlobal` hook is the simplest entry point to State-Jet. It allows you to create stateful values that can be accessed and updated from any component in your application, regardless of their location in the component tree.
 
@@ -58,7 +58,7 @@ function Counter() {
 }
 ```
 
-## Introduction to Slices
+## Slices
 
 Slices in state-jet represent logical groupings of state that help organize application data into manageable pieces. Unlike the global state approach which uses a single namespace, slices allow for partitioning state into named segments, making state management more modular and maintainable.
 
@@ -76,7 +76,7 @@ export const useProductSlice = () => productSlice("list", []);
 export const useCartSlice = () => cartSlice("list", []);
 ```
 
-## Introduction to Store
+## Store
 
 The `useStore` hook serves as a mechanism to group related slices of state into a cohesive store, enabling modular and organized state management in React applications. It creates a persistent reference to a collection of slice instances that can be accessed throughout an application component tree.
 
@@ -95,6 +95,8 @@ export const store = () =>  useStore(initializer);
 ```
 
 ## Middlewares
+
+Middleware in state-jet is a powerful mechanism for intercepting, transforming, and processing state updates before they are applied to the store.
 
 Unlike other libraries, you do not need to rely on any external dependencies. A `middleware` property from `options` helps to add middleware for state-jet.
 
@@ -254,15 +256,22 @@ const todoState = useStateGlobal<Todo[]>("todos", []);
 
 ## Why state-jet Is More Advanced Than Zustand
 
-- **No Proxies Needed** → Zustand uses proxies for state updates, but state-jet uses signals, making it even faster.
-- **Derived State Is Automatic** → No need for selectors; state updates only trigger where necessary.
-- **Optimistic Updates & Rollback** → Unlike Zustand, state-jet has built-in support for instant UI updates and auto-revert on failures.
-- **Multi-Tab Sync** → global state persists across browser tabs and devices.
-- **CRDT Support** → Automatic conflict resolution for real-time apps, something even Zustand lacks.
+- **No Proxies Needed** 
+  → Zustand uses proxies for state updates, but state-jet uses signals, making it even faster.
+- **Derived State Is Automatic** 
+  → No need for selectors; state updates only trigger where necessary.
+- **Optimistic Updates & Rollback** 
+  → Unlike Zustand, state-jet has built-in support for instant UI updates and auto-revert on failures.
+- **Multi-Tab Sync** 
+  → global state persists across browser tabs and devices.
+- **CRDT Support** 
+  → Automatic conflict resolution for real-time apps, something even Zustand lacks.
+
 
 ### ✅ Conclusion
 
 If you need the simplest, fastest, and most advanced state management solution for React, state-jet beats Redux, Recoil, MobX, Jotai, and even Zustand in performance, reactivity, and developer experience. 🚀
+
 
 ## ⚡ Comparison Table
 | Feature                  | Redux  | Recoil | MobX  | Jotai  | Zustand                | state-jet            |
