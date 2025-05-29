@@ -17,6 +17,8 @@ Tutorials: https://statejet.netlify.app/docs/category/tutorial
 
 API Reference: https://statejet.netlify.app/docs/category/api-reference
 
+Wiki: https://deepwiki.com/venkateshsundaram/state-jet
+
 ## 🛠 Installation
 
 The Statejet package lives in npm. Please see the [installation guide](https://statejet.netlify.app/docs/getting-started/installation-and-setup/).
@@ -39,7 +41,9 @@ Or if you're using `cdn`:
 <script src="https://cdn.jsdelivr.net/npm/state-jet@latest/dist/index.cjs"></script>
 ```
 
-## Basic Example Usage
+## Introduction to GlobalState
+
+### Create GlobalState
 
 ```tsx
 import { useStateGlobal } from "state-jet";
@@ -51,23 +55,12 @@ function Counter() {
   return <button onClick={() => counter.set(count + 1)}>Count: {count}</button>;
 }
 ```
-## Why state-jet Is More Advanced Than Zustand
-
-- **No Proxies Needed** → Zustand uses proxies for state updates, but state-jet uses signals, making it even faster.
-- **Derived State Is Automatic** → No need for selectors; state updates only trigger where necessary.
-- **Optimistic Updates & Rollback** → Unlike Zustand, state-jet has built-in support for instant UI updates and auto-revert on failures.
-- **Multi-Tab Sync** → global state persists across browser tabs and devices.
-- **CRDT Support** → Automatic conflict resolution for real-time apps, something even Zustand lacks.
-
-### ✅ Conclusion
-
-If you need the simplest, fastest, and most advanced state management solution for React, state-jet beats Redux, Recoil, MobX, Jotai, and even Zustand in performance, reactivity, and developer experience. 🚀
 
 ## Introduction to Slices
 
 Slices in state-jet represent logical groupings of state that help organize application data into manageable pieces. Unlike the global state approach which uses a single namespace, slices allow for partitioning state into named segments, making state management more modular and maintainable.
 
-Each slice can contain multiple state values, each identified by a unique key within that slice. This hierarchical organization helps prevent naming collisions and improves code readability in larger applications.
+Each slice can contain multiple state values, each identified by a unique key within that slice.
 
 ### Create Slice
 
@@ -256,6 +249,18 @@ interface Todo = {
 
 const todoState = useStateGlobal<Todo[]>("todos", []);
 ```
+
+## Why state-jet Is More Advanced Than Zustand
+
+- **No Proxies Needed** → Zustand uses proxies for state updates, but state-jet uses signals, making it even faster.
+- **Derived State Is Automatic** → No need for selectors; state updates only trigger where necessary.
+- **Optimistic Updates & Rollback** → Unlike Zustand, state-jet has built-in support for instant UI updates and auto-revert on failures.
+- **Multi-Tab Sync** → global state persists across browser tabs and devices.
+- **CRDT Support** → Automatic conflict resolution for real-time apps, something even Zustand lacks.
+
+### ✅ Conclusion
+
+If you need the simplest, fastest, and most advanced state management solution for React, state-jet beats Redux, Recoil, MobX, Jotai, and even Zustand in performance, reactivity, and developer experience. 🚀
 
 ## ⚡ Comparison Table
 | Feature                  | Redux  | Recoil | MobX  | Jotai  | Zustand                | state-jet            |
