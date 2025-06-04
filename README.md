@@ -285,6 +285,9 @@ If you need the simplest, fastest, and most advanced state management solution f
 | **Undo/Redo**            | ❌ No  | ❌ No  | ❌ No  | ❌ No  | ⚠️ Requires Middleware | ✅ Built-in        |
 | **CRDT Conflict Resolution** | ❌ No  | ❌ No  | ❌ No  | ❌ No  | ❌ No                 | ✅ Yes              |
 
+## Comparison with other libraries
+
+- [Difference between state-jet and other state management libraries for React](https://npm-stat.com/charts.html?package=state-jet&package=zustand&package=%40reduxjs%2Ftoolkit&package=recoil)
 
 ## Contributing
 
