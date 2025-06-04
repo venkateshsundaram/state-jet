@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.13](https://github.com/venkateshsundaram/state-jet/compare/v2.0.12...v2.0.13) (2025-06-04)
+
+
+### Bug Fixes
+
+* updating get function and husky support ([2c11f42](https://github.com/venkateshsundaram/state-jet/commit/2c11f4218e76ee5f8f81f16925098cba717cfeb3))
+
 ### [2.0.12](https://github.com/venkateshsundaram/state-jet/compare/v2.0.11...v2.0.12) (2025-05-29)
 
 
