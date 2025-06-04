@@ -14,7 +14,6 @@ module.exports = {
           "test", // Adding tests
           "perf", // Performance improvements
           "ci", // CI/CD changes
-          "major", // major breaking changes
         ],
       ],
       "subject-case": [2, "always", "sentence-case"],
