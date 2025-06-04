@@ -203,6 +203,8 @@ export const useSlice = (sliceName: string) => {
       notifyDevTools(`${sliceName}.clear`, initialValue);
     };
 
+    const get = () => state.value as T;
+
     const set = async (newValue: T | ((prev: T) => T) | Action<T>, immediate: boolean = false) => {
       const currentValue = state.value as T;
       const nextValue =
@@ -235,6 +237,7 @@ export const useSlice = (sliceName: string) => {
     return {
       useState,
       set,
+      get,
       undo,
       redo,
       clear,
