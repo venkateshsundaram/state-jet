@@ -15,7 +15,7 @@ An `useStateGlobal()` represents single key-value state	in State-jet. It enables
 function useStateGlobal<T>(
     key: string,
     initialValue?: T,
-    options?: { middleware?: Middleware<T>[], persist?: boolean, encrypt?: boolean }
+    options?: { middleware?: Middleware<T>[], persist?: boolean, encrypt?: boolean, frameSync?: boolean }
 ) 
 ```
 
@@ -30,8 +30,9 @@ function useStateGlobal<T>(
     * `frameSync` - Useful for animation-heavy, high-frequency, or frame-sensitive state changes.
 
       It returns the following properties:  
-        - **`set()`** – Updates the state data.  
-        - **`useState()`** – Retrieves the latest state data.  
+        - **`set()`** – Updates the state data.
+        - **`get()`** – Fetches the current state data.
+        - **`useState()`** – Retrieves the latest state snapshot data.  
         - **`undo()`** – Reverts the state to the previous value. Refer (**[Undo](/docs/api-reference/redo-undo)**)
         - **`redo()`** – Restores the undone state. Refer (**[Redo](/docs/api-reference/redo-undo)**)
         - **`clear()`** – Resets the state data. Refer (**[Clear](/docs/api-reference/redo-undo)**)
