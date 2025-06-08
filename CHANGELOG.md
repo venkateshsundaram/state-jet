@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.16](https://github.com/venkateshsundaram/state-jet/compare/v2.0.15...v2.0.16) (2025-06-08)
+
+
+### Documentation
+
+* updating mobile deprecation changes ([88d9215](https://github.com/venkateshsundaram/state-jet/commit/88d92159a28b610063555995a32033925a93200e))
+
 ### [2.0.15](https://github.com/venkateshsundaram/state-jet/compare/v2.0.14...v2.0.15) (2025-06-04)
 
 
