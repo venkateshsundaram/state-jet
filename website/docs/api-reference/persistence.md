@@ -42,6 +42,12 @@ export default function TodoApp() {
 }
 ```
 
+:::warning
+
+Persistence is supported only in web browsers. For native mobile environments, you can still use State-Jet without `persist` option, and integrate an external storage library to handle local data manually.
+
+:::
+
 ### ✅ Example: Persisting a Counter State Across Reloads `without persist` option
 
 The `saveState` and `restoreState` functions helps to override existing global state without `persist` option

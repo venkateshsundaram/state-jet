@@ -44,6 +44,12 @@ export default function TodoApp() {
 
 ```
 
+:::warning
+
+Encryption is supported only in web browsers. For native mobile environments, you can still use State-Jet without `encrypt` and `persist` options, and integrate an external storage library to handle local data manually.
+
+:::
+
 ### ✅ Example: Persisting a Counter State Across Reloads `without persist and encrypt` options
 
 The `saveEncryptedState` and `restoreEncryptedState` functions helps to override existing global state without `persist, encrypt` options
