@@ -69,7 +69,7 @@
   }
 
   .gridBlock > * {
-    margin: 0 24px 0 0;
+    margin: 12px;
   }
 
   .gridBlock .twoByGridBlock {

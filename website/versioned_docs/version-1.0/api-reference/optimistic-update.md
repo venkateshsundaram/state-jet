@@ -21,14 +21,23 @@ It allows you to:
 
 This example adds a **todo immediately** but **removes it if the API request fails**.
 
+Create a file at `src/store/index.ts`:
+
+```ts title="src/store/index.ts"
+import { useStateGlobal } from "state-jet";
+
+type Todo = { id: number; text: string; completed: boolean };
+
+export const todoState = useStateGlobal<Todo[]>("todos", []);
+```
+
 Create a file at `src/components/TodoApp.tsx`:
 
 ```tsx title="src/components/TodoApp.tsx"
-import { useStateGlobal, optimisticUpdate } from "state-jet";
+import { optimisticUpdate } from "state-jet";
+import { todoState } from "../store";
 
-export type Todo = { id: number; text: string; completed: boolean };
-
-const todoState = useStateGlobal<Todo[]>("todos", []);
+type Todo = { id: number; text: string; completed: boolean };
 
 // Fake API call (50% failure rate)
 const fakeApiCall = () =>

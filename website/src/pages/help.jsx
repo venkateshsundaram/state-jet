@@ -34,7 +34,7 @@ function HelpFeatures() {
       content: (
         <span>
           Many developers and users idle in our{' '}
-          <a target='_blank' href="https://discord.gg/D9SGMDCT">Discord server</a>.
+          <a target='_blank' href="https://discord.gg/fxjXrHBVNH">Discord server</a>.
         </span>
       ),
       title: 'Discord',

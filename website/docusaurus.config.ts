@@ -1,45 +1,45 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config(); // Load .env variables
 
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
-import type * as Preset from '@docusaurus/preset-classic';
+import { themes as prismThemes } from "prism-react-renderer";
+import type { Config } from "@docusaurus/types";
+import type * as Preset from "@docusaurus/preset-classic";
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'State Jet',
-  tagline: 'Ultra-Lightweight Global State for React',
-  favicon: 'img/favicon.ico',
+  title: "State Jet",
+  tagline: "Ultra-Lightweight Global State for React",
+  favicon: "img/favicon.ico",
 
   // Set the production url of your site here
-  url: 'https://statejet.org',
+  url: "https://statejet.org",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: "/",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'state-jet', // Usually your repo name.
+  organizationName: "facebook", // Usually your GitHub org/user name.
+  projectName: "state-jet", // Usually your repo name.
 
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenLinks: "throw",
+  onBrokenMarkdownLinks: "warn",
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
+    defaultLocale: "en",
+    locales: ["en"],
   },
-  plugins: ['@docusaurus/plugin-ideal-image'],
+  plugins: ["@docusaurus/plugin-ideal-image"],
   presets: [
     [
-      'classic',
+      "classic",
       {
         docs: {
-          sidebarPath: './sidebars.ts',
+          sidebarPath: "./sidebars.ts",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           // editUrl:
@@ -48,7 +48,7 @@ const config: Config = {
         blog: {
           showReadingTime: true,
           feedOptions: {
-            type: ['rss', 'atom'],
+            type: ["rss", "atom"],
             xslt: true,
           },
           // Please change this to your repo.
@@ -56,12 +56,12 @@ const config: Config = {
           // editUrl:
           //   'https://github.com/venkateshsundaram/state-jet-website/tree/main',
           // Useful options to enforce blogging best practices
-          onInlineTags: 'warn',
-          onInlineAuthors: 'warn',
-          onUntruncatedBlogPosts: 'warn',
+          onInlineTags: "warn",
+          onInlineAuthors: "warn",
+          onUntruncatedBlogPosts: "warn",
         },
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: "./src/css/custom.css",
         },
       } satisfies Preset.Options,
     ],
@@ -69,80 +69,89 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: "img/docusaurus-social-card.jpg",
     navbar: {
-      title: 'StateJet',
+      title: "StateJet",
       hideOnScroll: false,
       logo: {
-        alt: 'StateJet Logo',
-        src: 'img/logo.svg',
+        alt: "StateJet Logo",
+        src: "img/logo.svg",
       },
       items: [
         {
-          to: '/docs',
-          label: 'Docs',
-          position: 'left'
+          to: "/docs",
+          label: "Docs",
+          position: "left",
         },
-        // { 
+        // {
         //   to: '/blog',
         //   label: 'Blog',
         //   position: 'left'
         // },
         {
-          to: '/help',
-          label: 'Help',
-          position: 'left',
+          to: "/help",
+          label: "Help",
+          position: "left",
         },
         {
-          href: 'https://github.com/venkateshsundaram/state-jet',
-          label: 'GitHub',
-          position: 'left',
+          href: "https://github.com/venkateshsundaram/state-jet",
+          label: "GitHub",
+          position: "right",
         },
         {
-          type: 'docsVersionDropdown',
-          position: 'right'
+          href: "https://deepwiki.com/venkateshsundaram/state-jet",
+          label: "Wiki",
+          position: "right",
+        },
+        {
+          type: "docsVersionDropdown",
+          position: "right",
         },
       ],
     },
     footer: {
-      style: 'dark',
+      style: "dark",
       links: [
         {
-          title: 'Docs',
+          title: "Docs",
           items: [
             {
-              label: 'Introduction',
-              to: '/docs',
+              label: "Introduction",
+              to: "/docs",
             },
           ],
         },
         {
-          title: 'Community',
+          title: "Community",
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/state-jet?sort=active',
+              label: "Stack Overflow",
+              href: "https://stackoverflow.com/questions/tagged/state-jet?sort=active",
             },
             {
-              label: 'Discord',
-              href: 'https://discord.gg/D9SGMDCT',
+              label: "Discord",
+              href: "https://discord.gg/fxjXrHBVNH",
             },
             {
-              label: 'X',
-              href: 'https://x.com/statejet/',
+              label: "X",
+              href: "https://x.com/statejet/",
             },
           ],
         },
         {
-          title: 'More',
+          title: "More",
           items: [
             // {
             //   label: 'Blog',
             //   to: '/blog',
             // },
             {
-              label: 'GitHub',
-              href: 'https://github.com/venkateshsundaram/state-jet',
+              label: "GitHub",
+              href: "https://github.com/venkateshsundaram/state-jet",
+            },
+            {
+              label: "Wiki",
+              href: "https://deepwiki.com/venkateshsundaram/state-jet",
             },
           ],
         },

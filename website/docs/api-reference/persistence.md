@@ -12,14 +12,22 @@ The `persist` property from `options` enables data persistence support for State
 
 ### ✅ Example: Persisting a Counter State Across Reloads `with persist` option
 
+Create a file at `src/store/index.ts`:
+
+```ts title="src/store/index.ts"
+import { useStateGlobal } from "state-jet";
+
+type Todo = { id: number; text: string; completed: boolean };
+
+export const todoState = useStateGlobal<Todo[]>("todos", [], { persist: true });
+```
+
 Create a file at `src/components/TodoApp.tsx`:
 
 ```tsx title="src/components/TodoApp.tsx"
-import { useStateGlobal } from "state-jet";
+import { todoState } from "../store";
 
-export type Todo = { id: number; text: string; completed: boolean };
-
-const todoState = useStateGlobal<Todo[]>("todos", [], { persist: true });
+type Todo = { id: number; text: string; completed: boolean };
 
 export default function TodoApp() {
   const todos = todoState.useState() as Todo[];
@@ -59,14 +67,23 @@ This example demonstrates how to:
 
 By default when you add `persist` as `true`, State-jet internally call above two functions. But this example helps to achieve overriding from toplevel.
 
+Create a file at `src/store/index.ts`:
+
+```ts title="src/store/index.ts"
+import { useStateGlobal, restoreState } from "state-jet";
+
+type Todo = { id: number; text: string; completed: boolean };
+
+export const todoState = useStateGlobal<Todo[]>("todos", restoreState("todos", []));
+```
+
 Create a file at `src/components/TodoApp.tsx`:
 
 ```tsx title="src/components/TodoApp.tsx"
-import { useStateGlobal, saveState, restoreState } from "state-jet";
+import { saveState } from "state-jet";
+import { todoState } from "../store";
 
-export type Todo = { id: number; text: string; completed: boolean };
-
-const todoState = useStateGlobal<Todo[]>("todos", restoreState("todos", []));
+type Todo = { id: number; text: string; completed: boolean };
 
 export default function TodoApp() {
   const todos = todoState.useState() as Todo[];

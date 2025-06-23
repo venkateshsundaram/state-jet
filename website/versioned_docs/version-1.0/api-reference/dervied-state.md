@@ -19,15 +19,24 @@ The `derivedState` function allows you to:
 
 This **automatically updates the filtered list when the state changes**.
 
+Create a file at `src/store/index.ts`:
+
+```ts title="src/store/index.ts"
+import { useStateGlobal } from "state-jet";
+
+type Todo = { id: number; text: string; completed: boolean };
+
+export const todoState = useStateGlobal<Todo[]>("todos", []);
+export const filterState = useStateGlobal<"all" | "completed" | "pending">("filter", "all");
+```
+
 Create a file at `src/components/TodoApp.tsx`:
 
 ```jsx title="src/components/TodoApp.tsx"
-import { useStateGlobal, derivedState } from "state-jet";
+import { derivedState } from "state-jet";
+import { todoState, filterState } from "../store";
 
-export type Todo = { id: number; text: string; completed: boolean };
-
-const todoState = useStateGlobal<Todo[]>("todos", []);
-const filterState = useStateGlobal<"all" | "completed" | "pending">("filter", "all");
+type Todo = { id: number; text: string; completed: boolean };
 
 // Derived state for filtered todos
 const filteredTodos = derivedState([todoState, filterState], (todos, filter) => {

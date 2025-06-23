@@ -17,18 +17,24 @@ The `undo` and `redo` functions allow:
 - **Undo/Redo user actions** (ideal for forms, text editors, drawing apps, etc.).
 - **State history management** to track and restore previous values.
 
-
 ### ✅ Example 1: Undo/Redo in a Todo List 
+
+Create a file at `src/store/index.ts`:
+
+```ts title="src/store/index.ts"
+import { useStateGlobal } from "state-jet";
+
+type Todo = { id: number; text: string };
+
+export const todoState = useStateGlobal<Todo[]>("todos", []);
+```
 
 Create a file at `src/components/TodoList.tsx`:
 
-
 ```tsx title="src/components/TodoList.tsx"
-import { useStateGlobal } from "state-jet";
+import { todoState } from "../store";
 
-export type Todo = { id: number; text: string };
-
-const todoState = useStateGlobal<Todo[]>("todos", []);
+type Todo = { id: number; text: string };
 
 export default function TodoApp() {
   const todos = todoState.useStore() as Todo[];
@@ -57,13 +63,18 @@ export default function TodoApp() {
 
 ### ✅ Example 2: Undo/Redo in a Drawing Canvas
 
-Create a file at `src/components/DrawingCanvas.tsx`:
+Create a file at `src/store/index.ts`:
 
-
-```tsx title="src/components/DrawingCanvas.tsx"
+```ts title="src/store/index.ts"
 import { useStateGlobal } from "state-jet";
 
-const canvasState = useStateGlobal<{ lines: string[] }>("canvas", { lines: [] });
+export const canvasState = useStateGlobal<{ lines: string[] }>("canvas", { lines: [] });
+```
+
+Create a file at `src/components/DrawingCanvas.tsx`:
+
+```tsx title="src/components/DrawingCanvas.tsx"
+import { canvasState } from "../store";
 
 export default function DrawingApp() {
   const { lines } = canvasState.useStore() as { lines: string[] };
@@ -91,25 +102,30 @@ export default function DrawingApp() {
 ```
 **✅ Now, users can undo/redo drawing actions dynamically! 🎉**
 
-
 ### ✅ Example 3: Undo/Redo in a Counter
+
+Create a file at `src/store/index.ts`:
+
+```ts title="src/store/index.ts"
+import { useStateGlobal } from "state-jet";
+
+export const counterState = useStateGlobal("counter", 0);
+```
 
 Create a file at `src/components/Counter.tsx`:
 
 ```tsx title="src/components/Counter.tsx"
-import { useStateGlobal } from "state-jet";
-
-const counter = useStateGlobal("counter", 0);
+import { counterState } from "../store";
 
 export default function Counter() {
-  const count = counter.useStore() as number;
+  const count = counterState.useStore() as number;
 
   return (
     <div>
       <h1>Counter: {count}</h1>
-      <button onClick={() => counter.set(count + 1)}>Increment</button>
-      <button onClick={counter.undo} disabled={count === 0}>Undo</button>
-      <button onClick={counter.redo}>Redo</button>
+      <button onClick={() => counterState.set(count + 1)}>Increment</button>
+      <button onClick={counterState.undo} disabled={count === 0}>Undo</button>
+      <button onClick={counterState.redo}>Redo</button>
     </div>
   );
 }

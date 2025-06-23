@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 id: middlewares
 title: Middlewares
 slug: /api-reference/middlewares/
@@ -22,26 +22,44 @@ function useStateGlobal<T>(
 
 ### Logger Middleware
 
-**🔹 Step 1: Setup Middleware file (`src/socket/middleware.ts`):**
+Setup Middleware file (`src/store/middleware.ts`):
 
 ```ts title="src/store/middleware.ts"
 export const loggerMiddleware = (key: string, prev: number, next: number) => {
-    console.log(`[state-jet] ${key}: ${prev} → ${next}`);
+  console.log(`[state-jet] ${key}: ${prev} → ${next}`);
 };
 ```
 
-**🔹 Step 2: Use loggerMiddleware in main store `src/store/counterStore.ts`:**
+Create global state with loggerMiddleware in `src/store/index.ts`:
 
-```ts title="src/store/counterStore.ts"
+```ts title="src/store/index.ts"
 import { useStateGlobal } from "state-jet";
 import { loggerMiddleware } from "./middleware";
+ 
+export const counterState = useStateGlobal("counter", 0, { middleware: [loggerMiddleware] });
+```
 
-const counterStore = useStateGlobal("counter", 0, { middleware: [loggerMiddleware] });
+Binding Global State to a Component in `src/components/Counter.tsx`:
+
+```tsx title="src/components/Counter.tsx"
+import { counterState } from "../store";
+
+export default function Counter() {
+  const count = counterState.useState() as number;
+
+  return (
+    <div>
+      <h1>Counter: {count}</h1>
+      <button onClick={() => counterState.set(count - 1)}>Decrement</button>
+      <button onClick={() => counterState.set(count + 1)}>Increment</button>
+    </div>
+  );
+}
 ```
 
 ### Reducer Middleware
 
-**🔹 Step 1: Setup Middleware file (`src/socket/middleware.ts`):**
+Setup Middleware file (`src/store/middleware.ts`):
 
 ```ts title="src/store/middleware.ts"
 type Action<T> = { type: string; payload?: T };
@@ -66,24 +84,43 @@ export const reducerMiddleware: Middleware<number> = (key, prev, action: Action<
 };
 ```
 
-**🔹 Step 2: Use reducerMiddleware in main store `src/store/counterStore.ts`:**
+Create global state with reducerMiddleware in `src/store/index.ts`:
 
-```ts title="src/store/counterStore.ts"
+```ts title="src/store/index.ts"
 import { useStateGlobal } from "state-jet";
 import { reducerMiddleware } from "./middleware";
+ 
+export const counterState = useStateGlobal("counter", 0, { middleware: [reducerMiddleware] });
+```
 
-const counterStore = useStateGlobal("counter", 0, { middleware: [reducerMiddleware] });
+Binding Global State to a Component in `src/components/Counter.tsx`:
+
+```tsx title="src/components/Counter.tsx"
+import { counterState } from "../store";
+
+export default function Counter() {
+  const count = counterState.useState() as number;
+
+  return (
+    <div>
+      <h1>Counter: {count}</h1>
+      <button onClick={() => counterState.set({ type: "DECREMENT" })}>Decrement</button>
+      <button onClick={() => counterState.set({ type: "INCREMENT" })}>Increment</button>
+      <button onClick={() => counterState.set({ type: "RESET" })}>Reset</button>
+    </div>
+  );
+}
 ```
 
 ### Debounce Middleware
 
-**🔹 Step 1: Setup Middleware file (`src/socket/middleware.ts`):**
+Setup Middleware file (`src/store/middleware.ts`):
 
 ```ts title="src/store/middleware.ts"
 let timer: ReturnType<typeof setTimeout>;
 
-    // Debounce middleware with delay
-const debounceMiddleware = (delay: number) => {
+// Debounce middleware with delay
+export const debounceMiddleware = (delay: number) => {
     return (key: string, prev: number, next: any, set?: (value: any) => void) => {
         clearTimeout(timer);
         if (set) {
@@ -96,18 +133,18 @@ const debounceMiddleware = (delay: number) => {
 };
 ```
 
-**🔹 Step 2: Use debounceMiddleware in main store `src/store/counterStore.ts`:**
+Create global state with debounceMiddleware in `src/store/index.ts`:
 
-```ts title="src/store/counterStore.ts"
+```ts title="src/store/index.ts"
 import { useStateGlobal } from "state-jet";
 import { debounceMiddleware } from "./middleware";
-
-const counterStore = useStateGlobal("counter", 0, { middleware: [debounceMiddleware(500)] });
+ 
+export const counterState = useStateGlobal("counter", 0, { middleware: [debounceMiddleware(500)] });
 ```
 
 ### Optimistic Middleware
 
-**🔹 Step 1: Setup Middleware file (`src/socket/middleware.ts`):**
+Setup Middleware file (`src/store/middleware.ts`):
 
 ```ts title="src/store/middleware.ts"
 export const optimisticMiddleware = (apiUrl: string) => {
@@ -128,20 +165,21 @@ export const optimisticMiddleware = (apiUrl: string) => {
 };
 ```
 
-**🔹 Step 2: Use optimisticMiddleware in main store `src/store/profileStore.ts`:**
+Create global state with optimisticMiddleware in `src/store/index.ts`
 
-```ts title="src/store/profileStore.ts"
+```ts title="src/store/index.ts"
+
 import { useStateGlobal } from "state-jet";
 import { optimisticMiddleware } from "./middleware";
-
-const profileStore = useStateGlobal("profile", { name: "John" }, {
+ 
+export const profileState = useStateGlobal("profile", { name: "John" }, { 
   middleware: [optimisticMiddleware("/update-profile")],
 });
 ```
 
 ### Custom Middleware
 
-**🔹 Step 1: Setup Middleware file (`src/socket/middleware.ts`):**
+Setup Middleware file (`src/store/middleware.ts`):
 
 ```ts title="src/store/middleware.ts"
 export const validateAgeMiddleware = (key: string, prev: number, next: number) => {
@@ -153,11 +191,33 @@ export const validateAgeMiddleware = (key: string, prev: number, next: number) =
 };
 ```
 
-**🔹 Step 2: Use validateAgeMiddleware in main store `src/store/ageStore.ts`:**
+Create global state with validateAgeMiddleware
 
-```ts title="src/store/ageStore.ts"
+```ts title="src/store/index.ts"
 import { useStateGlobal } from "state-jet";
 import { validateAgeMiddleware } from "./middleware";
+ 
+export const ageState = useStateGlobal("age", 0, { middleware: [validateAgeMiddleware] });
+```
 
-export const ageStore = useStateGlobal("age", 0, { middleware: [validateAgeMiddleware]});
+Binding Global State to a Component in `src/components/Profile.tsx`:
+
+```tsx title="src/components/Profile.tsx"
+import { ageState } from "../store";
+
+export default function Profile() {
+  const age = ageState.useState() as number;
+
+  return (
+    <div>
+        <h1>Age: {age}</h1>
+        <button 
+            onClick={() => {
+                ageState.set(-5) //Age will be 0 eventhough it updated with negative value due to middleware logic
+            }}>
+        Set negative
+        </button> 
+    </div>
+  );
+}
 ```

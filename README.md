@@ -1,6 +1,40 @@
+[![npm](https://img.shields.io/npm/v/state-jet.svg)](https://www.npmjs.com/package/state-jet)
+[![npm](https://img.shields.io/npm/dt/state-jet.svg)](https://npm-stat.com/charts.html?package=state-jet)
+[![GitHub issues](https://img.shields.io/github/issues/venkateshsundaram/state-jet.svg)](https://github.com/venkateshsundaram/state-jet/issues)
+
 A zero-boilerplate, ultra-fast global state management library for React.
 
 For more details, see [here](https://statejet.netlify.app).
+
+## Table of Contents
+
+  - [🚀 Why state-jet?](#🚀-why-state-jet?)
+  - [Documentation](#documentation)
+  - [🛠 Installation](#🛠-installation)
+  - [GlobalState](#globalstate)
+    - [Create GlobalState](#create-globalstate)
+    - [Binding Global State to a Component](#binding-global-state-to-a-component)
+  - [Slices](#slices)
+    - [Create Slice](#create-slice)
+  - [Store](#store)
+    - [Create Store](#create-store)
+    - [Binding Global State to a Component](#binding-global-state-to-a-component)
+  - [Middlewares](#middlewares)
+    - [Logger Middleware](#logger-middleware)
+    - [Reducer Middleware](#reducer-middleware)
+    - [Debounce Middleware](#debounce-middleware)
+    - [Optimistic Middleware](#optimistic-middleware)
+    - [Custom Middleware](#custom-middleware)
+  - [Typescript Usage](#typescript-usage)
+  - [Why state-jet Is More Advanced Than Zustand](#why-state-jet-is-more-advanced-than-zustand)
+  - [FAQ](#faq)
+  - [Conclusion](#conclusion)
+  - [⚡ Comparison Table](#⚡-comparison-table)
+  - [Comparison with other libraries](#comparison-with-other-libraries)
+  - [Contributing](#contributing)
+  - [Publishing](#publishing)
+  - [Feedbacks and Issues](#feedbacks-and-issues)
+  - [License](#license)
 
 ## 🚀 Why state-jet?
 
@@ -47,14 +81,31 @@ The `useStateGlobal` hook is the simplest entry point to State-Jet. It allows yo
 
 ### Create GlobalState
 
-```tsx
+```ts
+// file: src/store/index.ts
+
 import { useStateGlobal } from "state-jet";
 
-const counter = useStateGlobal("counter", 0);
+export const counterState = useStateGlobal("counter", 0);
+```
 
-function Counter() {
-  const count = counter.useState();
-  return <button onClick={() => counter.set(count + 1)}>Count: {count}</button>;
+### Binding Global State to a Component
+
+```tsx
+// file: src/components/Counter.tsx
+
+import { counterState } from "../store";
+
+export default function Counter() {
+  const count = counterState.useState() as number;
+
+  return (
+    <div>
+      <h1>Counter: {count}</h1>
+      <button onClick={() => counterState.set(count - 1)}>Decrement</button>
+      <button onClick={() => counterState.set(count + 1)}>Increment</button>
+    </div>
+  );
 }
 ```
 
@@ -66,7 +117,9 @@ Each slice can contain multiple state values, each identified by a unique key wi
 
 ### Create Slice
 
-```tsx
+```ts
+// file: src/store/slices.ts
+
 import { useSlice } from "state-jet";
 
 const productSlice = useSlice("products");
@@ -82,16 +135,76 @@ The `useStore` hook serves as a mechanism to group related slices of state into 
 
 ### Create Store
 
-```tsx
+```ts
+// file: src/store/index.ts
+
 import { useStore } from "state-jet";
 import { useProductSlice, useCartSlice } from "./slices";
 
+/**
+ * Ecommerce store with product and cart slices
+ */
 const initializer: any = () => ({
   products: useProductSlice(),
   cart: useCartSlice(),
 });
 
-export const store = () =>  useStore(initializer);
+export const useEcommerceStore = () =>  useStore(initializer);
+```
+
+### Binding Global State to a Component
+
+```tsx
+// file: src/components/ProductList.tsx
+
+import { useEcommerceStore } from "../store";
+
+type ProductType = {
+  name: string,
+  price: number
+}
+  
+type CartType = {
+  name: string,
+  price: number,
+  count: number
+}
+
+export const ProductList = () => {
+  const store = useEcommerceStore();
+  const products: any = store.products;
+  const cart: any = store.cart;
+  const productItems = products.useState() as ProductType[];
+  const cartItems = cart.useState() as CartType[];
+
+  const addToCart = (product: ProductType) => {
+    if (cartItems.some((cartItem: CartType) => cartItem.name === product.name)) {
+      cart.set(cartItems.map((cartItem: CartType) => {
+        if (cartItem.name === product.name) {
+          return { ...cartItem, count: (cartItem.count || 0) + 1 };
+        }
+        return cartItem;
+      }));
+    } else {
+      cart.set([...cartItems, { ...product, count: 1 }]);
+    }
+  };
+
+  return (
+    <div>
+      <h2>🛍️ Products</h2>
+      <ul>
+        {productItems.map((productItem: ProductType, index: number) => (
+          <li key={index}>
+            {productItem.name} - ${productItem.price}{" "}
+            <button onClick={() => addToCart(productItem)}>Add to Cart</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
 ```
 
 ## Middlewares
@@ -111,23 +224,42 @@ function useStateGlobal<T>(
 
 You can log your store for every action.
 
-```tsx
-import { useStateGlobal } from "state-jet";
+```ts
+// file: src/store/middleware.ts
 
-const loggerMiddleware = (key: string, prev: number, next: number) => {
+export const loggerMiddleware = (key: string, prev: number, next: number) => {
   console.log(`[state-jet] ${key}: ${prev} → ${next}`);
 };
 
-const counter = useStateGlobal("counter", 0, { middleware: [loggerMiddleware] });
+```
+
+Create global state with loggerMiddleware
+
+```ts
+// file: src/store/index.ts
+
+import { useStateGlobal } from "state-jet";
+import { loggerMiddleware } from "./middleware";
+ 
+export const counterState = useStateGlobal("counter", 0, { middleware: [loggerMiddleware] });
+
+```
+
+Binding Global State to a Component
+
+```tsx
+// file: src/components/Counter.tsx
+
+import { counterState } from "../store";
 
 export default function Counter() {
-  const count = counter.useState() as number;
+  const count = counterState.useState() as number;
 
   return (
     <div>
       <h1>Counter: {count}</h1>
-      <button onClick={() => counter.set(count - 1)}>Decrement</button>
-      <button onClick={() => counter.set(count + 1)}>Increment</button>
+      <button onClick={() => counterState.set(count - 1)}>Decrement</button>
+      <button onClick={() => counterState.set(count + 1)}>Increment</button>
     </div>
   );
 }
@@ -137,8 +269,8 @@ export default function Counter() {
 
 Can't live without reducer?. No worries. StateJet supports reducer middleware
 
-```tsx
-import { useStateGlobal } from "state-jet";
+```ts
+// file: src/store/middleware.ts
 
 type Action<T> = { type: string; payload?: T };
 type Middleware<T> = (
@@ -148,7 +280,7 @@ type Middleware<T> = (
   set?: (value: T) => void,
 ) => T | void | Promise<void>;
 
-const reducerMiddleware: Middleware<number> = (key, prev, action: Action<any>) => {
+export const reducerMiddleware: Middleware<number> = (key, prev, action: Action<any>) => {
   switch (action.type) {
     case "INCREMENT":
       return prev + 1;
@@ -160,31 +292,83 @@ const reducerMiddleware: Middleware<number> = (key, prev, action: Action<any>) =
       return prev;
   }
 }
+```
 
-const counter = useStateGlobal("counter", 0, { middleware: [reducerMiddleware] });
+Create global state with reducerMiddleware
+
+```ts
+// file: src/store/index.ts
+
+import { useStateGlobal } from "state-jet";
+import { reducerMiddleware } from "./middleware";
+ 
+export const counterState = useStateGlobal("counter", 0, { middleware: [reducerMiddleware] });
+
+```
+
+Binding Global State to a Component
+
+```tsx
+// file: src/components/Counter.tsx
+
+import { counterState } from "../store";
 
 export default function Counter() {
-  const count = counter.useState() as number;
+  const count = counterState.useState() as number;
 
   return (
     <div>
       <h1>Counter: {count}</h1>
-      <button onClick={() => counter.set({ type: "DECREMENT" })}>Decrement</button>
-      <button onClick={() => counter.set({ type: "INCREMENT" })}>Increment</button>
-      <button onClick={() => counter.set({ type: "RESET" })}>Reset</button>
+      <button onClick={() => counterState.set({ type: "DECREMENT" })}>Decrement</button>
+      <button onClick={() => counterState.set({ type: "INCREMENT" })}>Increment</button>
+      <button onClick={() => counterState.set({ type: "RESET" })}>Reset</button>
     </div>
   );
 }
+```
+
+### Debounce Middleware
+
+You can delay the update of global state
+
+```ts
+// file: src/store/middleware.ts
+
+let timer: ReturnType<typeof setTimeout>;
+
+// Debounce middleware with delay
+export const debounceMiddleware = (delay: number) => {
+    return (key: string, prev: number, next: any, set?: (value: any) => void) => {
+        clearTimeout(timer);
+        if (set) {
+          timer = setTimeout(() => {
+            console.log(`[state-jet] Debounced: ${key} → ${next}`);
+            set(next); // Apply the debounced update
+          }, delay);
+        }
+    };
+};
+```
+
+Create global state with debounceMiddleware
+
+```ts
+// file: src/store/index.ts
+
+import { useStateGlobal } from "state-jet";
+import { debounceMiddleware } from "./middleware";
+ 
+export const counterState = useStateGlobal("counter", 0, { middleware: [debounceMiddleware(500)] });
 ```
 
 ### Optimistic Middleware
 
 You can optimistically update global state with rollback support
 
-```tsx
-import { useStateGlobal } from "state-jet";
+```ts
+// file: src/store/middleware.ts
 
-const optimisticMiddleware = (apiUrl: string) => {
+export const optimisticMiddleware = (apiUrl: string) => {
   return async (key: string, prev: number, next: number, set: any) => {
     set(next); // Optimistically update state
 
@@ -200,26 +384,55 @@ const optimisticMiddleware = (apiUrl: string) => {
     }
   };
 };
-const profile = useStateGlobal("profile", { name: "John" }, { 
+```
+
+Create global state with optimisticMiddleware
+
+```ts
+// file: src/store/index.ts
+
+import { useStateGlobal } from "state-jet";
+import { optimisticMiddleware } from "./middleware";
+ 
+export const profileState = useStateGlobal("profile", { name: "John" }, { 
   middleware: [optimisticMiddleware("/update-profile")],
 });
 ```
 
 ### Custom Middleware
 
-You can create your own custom middleware in state-jet
+You can also create your own custom middleware in state-jet
 
-```tsx
-import { useStateGlobal } from "state-jet";
+```ts
+// file: src/store/middleware.ts
 
-const validateAgeMiddleware = (key: string, prev: number, next: number) => {
+export const validateAgeMiddleware = (key: string, prev: number, next: number) => {
   if (next < 0) {
     console.warn("Age cannot be negative!");
     return prev;
   }
   return next;
 };
-const ageState = useStateGlobal("age", 0, { middleware: [validateAgeMiddleware] });
+```
+
+Create global state with validateAgeMiddleware
+
+```ts
+// file: src/store/index.ts
+
+import { useStateGlobal } from "state-jet";
+import { validateAgeMiddleware } from "./middleware";
+ 
+export const ageState = useStateGlobal("age", 0, { middleware: [validateAgeMiddleware] });
+
+```
+
+Binding Global State to a Component
+
+```tsx
+// file: src/components/Profile.tsx
+
+import { ageState } from "../store";
 
 export default function Profile() {
   const age = ageState.useState() as number;
@@ -229,7 +442,7 @@ export default function Profile() {
       <h1>Age: {age}</h1>
       <button 
         onClick={() => {
-          counter.set(-5) // Age will be 0 eventhough it updated with negative value due to middleware logic
+          ageState.set(-5) // Age will be 0 eventhough it updated with negative value due to middleware logic
         }}>
           Set negative
       </button> 
@@ -256,19 +469,18 @@ const todoState = useStateGlobal<Todo[]>("todos", []);
 
 ## Why state-jet Is More Advanced Than Zustand
 
-- **No Proxies Needed** 
-  → Zustand uses proxies for state updates, but state-jet uses signals, making it even faster.
-- **Derived State Is Automatic** 
-  → No need for selectors; state updates only trigger where necessary.
-- **Optimistic Updates & Rollback** 
-  → Unlike Zustand, state-jet has built-in support for instant UI updates and auto-revert on failures.
-- **Multi-Tab Sync** 
-  → global state persists across browser tabs and devices.
-- **CRDT Support** 
-  → Automatic conflict resolution for real-time apps, something even Zustand lacks.
+- **No Proxies Needed**: Zustand uses proxies for state updates, but state-jet uses signals, making it even faster.
+- **Derived State Is Automatic**: No need for selectors; state updates only trigger where necessary.
+- **Optimistic Updates & Rollback**: Unlike Zustand, state-jet has built-in support for instant UI updates and auto-revert on failures.
+- **Multi-Tab Sync**: Global state persists across browser tabs and devices.
+- **CRDT Support**: Automatic conflict resolution for real-time apps, something even Zustand lacks.
 
+## FAQ
+- If you want to manage your global state like `useState` as usual.
+- If you want to manage your global state without involving in setting up Provider Component, Dispatcher, Reducer, etc.
+- If you want to see `Redux` or `Context API` alternative.
 
-### ✅ Conclusion
+## Conclusion
 
 If you need the simplest, fastest, and most advanced state management solution for React, state-jet beats Redux, Recoil, MobX, Jotai, and even Zustand in performance, reactivity, and developer experience. 🚀
 
@@ -295,6 +507,12 @@ Development of State-jet happens in the open on GitHub, and we are grateful to t
 
 - [Contributing Guide](./CONTRIBUTING.md)
 
-### License
+## Publishing
+- Before pushing your changes to Github, make sure that `version` in `package.json` is changed to newest version. Then run `npm install` for synchronize it to `package-lock.json` and `pnpm install` for synchronize it to `pnpm-lock.yaml`
+
+## Feedbacks and Issues
+Feel free to open issues if you found any feedback or issues on `state-jet`. And feel free if you want to contribute too! 😄
+
+## License
 
 State-jet is [MIT licensed](./LICENSE).

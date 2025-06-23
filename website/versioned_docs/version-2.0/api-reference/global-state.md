@@ -45,21 +45,27 @@ In state-jet@v1, the `useStore()` function was used to retrieve the latest state
 
 ### ✅ Example: Creating global state for counter App
 
+Create a file at `src/store/index.ts`:
+
+```ts title="src/store/index.ts"
+import { useStateGlobal } from "state-jet";
+
+export const counterState = useStateGlobal("counter", 0);
+```
+
 Create a file at `src/components/Counter.tsx`:
 
 ```tsx title="src/components/Counter.tsx"
-import { useStateGlobal } from "state-jet";
-
-const counter = useStateGlobal("counter", 0);
+import { counterState } from "../store";
 
 export default function Counter() {
-  const count = counter.useState() as number;
+  const count = counterState.useState() as number;
 
   return (
     <div>
       <h1>Counter: {count}</h1>
-      <button onClick={() => counter.set(count - 1)}>Decrement</button>
-      <button onClick={() => counter.set(count + 1)}>Increment</button>
+      <button onClick={() => counterState.set(count - 1)}>Decrement</button>
+      <button onClick={() => counterState.set(count + 1)}>Increment</button>
     </div>
   );
 }
