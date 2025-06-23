@@ -8,9 +8,9 @@ For more details, see [here](https://statejet.netlify.app).
 
 ## Table of Contents
 
-  - [🚀 Why state-jet?](#why-state-jet?)
+  - [Why state-jet?](#why-state-jet?)
   - [Documentation](#documentation)
-  - [🛠 Installation](#installation)
+  - [Installation](#installation)
   - [GlobalState](#globalstate)
     - [Create GlobalState](#create-globalstate)
     - [Binding Global State to a Component](#binding-global-state-to-a-component)
@@ -29,14 +29,14 @@ For more details, see [here](https://statejet.netlify.app).
   - [Why state-jet Is More Advanced Than Zustand](#why-state-jet-is-more-advanced-than-zustand)
   - [FAQ](#faq)
   - [Conclusion](#conclusion)
-  - [⚡ Comparison Table](#comparison-table)
+  - [Comparison Table](#comparison-table)
   - [Comparison with other libraries](#comparison-with-other-libraries)
   - [Contributing](#contributing)
   - [Publishing](#publishing)
   - [Feedbacks and Issues](#feedbacks-and-issues)
   - [License](#license)
 
-## 🚀 Why state-jet?
+## Why state-jet?
 
 - ✅ **No Context, No Providers** – Works outside React, reducing unnecessary re-renders.
 - ✅ **Automatic Re-Renders** – Only components using specific state values update.
@@ -53,7 +53,7 @@ API Reference: https://statejet.netlify.app/docs/api-reference/global-state/
 
 Wiki: https://deepwiki.com/venkateshsundaram/state-jet
 
-## 🛠 Installation
+## Installation
 
 The Statejet package lives in npm. Please see the [installation guide](https://statejet.netlify.app/docs/getting-started/installation-and-setup/).
 
@@ -488,10 +488,10 @@ const todoState = useStateGlobal<Todo[]>("todos", []);
 
 ## Conclusion
 
-If you need the simplest, fastest, and most advanced state management solution for React, state-jet beats Redux, Recoil, MobX, Jotai, and even Zustand in performance, reactivity, and developer experience. 🚀
+If you need the simplest, fastest, and most advanced state management solution for React, state-jet beats Redux, Recoil, MobX, Jotai, and even Zustand in performance, reactivity, and developer experience 🚀.
 
 
-## ⚡ Comparison Table
+## Comparison Table
 | Feature                  | Redux  | Recoil | MobX  | Jotai  | Zustand                | state-jet            |
 |--------------------------|--------|--------|-------|--------|------------------------|----------------------|
 | **Easy Setup**           | ❌ No  | ❌ No  | ⚠️ No | ❌ No  | ⚠️ Minimal            | ✅ Ultra-Minimal    |
