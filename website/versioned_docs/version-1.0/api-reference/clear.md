@@ -12,14 +12,22 @@ The `clear` functions allow to reset existing all state data.
 
 ### ✅ Example 1: Clear in a Todo List 
 
+Create a file at `src/store/index.ts`:
+
+```ts title="src/store/index.ts"
+import { useStateGlobal } from "state-jet";
+
+type Todo = { id: number; text: string };
+
+export const todoState = useStateGlobal<Todo[]>("todos", []);
+```
+
 Create a file at `src/components/TodoList.tsx`:
 
 ```tsx title="src/components/TodoList.tsx"
-import { useStateGlobal } from "state-jet";
+import { todoState } from "../store";
 
-export type Todo = { id: number; text: string };
-
-const todoState = useStateGlobal<Todo[]>("todos", []);
+type Todo = { id: number; text: string };
 
 export default function TodoApp() {
   const todos = todoState.useStore() as Todo[];

@@ -19,15 +19,27 @@ function useStore<T extends Record<string, ReturnType<typeof useSlice>>>(initial
 
 ### ✅ Example: Creating store for Ecommerce App
 
-```tsx 
-import { useStore, useSlice } from "state-jet";
+Setup Slices file (`src/store/slices.ts`):
+
+```ts title="src/store/slices.ts"
+import { useSlice } from "state-jet";
 
 const productSlice = useSlice("products");
 const cartSlice = useSlice("cart");
 
-const useProductSlice = () => productSlice("list", []);
-const useCartSlice = () => cartSlice("list", []);
+export const useProductSlice = () => productSlice("list", []);
+export const useCartSlice = () => cartSlice("list", []);
+```
 
+Setup Store file (`src/store/index.ts`):
+
+```ts title="src/store/index.ts"
+import { useStore } from "state-jet";
+import { useProductSlice, useCartSlice } from "./slices";
+
+/**
+ * Ecommerce store with product and cart slices
+ */
 const initializer: any = () => ({
   products: useProductSlice(),
   cart: useCartSlice()

@@ -23,10 +23,20 @@ It is **ideal for collaborative apps**, like:
 
 This **syncs todos across multiple users** and **merges conflicting changes automatically**.
 
-**🔹 Step 1: Setup WebSocket for Syncing (`src/socket/websocket.ts`):**
+Create a file at `src/store/index.ts`:
+
+```ts title="src/store/index.ts"
+import { useStateGlobal } from "state-jet";
+
+type Todo = { id: number; text: string; completed: boolean };
+
+export const todoState = useStateGlobal<Todo[]>("todos", []);
+```
+
+Setup WebSocket for Syncing (`src/socket/websocket.ts`):
 
 ```ts title="src/socket/websocket.ts"
-import { todoState } from "../components/TodoApp"
+import { todoState } from "../store";
 const socket = new WebSocket("ws://localhost:4000");
 
 socket.onmessage = (event) => {
@@ -39,15 +49,14 @@ export const syncTodos = (state) => {
 };
 ```
 
-**🔹 Step 2: Use CRDT in `src/components/TodoApp.tsx`:**
+Use CRDT in `src/components/TodoApp.tsx`:
 
 ```tsx title="src/components/TodoApp.tsx"
-import { useStateGlobal, syncCRDT } from "state-jet";
+import { syncCRDT } from "state-jet";
 import { syncTodos } from "../socket/websocket";
+import { todoState } from "../store";
 
-export type Todo = { id: number; text: string; completed: boolean };
-
-export const todoState = useStateGlobal<Todo[]>("todos", []);
+type Todo = { id: number; text: string; completed: boolean };
 
 export default function TodoApp() {
   const todos = todoState.useState() as Todo[];
@@ -78,10 +87,19 @@ export default function TodoApp() {
 
 This ensures **counter updates don’t get lost** when multiple users increment at the same time.
 
-**🔹 Step 1: Setup WebSocket for Syncing (`src/socket/websocket.ts`)**:
+Create a file at `src/store/index.ts`:
+
+```ts title="src/store/index.ts"
+import { useStateGlobal } from "state-jet";
+
+export const counterState = useStateGlobal("counter", { value: 0, lastUpdated: Date.now() });
+```
+
+Setup WebSocket for Syncing (`src/socket/websocket.ts`):
 
 ```ts title="src/socket/websocket.ts"
-import { counterState } from "../components/Counter"
+import { counterState } from "../store"
+
 const socket = new WebSocket("ws://localhost:4000");
 
 socket.onmessage = (event) => {
@@ -94,13 +112,12 @@ export const syncCounter = (state) => {
 };
 ```
 
-**🔹 Step 2: Use CRDT in `src/components/Counter.tsx`**:
+Use CRDT in `src/components/Counter.tsx`:
 
 ```tsx title="src/components/Counter.tsx"
-import { useStateGlobal, syncCRDT } from "state-jet";
+import { syncCRDT } from "state-jet";
 import { syncCounter } from "../socket/websocket";
-
-export const counterState = useStateGlobal("counter", { value: 0, lastUpdated: Date.now() });
+import { counterState } from "../store";
 
 export default function Counter() {
   const counter = counterState.useState();
@@ -126,10 +143,18 @@ export default function Counter() {
 
 This **syncs text changes across users** with **CRDT conflict resolution**.
 
-**🔹 Step 1: WebSocket Sync for Notes (`src/socket/websocket.ts`)**:
+Create a file at `src/store/index.ts`:
+
+```ts title="src/store/index.ts"
+import { useStateGlobal } from "state-jet";
+
+export const noteState = useStateGlobal("notes", { content: "", lastUpdated: Date.now() });
+```
+
+Setup WebSocket Sync for Notes (`src/socket/websocket.ts`):
 
 ```ts title="src/socket/websocket.ts"
-import { noteState } from "../components/Notes"
+import { noteState } from "../store"
 const socket = new WebSocket("ws://localhost:4000");
 
 socket.onmessage = (event) => {
@@ -142,13 +167,12 @@ export const syncNotes = (state) => {
 };
 ```
 
-**🔹 Step 2: Use CRDT in `src/components/Notes.tsx`**:
+Use CRDT in `src/components/Notes.tsx`:
 
 ```tsx title="src/components/TodoApp.tsx"
-import { useStateGlobal, syncCRDT } from "state-jet";
+import { syncCRDT } from "state-jet";
 import { syncNotes } from "../socket/websocket";
-
-export const noteState = useStateGlobal("notes", { content: "", lastUpdated: Date.now() });
+import { noteState } from "../store";
 
 export default function Notes() {
   const note = noteState.useState();

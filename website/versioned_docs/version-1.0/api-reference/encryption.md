@@ -13,14 +13,22 @@ The `persist` and `encrypt` properties in `options` enable data persistence and 
 
 ### ✅ Example: Persisting a Counter State Across Reloads `with persist and encrypt` options
 
+Create a file at `src/store/index.ts`:
+
+```ts title="src/store/index.ts"
+import { useStateGlobal } from "state-jet";
+
+type Todo = { id: number; text: string; completed: boolean };
+
+export const todoState = useStateGlobal<Todo[]>("todos", [], { persist: true, encrypt: true });
+```
+
 Create a file at `src/components/TodoApp.tsx`:
 
 ```tsx title="src/components/TodoApp.tsx"
-import { useStateGlobal } from "state-jet";
+import { todoState } from "../store";
 
-export type Todo = { id: number; text: string; completed: boolean };
-
-const todoState = useStateGlobal<Todo[]>("todos", [], { persist: true, encrypt: true });
+type Todo = { id: number; text: string; completed: boolean };
 
 export default function TodoApp() {
   const todos = todoState.useStore() as Todo[];
@@ -61,14 +69,23 @@ This example demonstrates how to:
 
 By default when you add `persist` and `encrypt` as `true`, State-jet internally call above two functions. But this example helps to achieve overriding from toplevel.
 
+Create a file at `src/store/index.ts`:
+
+```ts title="src/store/index.ts"
+import { useStateGlobal, restoreEncryptedState } from "state-jet";
+
+type Todo = { id: number; text: string; completed: boolean };
+
+export const todoState = useStateGlobal<Todo[]>("todos", restoreEncryptedState("todos", []) as Todo[]);
+```
+
 Create a file at `src/components/TodoApp.tsx`:
 
 ```tsx title="src/components/TodoApp.tsx"
-import { useStateGlobal, saveEncryptedState, restoreEncryptedState } from "state-jet";
+import { saveEncryptedState } from "state-jet";
+import { todoState } from "../store";
 
-export type Todo = { id: number; text: string; completed: boolean };
-
-const todoState = useStateGlobal<Todo[]>("todos", restoreEncryptedState("todos", []) as Todo[]);
+type Todo = { id: number; text: string; completed: boolean };
 
 export default function TodoApp() {
   const todos = todoState.useStore() as Todo[];
