@@ -10,7 +10,7 @@ keywords:
 
 # Tutorial Intro
 
-This section assumes you have installed StateJet and React. See the **[Getting Started](/docs/category/getting-started)** page for how to get started with StateJet and React from scratch.
+This section assumes you have installed StateJet and React. See the **[Getting Started](/docs/getting-started/prerequisites/)** page for how to get started with StateJet and React from scratch.
 
 In this tutorial, we'll be building a simple **todo-list** application. Our app will be able to do the following:
 

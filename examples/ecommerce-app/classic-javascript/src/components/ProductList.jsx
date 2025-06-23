@@ -4,19 +4,27 @@ export const ProductList = () => {
   const store = useEcommerceStore();
   const products = store.products;
   const cart = store.cart;
-  const productItems = products.useState();
-  const cartItems = cart.useState();
+  const productSliceData = products.useState();
+  const cartSliceData = cart.useState();
+  const productItems = productSliceData?.items || [];
+  const cartItems = cartSliceData?.items || [];
 
   const addToCart = (product) => {
     if (cartItems.some((cartItem) => cartItem.name === product.name)) {
-      cart.set(cartItems.map((cartItem) => {
-        if (cartItem.name === product.name) {
-          return { ...cartItem, count: (cartItem.count || 0) + 1 };
-        }
-        return cartItem;
+      cart.set((cartVal)=> ({
+        ...cartVal,
+        items: cartItems.map((cartItem) => {
+          if (cartItem.name === product.name) {
+            return { ...cartItem, count: (cartItem.count || 0) + 1 };
+          }
+          return cartItem;
+        })
       }));
     } else {
-      cart.set([...cartItems, { ...product, count: 1 }]);
+      cart.set((cartVal)=> ({
+        ...cartVal,
+        items: [...cartItems, { ...product, count: 1 }]
+      }));
     }
   };
 
@@ -24,7 +32,7 @@ export const ProductList = () => {
     <div>
       <h2>🛍️ Products</h2>
       <ul>
-        {productItems.map((productItem, index) => (
+        {productItems && productItems.map((productItem, index) => (
           <li key={index}>
             {productItem.name} - ${productItem.price}{" "}
             <button onClick={() => addToCart(productItem)}>Add to Cart</button>

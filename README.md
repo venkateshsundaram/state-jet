@@ -8,9 +8,9 @@ For more details, see [here](https://statejet.netlify.app).
 
 ## Table of Contents
 
-  - [🚀 Why state-jet?](#🚀-why-state-jet?)
+  - [🚀 Why state-jet?](#why-state-jet?)
   - [Documentation](#documentation)
-  - [🛠 Installation](#🛠-installation)
+  - [🛠 Installation](#installation)
   - [GlobalState](#globalstate)
     - [Create GlobalState](#create-globalstate)
     - [Binding Global State to a Component](#binding-global-state-to-a-component)
@@ -18,7 +18,7 @@ For more details, see [here](https://statejet.netlify.app).
     - [Create Slice](#create-slice)
   - [Store](#store)
     - [Create Store](#create-store)
-    - [Binding Global State to a Component](#binding-global-state-to-a-component)
+    - [Binding Store to a Component](#binding-store-to-a-component)
   - [Middlewares](#middlewares)
     - [Logger Middleware](#logger-middleware)
     - [Reducer Middleware](#reducer-middleware)
@@ -29,7 +29,7 @@ For more details, see [here](https://statejet.netlify.app).
   - [Why state-jet Is More Advanced Than Zustand](#why-state-jet-is-more-advanced-than-zustand)
   - [FAQ](#faq)
   - [Conclusion](#conclusion)
-  - [⚡ Comparison Table](#⚡-comparison-table)
+  - [⚡ Comparison Table](#comparison-table)
   - [Comparison with other libraries](#comparison-with-other-libraries)
   - [Contributing](#contributing)
   - [Publishing](#publishing)
@@ -47,9 +47,9 @@ For more details, see [here](https://statejet.netlify.app).
 
 Documentation: https://statejet.netlify.app/docs
 
-Tutorials: https://statejet.netlify.app/docs/category/tutorial
+Tutorials: https://statejet.netlify.app/docs/tutorial/intro/
 
-API Reference: https://statejet.netlify.app/docs/category/api-reference
+API Reference: https://statejet.netlify.app/docs/api-reference/global-state/
 
 Wiki: https://deepwiki.com/venkateshsundaram/state-jet
 
@@ -77,7 +77,7 @@ Or if you're using `cdn`:
 
 ## GlobalState
 
-The `useStateGlobal` hook is the simplest entry point to State-Jet. It allows you to create stateful values that can be accessed and updated from any component in your application, regardless of their location in the component tree.
+The `useStateGlobal` hook is the simplest entry point to State-Jet—-ideal for simple applications with minimal state management needs. It allows you to create stateful values that can be accessed and updated from any component in your application, regardless of their location in the component tree.
 
 ### Create GlobalState
 
@@ -113,8 +113,6 @@ export default function Counter() {
 
 Slices in state-jet represent logical groupings of state that help organize application data into manageable pieces. Unlike the global state approach which uses a single namespace, slices allow for partitioning state into named segments, making state management more modular and maintainable.
 
-Each slice can contain multiple state values, each identified by a unique key within that slice.
-
 ### Create Slice
 
 ```ts
@@ -125,13 +123,13 @@ import { useSlice } from "state-jet";
 const productSlice = useSlice("products");
 const cartSlice = useSlice("cart");
 
-export const useProductSlice = () => productSlice("list", []);
-export const useCartSlice = () => cartSlice("list", []);
+export const useProductSlice = () => productSlice("productState", {});
+export const useCartSlice = () => cartSlice("cartState", {});
 ```
 
 ## Store
 
-The `useStore` hook serves as a mechanism to group related slices of state into a cohesive store, enabling modular and organized state management in React applications. It creates a persistent reference to a collection of slice instances that can be accessed throughout an application component tree.
+The `useStore` hook serves as a mechanism to group related slices of state into a cohesive store, enabling modular and organized state management in React applications which are better suited for larger applications with more complex and structured state requirements.
 
 ### Create Store
 
@@ -152,7 +150,7 @@ const initializer: any = () => ({
 export const useEcommerceStore = () =>  useStore(initializer);
 ```
 
-### Binding Global State to a Component
+### Binding Store to a Component
 
 ```tsx
 // file: src/components/ProductList.tsx
@@ -174,19 +172,27 @@ export const ProductList = () => {
   const store = useEcommerceStore();
   const products: any = store.products;
   const cart: any = store.cart;
-  const productItems = products.useState() as ProductType[];
-  const cartItems = cart.useState() as CartType[];
+  const productSliceData: any = products.useState();
+  const cartSliceData: any = cart.useState();
+  const productItems: Array<ProductType> = productSliceData?.items || [];
+  const cartItems: Array<CartType> = cartSliceData?.items || [];
 
   const addToCart = (product: ProductType) => {
     if (cartItems.some((cartItem: CartType) => cartItem.name === product.name)) {
-      cart.set(cartItems.map((cartItem: CartType) => {
-        if (cartItem.name === product.name) {
-          return { ...cartItem, count: (cartItem.count || 0) + 1 };
-        }
-        return cartItem;
+      cart.set((cartVal: any)=> ({
+        ...cartVal,
+        items: cartItems.map((cartItem: CartType) => {
+          if (cartItem.name === product.name) {
+            return { ...cartItem, count: (cartItem.count || 0) + 1 };
+          }
+          return cartItem;
+        })
       }));
     } else {
-      cart.set([...cartItems, { ...product, count: 1 }]);
+      cart.set((cartVal: any)=> ({
+        ...cartVal,
+        items: [...cartItems, { ...product, count: 1 }]
+      }));
     }
   };
 
@@ -194,7 +200,7 @@ export const ProductList = () => {
     <div>
       <h2>🛍️ Products</h2>
       <ul>
-        {productItems.map((productItem: ProductType, index: number) => (
+        {productItems && productItems.map((productItem: ProductType, index: number) => (
           <li key={index}>
             {productItem.name} - ${productItem.price}{" "}
             <button onClick={() => addToCart(productItem)}>Add to Cart</button>
@@ -267,7 +273,7 @@ export default function Counter() {
 
 ### Reducer Middleware
 
-Can't live without reducer?. No worries. StateJet supports reducer middleware
+Can't live without reducer? No worries, StateJet supports reducer middleware.
 
 ```ts
 // file: src/store/middleware.ts
@@ -329,7 +335,7 @@ export default function Counter() {
 
 ### Debounce Middleware
 
-You can delay the update of global state
+You can delay the update of global state.
 
 ```ts
 // file: src/store/middleware.ts
@@ -363,7 +369,7 @@ export const counterState = useStateGlobal("counter", 0, { middleware: [debounce
 
 ### Optimistic Middleware
 
-You can optimistically update global state with rollback support
+You can optimistically update global state with rollback support.
 
 ```ts
 // file: src/store/middleware.ts
@@ -401,7 +407,7 @@ export const profileState = useStateGlobal("profile", { name: "John" }, {
 
 ### Custom Middleware
 
-You can also create your own custom middleware in state-jet
+You can also create your own custom middleware in state-jet.
 
 ```ts
 // file: src/store/middleware.ts
@@ -508,7 +514,7 @@ Development of State-jet happens in the open on GitHub, and we are grateful to t
 - [Contributing Guide](./CONTRIBUTING.md)
 
 ## Publishing
-- Before pushing your changes to Github, make sure that `version` in `package.json` is changed to newest version. Then run `npm install` for synchronize it to `package-lock.json` and `pnpm install` for synchronize it to `pnpm-lock.yaml`
+Before pushing your changes to Github, make sure that `version` in `package.json` is changed to newest version. Then run `npm install` for synchronize it to `package-lock.json` and `pnpm install` for synchronize it to `pnpm-lock.yaml`
 
 ## Feedbacks and Issues
 Feel free to open issues if you found any feedback or issues on `state-jet`. And feel free if you want to contribute too! 😄

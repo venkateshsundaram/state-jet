@@ -48,4 +48,4 @@ Start with the <strong><a href="/docs/tutorial/intro/">tutorial</a></strong> —
 
 
 - An overview of the **[prerequisites](/docs/getting-started/prerequisites/)** for using state-jet, and an **[installation and setup guide](/docs/getting-started/installation-and-setup/)**.
-- The **[API reference](/docs/category/api-reference/)**, for a reference of our APIs including a detailed overview of their inputs and outputs.
+- The **[API reference](/docs/api-reference/global-state/)**, for a reference of our APIs including a detailed overview of their inputs and outputs.

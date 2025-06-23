@@ -29,11 +29,13 @@ function App() {
 
   useEffect(() => {
     // Load initial products
-    store.products.set([
-      { name: "Laptop", price: 999 },
-      { name: "Phone", price: 599 },
-      { name: "Tablet", price: 399 },
-    ]);
+    store.products.set({
+      items: [
+        { name: "Laptop", price: 999 },
+        { name: "Phone", price: 599 },
+        { name: "Tablet", price: 399 },
+      ]
+    });
   }, []);
 
   return (
@@ -74,8 +76,8 @@ import { useSlice } from "state-jet";
 const productSlice = useSlice("products");
 const cartSlice = useSlice("cart");
 
-export const useProductSlice = () => productSlice("list", []);
-export const useCartSlice = () => cartSlice("list", []);
+export const useProductSlice = () => productSlice("productState", {});
+export const useCartSlice = () => cartSlice("cartState", {});
 ```
 
 ## Create components
@@ -102,19 +104,27 @@ export const ProductList = () => {
   const store = useEcommerceStore();
   const products: any = store.products;
   const cart: any = store.cart;
-  const productItems = products.useState() as ProductType[];
-  const cartItems = cart.useState() as CartType[];
+  const productSliceData: any = products.useState();
+  const cartSliceData: any = cart.useState();
+  const productItems: Array<ProductType> = productSliceData?.items || [];
+  const cartItems: Array<CartType> = cartSliceData?.items || [];
 
   const addToCart = (product: ProductType) => {
     if (cartItems.some((cartItem: CartType) => cartItem.name === product.name)) {
-      cart.set(cartItems.map((cartItem: CartType) => {
-        if (cartItem.name === product.name) {
-          return { ...cartItem, count: (cartItem.count || 0) + 1 };
-        }
-        return cartItem;
+      cart.set((cartVal: any)=> ({
+        ...cartVal,
+        items: cartItems.map((cartItem: CartType) => {
+          if (cartItem.name === product.name) {
+            return { ...cartItem, count: (cartItem.count || 0) + 1 };
+          }
+          return cartItem;
+        })
       }));
     } else {
-      cart.set([...cartItems, { ...product, count: 1 }]);
+      cart.set((cartVal: any)=> ({
+        ...cartVal,
+        items: [...cartItems, { ...product, count: 1 }]
+      }));
     }
   };
 
@@ -122,7 +132,7 @@ export const ProductList = () => {
     <div>
       <h2>🛍️ Products</h2>
       <ul>
-        {productItems.map((productItem: ProductType, index: number) => (
+        {productItems && productItems.map((productItem: ProductType, index: number) => (
           <li key={index}>
             {productItem.name} - ${productItem.price}{" "}
             <button onClick={() => addToCart(productItem)}>Add to Cart</button>
@@ -148,17 +158,21 @@ type CartType = {
 export const Cart = () => {
   const store = useEcommerceStore();
   const cart: any = store.cart;
-  const cartItems = cart.useState() as CartType[];
+  const cartSliceData: any = cart.useState();
+  const cartItems: Array<CartType> = cartSliceData?.items || [];
 
   const removeFromCart = (cartObj: CartType) => {
-    cart.set(cartItems.filter((cartItem: CartType) => cartItem.name !== cartObj.name));
+    cart.set((cartVal: any) => ({
+      ...cartVal,
+      items: cartItems.filter((cartItem: CartType) => cartItem.name !== cartObj.name)
+    }));
   };
 
   return (
     <div>
       <h2>🛒 Cart</h2>
       <ul>
-        {cartItems.map((item: CartType, index: number) => (
+        {cartItems && cartItems.map((item: CartType, index: number) => (
           <li key={index}>
             {item.name} - ${item.price} - {item.count} {" "}
             <button onClick={() => removeFromCart(item)}>Remove from Cart</button>
@@ -168,7 +182,6 @@ export const Cart = () => {
     </div>
   );
 };
-
 ```
 
 For the complete code and demo, refer to the Codesandbox example below.
