@@ -8,7 +8,7 @@ For more details, see [here](https://statejet.netlify.app).
 
 ## Table of Contents
 
-  - [Why state-jet?](#why-state-jet?)
+  - [Why state-jet](#why-state-jet)
   - [Documentation](#documentation)
   - [Installation](#installation)
   - [GlobalState](#globalstate)
@@ -36,7 +36,7 @@ For more details, see [here](https://statejet.netlify.app).
   - [Feedbacks and Issues](#feedbacks-and-issues)
   - [License](#license)
 
-## Why state-jet?
+## Why state-jet
 
 - ✅ **No Context, No Providers** – Works outside React, reducing unnecessary re-renders.
 - ✅ **Automatic Re-Renders** – Only components using specific state values update.
