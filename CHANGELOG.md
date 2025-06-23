@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.19](https://github.com/venkateshsundaram/state-jet/compare/v2.0.18...v2.0.19) (2025-06-23)
+
+
+### Documentation
+
+* updating readme ([cf87a8d](https://github.com/venkateshsundaram/state-jet/commit/cf87a8d6a9d4c8bfb8b282e1c81f4f54741702bc))
+
 ### [2.0.18](https://github.com/venkateshsundaram/state-jet/compare/v2.0.17...v2.0.18) (2025-06-23)
 
 
