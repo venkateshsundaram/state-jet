@@ -8,11 +8,13 @@ function App() {
 
   useEffect(() => {
     // Load initial products
-    store.products.set([
-      { name: "Laptop", price: 999 },
-      { name: "Phone", price: 599 },
-      { name: "Tablet", price: 399 },
-    ]);
+    store.products.set({
+      items: [
+        { name: "Laptop", price: 999 },
+        { name: "Phone", price: 599 },
+        { name: "Tablet", price: 399 },
+      ]
+    });
   }, []);
 
   return (
