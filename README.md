@@ -11,6 +11,7 @@ For more details, see [here](https://statejet.netlify.app).
   - [Why state-jet](#why-state-jet)
   - [Documentation](#documentation)
   - [Installation](#installation)
+  - [Wiki](#wiki)
   - [GlobalState](#globalstate)
     - [Create GlobalState](#create-globalstate)
     - [Binding Global State to a Component](#binding-global-state-to-a-component)
@@ -38,10 +39,10 @@ For more details, see [here](https://statejet.netlify.app).
 
 ## Why state-jet
 
-- ✅ **No Context, No Providers** – Works outside React, reducing unnecessary re-renders.
-- ✅ **Automatic Re-Renders** – Only components using specific state values update.
-- ✅ **Super Lightweight** – Ultra small!
-- ✅ **SSR & Next.js Support** – Works on both client and server.
+- **No Context, No Providers** – Works outside React, reducing unnecessary re-renders.
+- **Automatic Re-Renders** – Only components using specific state values update.
+- **Super Lightweight** – Ultra small!
+- **SSR & Next.js Support** – Works on both client and server.
 
 ## Documentation
 
@@ -50,8 +51,6 @@ Documentation: https://statejet.netlify.app/docs
 Tutorials: https://statejet.netlify.app/docs/tutorial/intro/
 
 API Reference: https://statejet.netlify.app/docs/api-reference/global-state/
-
-Wiki: https://deepwiki.com/venkateshsundaram/state-jet
 
 ## Installation
 
@@ -74,6 +73,10 @@ Or if you're using `cdn`:
 ```bash
 <script src="https://cdn.jsdelivr.net/npm/state-jet@latest/dist/index.cjs"></script>
 ```
+
+## Wiki
+
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/venkateshsundaram/state-jet)
 
 ## GlobalState
 
@@ -111,7 +114,7 @@ export default function Counter() {
 
 ## Slices
 
-Slices in state-jet represent logical groupings of state that help organize application data into manageable pieces. Unlike the global state approach which uses a single namespace, slices allow for partitioning state into named segments, making state management more modular and maintainable.
+Slices in state-jet represent logical groupings of state that help organize application data into manageable pieces.
 
 ### Create Slice
 
