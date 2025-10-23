@@ -3,9 +3,9 @@ import { ProductType, CartType } from "../types"
 
 export const ProductList = () => {
   const store = useEcommerceStore();
-  const products: any = store.products;
+  const { productState }: any = store.products;
   const cart: any = store.cart;
-  const productSliceData: any = products.useState();
+  const productSliceData: any = productState.useState();
   const cartSliceData: any = cart.useState();
   const productItems: Array<ProductType> = productSliceData?.items || [];
   const cartItems: Array<CartType> = cartSliceData?.items || [];

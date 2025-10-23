@@ -1,0 +1,10 @@
+examples
+node_modules
+dist
+build
+coverage
+tmp
+.git
+.vscode
+.DS_Store
+*.log

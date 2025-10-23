@@ -127,6 +127,21 @@ export const useProductSlice = () => productSlice("productState", {});
 export const useCartSlice = () => cartSlice("cartState", {});
 ```
 
+### Multi States in Single Slice
+
+```ts
+// file: src/store/slices.ts
+
+import { useSlice } from "state-jet";
+
+// Define multiple state values under one slice
+export const useProductSlice = () => ({
+  productState: productSlice("productState", {}),
+  productFilter: productSlice("productFilter", { search: "", category: "all" }),
+  productSort: productSlice("productSort", { order: "asc" }),
+});
+```
+
 ## Store
 
 The `useStore` hook serves as a mechanism to group related slices of state into a cohesive store, enabling modular and organized state management in React applications which are better suited for larger applications with more complex and structured state requirements.
@@ -170,9 +185,9 @@ type CartType = {
 
 export const ProductList = () => {
   const store = useEcommerceStore();
-  const products: any = store.products;
+  const { productState }: any = store.products;
   const cart: any = store.cart;
-  const productSliceData: any = products.useState();
+  const productSliceData: any = productState.useState();
   const cartSliceData: any = cart.useState();
   const productItems: Array<ProductType> = productSliceData?.items || [];
   const cartItems: Array<CartType> = cartSliceData?.items || [];

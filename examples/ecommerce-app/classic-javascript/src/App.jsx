@@ -7,8 +7,9 @@ function App() {
   const store = useEcommerceStore();
 
   useEffect(() => {
+    const { productState } = store.products;
     // Load initial products
-    store.products.set({
+    productState.set({
       items: [
         { name: "Laptop", price: 999 },
         { name: "Phone", price: 599 },
