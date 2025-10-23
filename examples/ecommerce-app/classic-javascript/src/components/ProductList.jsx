@@ -2,9 +2,9 @@ import { useEcommerceStore } from "../store";
 
 export const ProductList = () => {
   const store = useEcommerceStore();
-  const products = store.products;
+  const { productState } = store.products;
   const cart = store.cart;
-  const productSliceData = products.useState();
+  const productSliceData = productState.useState();
   const cartSliceData = cart.useState();
   const productItems = productSliceData?.items || [];
   const cartItems = cartSliceData?.items || [];
