@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.24](https://github.com/venkateshsundaram/state-jet/compare/v2.0.23...v2.0.24) (2025-10-23)
+
+
+### Documentation
+
+* adding support for multistate website ([54c73fc](https://github.com/venkateshsundaram/state-jet/commit/54c73fcf7d311baafe535d42f43642e8d28b8e6e))
+
 ### [2.0.23](https://github.com/venkateshsundaram/state-jet/compare/v2.0.22...v2.0.23) (2025-10-23)
 
 
