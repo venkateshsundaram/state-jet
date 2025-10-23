@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.23](https://github.com/venkateshsundaram/state-jet/compare/v2.0.22...v2.0.23) (2025-10-23)
+
+
+### Documentation
+
+* adding support of mulistate in slice with updated readme ([0d3808a](https://github.com/venkateshsundaram/state-jet/commit/0d3808a0403ca478b5658a7f56700264a80f2d74))
+
 ### [2.0.22](https://github.com/venkateshsundaram/state-jet/compare/v2.0.21...v2.0.22) (2025-10-23)
 
 
