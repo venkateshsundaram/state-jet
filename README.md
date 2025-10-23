@@ -17,6 +17,7 @@ For more details, see [here](https://statejet.netlify.app).
     - [Binding Global State to a Component](#binding-global-state-to-a-component)
   - [Slices](#slices)
     - [Create Slice](#create-slice)
+    - [Multi States in Single Slice](#multi-states-in-single-slice)
   - [Store](#store)
     - [Create Store](#create-store)
     - [Binding Store to a Component](#binding-store-to-a-component)
@@ -123,10 +124,8 @@ Slices in state-jet represent logical groupings of state that help organize appl
 
 import { useSlice } from "state-jet";
 
-const productSlice = useSlice("products");
 const cartSlice = useSlice("cart");
 
-export const useProductSlice = () => productSlice("productState", {});
 export const useCartSlice = () => cartSlice("cartState", {});
 ```
 
@@ -137,12 +136,16 @@ export const useCartSlice = () => cartSlice("cartState", {});
 
 import { useSlice } from "state-jet";
 
+const productSlice = useSlice("products");
+const cartSlice = useSlice("cart");
+
 // Define multiple state values under one slice
 export const useProductSlice = () => ({
   productState: productSlice("productState", {}),
   productFilter: productSlice("productFilter", { search: "", category: "all" }),
   productSort: productSlice("productSort", { order: "asc" }),
 });
+export const useCartSlice = () => cartSlice("cartState", {});
 ```
 
 ## Store
