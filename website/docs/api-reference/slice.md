@@ -29,13 +29,17 @@ Since `useStateGlobal()` utilizes slices internally, `useSlice()` supports simil
 
 ### ✅ Example: Creating slice for Ecommerce App
 
-```tsx 
+```ts
 import { useSlice } from "state-jet";
 
 const productSlice = useSlice("products");
 const cartSlice = useSlice("cart");
 
-export const useProductSlice = () => productSlice("productState", {});
+export const useProductSlice = () => ({
+  productState: productSlice("productState", {}),
+  productFilter: productSlice("productFilter", { search: "", category: "all" }),
+  productSort: productSlice("productSort", { order: "asc" }),
+});
 export const useCartSlice = () => cartSlice("cartState", {});
 ```
 
