@@ -139,7 +139,7 @@ import { useSlice } from "state-jet";
 const productSlice = useSlice("products");
 const cartSlice = useSlice("cart");
 
-// Define multiple state values under one slice
+// Define multiple state values under a slice
 export const useProductSlice = () => ({
   productState: productSlice("productState", {}),
   productFilter: productSlice("productFilter", { search: "", category: "all" }),
