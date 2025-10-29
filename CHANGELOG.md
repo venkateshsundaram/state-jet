@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.4](https://github.com/venkateshsundaram/state-jet/compare/v2.1.3...v2.1.4) (2025-10-29)
+
+
+### Bug Fixes
+
+* modify support of deepwiki with github actions ([74cc89a](https://github.com/venkateshsundaram/state-jet/commit/74cc89afd51acb36bf667b06078b7044c1740de3))
+
 ### [2.1.3](https://github.com/venkateshsundaram/state-jet/compare/v2.1.2...v2.1.3) (2025-10-29)
 
 
