@@ -1,0 +1,18 @@
+# Common build and dependency folders
+node_modules/
+dist/
+build/
+out/
+
+# Test & config files
+__tests__/
+coverage/
+tmp/
+.env
+.git
+.vscode
+.DS_Store
+*.log
+
+# Folders you don’t want indexed
+examples/
