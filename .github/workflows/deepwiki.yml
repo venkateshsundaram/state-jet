@@ -20,12 +20,12 @@ jobs:
           node-version: 18
 
       - name: Install DeepWiki
-        run: npm install -g deepwiki
+        run: npm install deepwiki
 
       - name: Build and deploy DeepWiki
         run: |
           if [ -f ".deepwikiignore" ]; then
             echo "Using .deepwikiignore to exclude folders"
           fi
-          deepwiki build
-          deepwiki deploy
+          npx deepwiki build
+          npx deepwiki deploy
