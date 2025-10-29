@@ -17,26 +17,13 @@ jobs:
       - name: 🏗️ Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
-
-      - name: Install DeepWiki globally
-        run: |
-          npm install -g deepwiki
-          echo "/usr/local/bin" >> $GITHUB_PATH
-          echo "$(npm root -g)/.bin" >> $GITHUB_PATH
-          which deepwiki || true
-
+          node-version: 20
+          
       - name: Build and deploy DeepWiki
         run: |
           if [ -f ".deepwikiignore" ]; then
             echo "Using .deepwikiignore to exclude folders"
           fi
-          deepwiki build
-          deepwiki deploy
-
-      - name: Debug PATH
-        run: |
-          echo "PATH: $PATH"
-          ls /usr/local/bin
-          ls $(npm root -g)/.bin
+          npx -y deepwiki build
+          npx -y deepwiki deploy
 
