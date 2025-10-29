@@ -8,24 +8,26 @@ on:
 
 jobs:
   build:
+    name: Run DeepWiki
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: 📥 Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: 🏗️ Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Install DeepWiki
-        run: npm install deepwiki
+      - name: Install DeepWiki globally
+        run: |
+          npm install -g deepwiki
+          echo "$(npm root -g)/.bin" >> $GITHUB_PATH
 
       - name: Build and deploy DeepWiki
         run: |
           if [ -f ".deepwikiignore" ]; then
             echo "Using .deepwikiignore to exclude folders"
           fi
-          npx deepwiki build
-          npx deepwiki deploy
+          deepwiki build
+          deepwiki deploy
