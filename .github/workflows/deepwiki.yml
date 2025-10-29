@@ -22,7 +22,9 @@ jobs:
       - name: Install DeepWiki globally
         run: |
           npm install -g deepwiki
+          echo "/usr/local/bin" >> $GITHUB_PATH
           echo "$(npm root -g)/.bin" >> $GITHUB_PATH
+          which deepwiki || true
 
       - name: Build and deploy DeepWiki
         run: |
@@ -31,3 +33,10 @@ jobs:
           fi
           deepwiki build
           deepwiki deploy
+
+      - name: Debug PATH
+        run: |
+          echo "PATH: $PATH"
+          ls /usr/local/bin
+          ls $(npm root -g)/.bin
+
