@@ -3,7 +3,7 @@ sidebar_position: 1
 id: home
 title: Home
 slug: /
-description: State Jet documentation landing page
+description: StateJet documentation landing page
 keywords:
 - State
 - Jet

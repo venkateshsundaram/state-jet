@@ -234,7 +234,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Documentation
 
-* update state jet document for middleware ([1a63f4c](https://github.com/venkateshsundaram/state-jet/commit/1a63f4cc383b9b0f72e0c769a19ae572d85e4dab))
+* update statejet document for middleware ([1a63f4c](https://github.com/venkateshsundaram/state-jet/commit/1a63f4cc383b9b0f72e0c769a19ae572d85e4dab))
 
 ## [1.3.0](https://github.com/venkateshsundaram/state-jet/compare/v1.2.7...v1.3.0) (2025-03-17)
 
@@ -269,7 +269,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Testing
 
-* adding test cases for state jet ([10151d3](https://github.com/venkateshsundaram/state-jet/commit/10151d350409499b7612bac88d7ad5ed6fa3d710))
+* adding test cases for statejet ([10151d3](https://github.com/venkateshsundaram/state-jet/commit/10151d350409499b7612bac88d7ad5ed6fa3d710))
 
 ### [1.2.3](https://github.com/venkateshsundaram/state-jet/compare/v1.2.2...v1.2.3) (2025-03-09)
 
