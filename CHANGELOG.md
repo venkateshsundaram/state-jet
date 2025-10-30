@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.1](https://github.com/venkateshsundaram/state-jet/compare/v2.2.0...v2.2.1) (2025-10-30)
+
+
+### Bug Fixes
+
+* rebrand state-jet with new logo color ([1f5a68c](https://github.com/venkateshsundaram/state-jet/commit/1f5a68c6e7e58d1484bfc74c3db2f749a4814eba))
+
 ## [2.2.0](https://github.com/venkateshsundaram/state-jet/compare/v2.1.6...v2.2.0) (2025-10-30)
 
 
