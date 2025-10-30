@@ -1,0 +1,214 @@
+{
+  "repo_notes": [
+    {
+      "content": ""
+    }
+  ],
+  "pages": [
+    {
+      "title": "Overview",
+      "purpose": "Introduce state-jet, summarizing its purpose as an ultra-lightweight global state management library for React, key features, and positioning in the ecosystem",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Core Concepts",
+      "purpose": "Explain fundamental concepts like global state, slices, stores, and the reactive state model that powers state-jet",
+      "parent": "Overview",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Version History",
+      "purpose": "Document the evolution of state-jet through version releases and breaking changes",
+      "parent": "Overview",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Core API",
+      "purpose": "Comprehensive reference for the main state-jet APIs and their usage patterns",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Global State Management",
+      "purpose": "Document the useStateGlobal hook for simple, application-wide state management",
+      "parent": "Core API",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Slices and Stores",
+      "purpose": "Explain useSlice and useStore for modular state organization and complex application architecture",
+      "parent": "Core API",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Derived State",
+      "purpose": "Cover computed state values that automatically update when dependencies change",
+      "parent": "Core API",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Advanced Features",
+      "purpose": "Deep dive into state-jet's advanced capabilities for production applications",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Middleware System",
+      "purpose": "Explain the middleware pipeline for intercepting, transforming, and processing state updates",
+      "parent": "Advanced Features",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Persistence and Encryption",
+      "purpose": "Document state persistence to localStorage with optional encryption capabilities",
+      "parent": "Advanced Features",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Optimistic Updates and CRDT",
+      "purpose": "Cover optimistic UI updates with rollback and conflict-free replicated data types for real-time collaboration",
+      "parent": "Advanced Features",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Performance Features",
+      "purpose": "Detail performance optimizations including batching, memoization, and fine-grained reactivity",
+      "parent": "Advanced Features",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Example Applications",
+      "purpose": "Real-world examples demonstrating state-jet usage patterns and best practices",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Todo List Application",
+      "purpose": "Step-by-step guide building a todo app with state-jet, covering basic state management patterns",
+      "parent": "Example Applications",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "E-commerce Application",
+      "purpose": "Complex application example showcasing slices, stores, and advanced state management patterns",
+      "parent": "Example Applications",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Performance Benchmarks",
+      "purpose": "Benchmark comparisons with other state management libraries and performance analysis tools",
+      "parent": "Example Applications",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Interactive Playgrounds",
+      "purpose": "Links to online code playgrounds for experimenting with state-jet features",
+      "parent": "Example Applications",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Developer Guide",
+      "purpose": "Resources for contributors and advanced users working with the state-jet codebase",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Build System and Architecture",
+      "purpose": "Explain the build pipeline, module bundling, and internal architecture of state-jet",
+      "parent": "Developer Guide",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Testing Infrastructure",
+      "purpose": "Overview of the testing strategy, test files, and quality assurance processes",
+      "parent": "Developer Guide",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Contributing Guidelines",
+      "purpose": "Guide for contributors including development setup, PR process, and release workflow",
+      "parent": "Developer Guide",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    }
+  ]
+}
