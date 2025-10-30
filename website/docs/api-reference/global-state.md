@@ -24,7 +24,7 @@ function useStateGlobal<T>(
 - `initialValue` - can holds any data types (string, array, object)
 
 - `options` - An optional parameter which supports multiple options
-    * `middleware` - which is used to add middleware support for state jet. Refer (**[Middlewares](/docs/api-reference/middlewares)**)
+    * `middleware` - which is used to add middleware support for statejet. Refer (**[Middlewares](/docs/api-reference/middlewares)**)
     * `persist` - if persist is true, the state data will be stored in localStorage. Refer (**[Persistence](/docs/api-reference/persistence)**)
     * `encrypt` - supports encryption/decryption. Refer (**[Encryption](/docs/api-reference/encryption)**)
     * `frameSync` - Useful for animation-heavy, high-frequency, or frame-sensitive state changes.

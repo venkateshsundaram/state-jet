@@ -8,8 +8,8 @@ import type * as Preset from "@docusaurus/preset-classic";
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: "State Jet",
-  tagline: "Ultra-Lightweight Global State for React",
+  title: "StateJet",
+  tagline: "A zero-boilerplate, ultra-fast global state management library for React",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here

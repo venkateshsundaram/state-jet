@@ -18,7 +18,7 @@ function useStateGlobal<T>(
 ```
 
 - `options` - An optional parameter which supports multiple options
-   * `middleware` - which is used to add middleware support for state jet
+   * `middleware` - which is used to add middleware support for statejet
 
 ### Logger Middleware
 

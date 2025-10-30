@@ -23,7 +23,7 @@ function useStateGlobal<T>(
 - `initialValue` - can store any data types (string, array, object)
 
 - `options` - An optional parameter which supports multiple options
-   * `middleware` - which is used to add middleware support for state jet. Refer (**[Middlewares](/docs/api-reference/middlewares)**)
+   * `middleware` - which is used to add middleware support for statejet. Refer (**[Middlewares](/docs/api-reference/middlewares)**)
    * `persist` - if persist is true, the store data will be stored in localStorage. Refer (**[Persistence](/docs/api-reference/persistence)**)
    * `encrypt` - supports encryption/decryption. Refer (**[Encryption](/docs/api-reference/encryption)**)
 

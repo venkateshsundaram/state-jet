@@ -4,7 +4,7 @@
 
 A zero-boilerplate, ultra-fast global state management library for React.
 
-For more details, see [here](https://statejet.netlify.app).
+For more details, see [here](https://statejet.org).
 
 ## Table of Contents
 
@@ -47,15 +47,15 @@ For more details, see [here](https://statejet.netlify.app).
 
 ## Documentation
 
-Documentation: https://statejet.netlify.app/docs
+Documentation: https://statejet.org/docs
 
-Tutorials: https://statejet.netlify.app/docs/tutorial/intro/
+Tutorials: https://statejet.org/docs/tutorial/intro/
 
-API Reference: https://statejet.netlify.app/docs/api-reference/global-state/
+API Reference: https://statejet.org/docs/api-reference/global-state/
 
 ## Installation
 
-The Statejet package lives in npm. Please see the [installation guide](https://statejet.netlify.app/docs/getting-started/installation-and-setup/).
+The Statejet package lives in npm. Please see the [installation guide](https://statejet.org/docs/getting-started/installation-and-setup/).
 
 To install the latest stable version, run the following command:
 
@@ -478,7 +478,7 @@ export default function Profile() {
 }
 ```
 
-A more complete middleware usage is [here](https://statejet.netlify.app/docs/api-reference/middlewares/).
+A more complete middleware usage is [here](https://statejet.org/docs/api-reference/middlewares/).
 
 ## Typescript Usage
 
