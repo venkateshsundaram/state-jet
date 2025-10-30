@@ -81,7 +81,7 @@ const config: Config = {
         {
           to: "/docs",
           label: "Docs",
-          position: "left",
+          position: "right",
         },
         // {
         //   to: '/blog',
@@ -91,7 +91,7 @@ const config: Config = {
         {
           to: "/help",
           label: "Help",
-          position: "left",
+          position: "right",
         },
         {
           href: "https://github.com/venkateshsundaram/state-jet",
