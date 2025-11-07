@@ -1,0 +1,284 @@
+{
+  "repo_notes": [
+    {
+      "content": ""
+    }
+  ],
+  "pages": [
+    {
+      "title": "Overview",
+      "purpose": "Introduce state-jet, explaining what it is, its design philosophy, key features, and overall architecture at a high level",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Core Concepts",
+      "purpose": "Explain fundamental concepts of state-jet: global state, slices, stores, reactivity model, and the progressive complexity approach",
+      "parent": "Overview",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Version History and Migration",
+      "purpose": "Document version changes, breaking changes, migration guides between major versions, and the changelog",
+      "parent": "Overview",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Core API Reference",
+      "purpose": "Serve as the main hub for API documentation, linking to detailed pages for each core function",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "useStateGlobal",
+      "purpose": "Complete API reference for useStateGlobal: parameters, return values, options (middleware, persist, encrypt, frameSync), and usage examples",
+      "parent": "Core API Reference",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "useSlice",
+      "purpose": "Complete API reference for useSlice: creating state slices, organizing related state, multi-state slices, and usage patterns",
+      "parent": "Core API Reference",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "useStore",
+      "purpose": "Complete API reference for useStore: aggregating slices into stores, initializer functions, and store composition patterns",
+      "parent": "Core API Reference",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "State Access Methods",
+      "purpose": "Document the methods returned by state objects: useState(), set(), get(), undo(), redo(), clear() with detailed usage",
+      "parent": "Core API Reference",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Derived State",
+      "purpose": "Explain and document the derivedState function for computing values from other state dependencies",
+      "parent": "Core API Reference",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Advanced Features",
+      "purpose": "Hub for advanced state-jet capabilities beyond basic state management",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Middleware System",
+      "purpose": "Comprehensive guide to middleware: architecture, execution pipeline, built-in middlewares (logger, reducer, debounce, optimistic, validation), and creating custom middleware",
+      "parent": "Advanced Features",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "State Persistence",
+      "purpose": "Document state persistence to localStorage: saveState, restoreState, automatic persistence via persist option, and platform considerations",
+      "parent": "Advanced Features",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "State Encryption",
+      "purpose": "Document encrypted state storage: saveEncryptedState, restoreEncryptedState, automatic encryption via encrypt option, security considerations",
+      "parent": "Advanced Features",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Undo and Redo",
+      "purpose": "Explain history management: undo(), redo() methods, history state structure (past, present, future), and usage patterns",
+      "parent": "Advanced Features",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Optimistic Updates",
+      "purpose": "Document optimisticUpdate function for immediate UI updates with rollback capability, integration patterns, and error handling",
+      "parent": "Advanced Features",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "CRDT Synchronization",
+      "purpose": "Explain syncCRDT and mergeCRDT functions for conflict-free replicated data types and multi-device synchronization",
+      "parent": "Advanced Features",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Performance Optimization",
+      "purpose": "Document performance features: batch updates, frameSync option for animation-heavy apps, and batching mechanism",
+      "parent": "Advanced Features",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Tutorials and Examples",
+      "purpose": "Hub page for practical examples and step-by-step tutorials demonstrating state-jet usage patterns",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Todo List Tutorial",
+      "purpose": "Step-by-step tutorial building a todo list app, demonstrating useStateGlobal for simple state management with TypeScript and JavaScript variants",
+      "parent": "Tutorials and Examples",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "E-commerce Tutorial",
+      "purpose": "Comprehensive tutorial building an e-commerce app with products and cart, demonstrating useSlice and useStore patterns for complex state organization",
+      "parent": "Tutorials and Examples",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Example Applications Source Code",
+      "purpose": "Reference guide to the example applications' source code structure, dependencies, and how to run them locally",
+      "parent": "Tutorials and Examples",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Performance Benchmarks",
+      "purpose": "Document benchmark setup comparing state-jet with other state management libraries (Zustand), methodology, and results interpretation",
+      "parent": "Tutorials and Examples",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Developer Guide",
+      "purpose": "Hub for developers who want to contribute to state-jet or understand its internal implementation",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Internal Architecture",
+      "purpose": "Deep dive into state-jet's internal implementation: store map structure, StoreValue objects, batching system, React integration via useSyncExternalStore",
+      "parent": "Developer Guide",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Build System",
+      "purpose": "Explain the build pipeline: Rollup configuration, plugin usage (esbuild, terser, dts), TypeScript compilation, multi-format output (ESM, CJS, types)",
+      "parent": "Developer Guide",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Testing Infrastructure",
+      "purpose": "Document testing setup: Vitest configuration, test structure, running tests, coverage requirements, and testing patterns used in the codebase",
+      "parent": "Developer Guide",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Release and Versioning",
+      "purpose": "Explain the automated release process: GitHub Actions workflow, conventional commits, standard-version, semantic versioning, and changelog generation",
+      "parent": "Developer Guide",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Contributing Guidelines",
+      "purpose": "Guide for contributors: code style (ESLint, Prettier), commit conventions, PR template, pre-commit hooks, and development workflow",
+      "parent": "Developer Guide",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    }
+  ]
+}
