@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.6](https://github.com/venkateshsundaram/state-jet/compare/v2.2.5...v2.2.6) (2026-03-18)
+
+
+### Bug Fixes
+
+* npm registry fix ([0c264c2](https://github.com/venkateshsundaram/state-jet/commit/0c264c2ab0fa0bd549c94f94acb98614c225c152))
+
 ### [2.2.5](https://github.com/venkateshsundaram/state-jet/compare/v2.2.4...v2.2.5) (2026-03-18)
 
 
