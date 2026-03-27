@@ -72,7 +72,7 @@ export default function TodoItem({ todo }: { todo: Todo }) {
       </div>
 
       <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-        {isEditing ? (
+        {!todo.completed && (isEditing ? (
           <button
             onClick={() => {
               editTodo(todo.id, newText);
@@ -89,7 +89,7 @@ export default function TodoItem({ todo }: { todo: Todo }) {
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
           </button>
-        )}
+        ))}
         <button
           onClick={() => deleteTodo(todo.id)}
           className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
