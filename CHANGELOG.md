@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.4](https://github.com/venkateshsundaram/state-jet/compare/v2.4.3...v2.4.4) (2026-03-27)
+
+
+### Documentation
+
+* consuming latest state-jet for solving immer issue ([ff78ad6](https://github.com/venkateshsundaram/state-jet/commit/ff78ad6a2df182538430ce36c2afe73592349b86))
+
 ### [2.4.3](https://github.com/venkateshsundaram/state-jet/compare/v2.4.2...v2.4.3) (2026-03-27)
 
 
