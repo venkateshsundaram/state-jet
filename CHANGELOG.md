@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.2](https://github.com/venkateshsundaram/state-jet/compare/v2.4.1...v2.4.2) (2026-03-27)
+
+
+### Documentation
+
+* adding nextjs support in examples project ([269c8e6](https://github.com/venkateshsundaram/state-jet/commit/269c8e6de18e31ac24eb00a12a7e15ef311c0305))
+
 ### [2.4.1](https://github.com/venkateshsundaram/state-jet/compare/v2.4.0...v2.4.1) (2026-03-27)
 
 
