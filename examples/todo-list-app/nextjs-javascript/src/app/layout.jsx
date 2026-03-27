@@ -10,14 +10,7 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <head>
         <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                const highlighter = document.getElementById('highlighter');
-                if (highlighter) highlighter.remove();
-              })();
-            `,
-          }}
+          suppressHydrationWarning
         />
       </head>
       <body className="antialiased" suppressHydrationWarning>

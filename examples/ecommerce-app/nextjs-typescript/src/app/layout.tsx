@@ -30,14 +30,7 @@ export default function RootLayout({
     >
       <head>
         <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                const highlighter = document.getElementById('highlighter');
-                if (highlighter) highlighter.remove();
-              })();
-            `,
-          }}
+          suppressHydrationWarning
         />
       </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
