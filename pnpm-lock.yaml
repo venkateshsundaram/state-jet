@@ -14,6 +14,9 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^19.8.0
         version: 19.8.1
+      '@eslint/js':
+        specifier: ^9.39.4
+        version: 9.39.4
       '@rollup/plugin-commonjs':
         specifier: ^28.0.2
         version: 28.0.3(rollup@3.29.5)
@@ -2795,10 +2798,6 @@ packages:
   tinyexec@1.0.4:
     resolution: {integrity: sha512-u9r3uZC0bdpGOXtlxUIdwf9pkmvhqJdrVCH9fapQtgy/OeTTMZ1nqH7agtvEfmGui6e1XxjcdrlxvxJvc3sMqw==}
     engines: {node: '>=18'}
-
-  tinyglobby@0.2.14:
-    resolution: {integrity: sha512-tX5e7OM1HnYr2+a2C/4V0htOcSQcoSTH9KgJnVvNm5zm/cyEWKJ7j7YutsH9CxMdtOkkLFy2AHrMci9IM8IPZQ==}
-    engines: {node: '>=12.0.0'}
 
   tinyglobby@0.2.15:
     resolution: {integrity: sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ==}
@@ -6025,11 +6024,6 @@ snapshots:
 
   tinyexec@1.0.4: {}
 
-  tinyglobby@0.2.14:
-    dependencies:
-      fdir: 6.4.5(picomatch@4.0.2)
-      picomatch: 4.0.2
-
   tinyglobby@0.2.15:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.4)
@@ -6151,11 +6145,11 @@ snapshots:
   vite@6.3.5(@types/node@22.15.29)(jiti@2.4.2)(terser@5.40.0)(yaml@2.8.0):
     dependencies:
       esbuild: 0.25.5
-      fdir: 6.4.5(picomatch@4.0.2)
-      picomatch: 4.0.2
+      fdir: 6.5.0(picomatch@4.0.4)
+      picomatch: 4.0.4
       postcss: 8.5.4
       rollup: 4.41.1
-      tinyglobby: 0.2.14
+      tinyglobby: 0.2.15
     optionalDependencies:
       '@types/node': 22.15.29
       fsevents: 2.3.3

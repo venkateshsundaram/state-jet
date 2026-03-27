@@ -22,11 +22,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           registry-url: "https://registry.npmjs.org/"
 
+      - name: Install pnpm
+        run: npm install -g pnpm
+
       - name: Install Dependencies
-        run: npm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: Generate Version Based on Commits
         run: |
@@ -42,6 +45,6 @@ jobs:
           git push --follow-tags origin main
 
       - name: Publish to NPM
-        run: npm publish
+        run: pnpm publish --no-git-checks --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
