@@ -1,5 +1,5 @@
 {
-  "name": "nextjs-javascript",
+  "name": "ecommerce-nextjs-javascript",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,7 +12,7 @@
     "next": "16.2.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "state-jet": "2.4.4",
+    "state-jet": "2.4.7",
     "tailwindcss": "^4",
     "@tailwindcss/postcss": "^4"
   },
