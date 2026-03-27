@@ -39,7 +39,7 @@ export default function Home() {
               Live Store
             </div>
             <div className="bg-slate-100 text-slate-600 font-bold px-4 py-2 rounded-full text-sm flex items-center gap-2">
-              Next.js 15
+              Next.js 16
             </div>
           </div>
         </div>
