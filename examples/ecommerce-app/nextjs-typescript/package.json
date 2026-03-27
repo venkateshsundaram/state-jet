@@ -14,7 +14,9 @@
     "react-dom": "19.2.4",
     "state-jet": "2.4.7",
     "tailwindcss": "^4",
-    "@tailwindcss/postcss": "^4"
+    "@tailwindcss/postcss": "^4",
+    "postcss": "^8",
+    "autoprefixer": "^10"
   },
   "devDependencies": {
     "@types/node": "^20",
