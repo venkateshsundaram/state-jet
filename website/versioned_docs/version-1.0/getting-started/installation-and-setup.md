@@ -36,6 +36,18 @@ npx create-react-app my-app
 
 (or use `yarn` or `pnpm` instead of `npm` as you prefer).
 
+`Or`
+
+## Create Next App
+
+Open your terminal and run:
+
+```
+npx create-next-app@latest
+```
+
+(or use `yarn` or `pnpm` instead of `npm` as you prefer).
+
 * * *
 
 # Manual Installation

@@ -13,6 +13,8 @@ interface Props {
   image: string;
   url: string;
   urlTS: string;
+  urlNxjs: string;
+  urlTSNxjs: string;
   description: ReactNode;
 }
 
@@ -22,6 +24,8 @@ const TodoPlaygrounds = [
     image: require('@site/static/img/playgrounds/todo-codesandbox.png'),
     url: 'https://codesandbox.io/p/sandbox/github/venkateshsundaram/state-jet/tree/main/examples/todo-list-app/classic-javascript?file=%2FREADME.md&privacy=public',
     urlTS: 'https://codesandbox.io/p/sandbox/github/venkateshsundaram/state-jet/tree/main/examples/todo-list-app/classic-typescript?file=%2FREADME.md&privacy=public',
+    urlNxjs: 'https://codesandbox.io/p/sandbox/github/venkateshsundaram/state-jet/tree/main/examples/todo-list-app/nextjs-javascript?file=%2FREADME.md&privacy=public',
+    urlTSNxjs: 'https://codesandbox.io/p/sandbox/github/venkateshsundaram/state-jet/tree/main/examples/todo-list-app/nextjs-typescript?file=%2FREADME.md&privacy=public',
     description: (
       <Translate id="playground.codesandbox.description">
         CodeSandbox is an online code editor and development environment that
@@ -38,6 +42,8 @@ const EcommercePlaygrounds = [
     image: require('@site/static/img/playgrounds/ecommerce-codesandbox.png'),
     url: 'https://codesandbox.io/p/sandbox/github/venkateshsundaram/state-jet/tree/main/examples/ecommerce-app/classic-javascript?file=%2FREADME.md&privacy=public',
     urlTS: 'https://codesandbox.io/p/sandbox/github/venkateshsundaram/state-jet/tree/main/examples/ecommerce-app/classic-typescript?file=%2FREADME.md&privacy=public',
+    urlNxjs: 'https://codesandbox.io/p/sandbox/github/venkateshsundaram/state-jet/tree/main/examples/ecommerce-app/nextjs-javascript?file=%2FREADME.md&privacy=public',
+    urlTSNxjs: 'https://codesandbox.io/p/sandbox/github/venkateshsundaram/state-jet/tree/main/examples/ecommerce-app/nextjs-typescript?file=%2FREADME.md&privacy=public',
     description: (
       <Translate id="playground.codesandbox.description">
         CodeSandbox is an online code editor and development environment that
@@ -48,7 +54,7 @@ const EcommercePlaygrounds = [
   }
 ];
 
-function PlaygroundCard({name, image, url, urlTS, description}: Props) {
+function PlaygroundCard({name, image, url, urlTS, urlNxjs, urlTSNxjs, description}: Props) {
   return (
     <div className="col col--6 margin-bottom--lg">
       <div className={clsx('card')}>
@@ -67,12 +73,20 @@ function PlaygroundCard({name, image, url, urlTS, description}: Props) {
               <Translate id="playground.tryItButton">Try it now!</Translate>
             </b>
           </div>
-          <div className="button-group button-group--block">
+          <div style={{paddingBottom: '10px'}} className="button-group button-group--block">
             <Link className="button button--secondary" to={url}>
-              JavaScript
+              Classic JS
             </Link>
             <Link className="button button--secondary" to={urlTS}>
-              TypeScript
+              Classic TS
+            </Link>
+          </div>
+          <div className="button-group button-group--block">
+            <Link className="button button--secondary" to={urlNxjs}>
+              Next JS 
+            </Link>
+            <Link className="button button--secondary" to={urlTSNxjs}>
+              Next TS
             </Link>
           </div>
         </div>
