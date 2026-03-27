@@ -1,5 +1,4 @@
 {
-    "releaseCommitMessageFormat": "chore(release): {{currentTag}} [skip ci]",
     "types": [
         {
             "type": "build",
