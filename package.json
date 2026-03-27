@@ -101,7 +101,6 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "globals": "^17.4.0",
     "husky": "^9.1.7",
-    "immer": "^10.1.1",
     "jsdom": "^26.0.0",
     "lint-staged": "^15.4.3",
     "prettier": "^3.5.3",
@@ -116,16 +115,15 @@
     "typescript-eslint": "^8.57.2",
     "vitest": "^4.1.2"
   },
+  "dependencies": {
+    "immer": "^10.1.1"
+  },
   "peerDependencies": {
     "@types/react": ">=18.0.0",
-    "immer": ">=9.0.6",
     "react": ">=18.0.0"
   },
   "peerDependenciesMeta": {
     "@types/react": {
-      "optional": true
-    },
-    "immer": {
       "optional": true
     },
     "react": {
