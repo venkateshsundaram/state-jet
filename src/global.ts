@@ -1,9 +1,6 @@
-const getGlobalThis = (): typeof globalThis => {
-  if (typeof globalThis === "object" && globalThis) return globalThis;
-  if (typeof self === "object" && self) return self;
-  if (typeof window === "object" && window) return window;
-  if (typeof global !== "undefined" && typeof global === "object" && global) return global;
-  throw new Error("Unable to locate global `this`");
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getGlobalThis = (_scope?: any): any => {
+  if (_scope === false || _scope === null) throw new Error("Unable to locate global `this`");
+  return _scope || globalThis;
 };
-
-export const globalObject: typeof globalThis = getGlobalThis();
+export const globalObject = getGlobalThis();

@@ -2,11 +2,8 @@ export const mergeCRDT = <T>(localState: T, remoteState: T): T => {
   return { ...localState, ...remoteState, lastUpdated: Date.now() };
 };
 
-export const syncCRDT = <T>(
-  remoteState: T,
-  setState: { useState: () => T; set: (state: T) => void },
-) => {
-  const localState = setState.useState();
+export const syncCRDT = <T>(remoteState: T, getStateValue: () => T, set: (state: T) => void) => {
+  const localState = getStateValue();
   const mergedState = mergeCRDT(localState, remoteState);
-  setState.set(mergedState);
+  set(mergedState);
 };

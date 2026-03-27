@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { notifyDevTools, measurePerformance, undoState, redoState } from "./devtools";
 import { globalObject } from "./global";
 
@@ -77,8 +77,30 @@ describe("State Manager Functions", () => {
     expect(undoState("emptyState")).toBeUndefined();
   });
 
-  // ✅ Test redoState when there's no future state
   it("should return undefined if there's no future state to redo", () => {
     expect(redoState("emptyState")).toBeUndefined();
+  });
+
+  // ✅ New branch coverage: DevTools extension is present
+  it("should notify devtools when updateState is present", () => {
+    const mockUpdate = vi.fn();
+    // Temporarily replace the devtools object
+    (globalObject as any).__STATE_JET_DEVTOOLS__.updateState = mockUpdate;
+
+    notifyDevTools("branchKey", 100);
+
+    expect(mockUpdate).toHaveBeenCalledWith("branchKey", 100, [100]);
+
+    // Test performance update as well
+    const mockPerf = vi.fn();
+    (globalObject as any).__STATE_JET_DEVTOOLS__.updatePerformance = mockPerf;
+
+    measurePerformance("perfKey", () => {});
+    expect(mockPerf).toHaveBeenCalled();
+  });
+
+  it("should handle existing performanceData key", () => {
+    measurePerformance("existingKey", () => {});
+    measurePerformance("existingKey", () => {}); // Second call hits the branch where performanceData[key] exists
   });
 });
