@@ -1,6 +1,6 @@
 {
   "name": "state-jet",
-  "version": "2.4.7",
+  "version": "2.4.8",
   "description": "Ultra-lightweight global state management for React",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",

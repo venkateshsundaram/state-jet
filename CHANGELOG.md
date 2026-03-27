@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.8](https://github.com/venkateshsundaram/state-jet/compare/v2.4.7...v2.4.8) (2026-03-27)
+
+
+### Bug Fixes
+
+* adding support dev origin for nextjs projects with suppress hydration warning ([0a1a840](https://github.com/venkateshsundaram/state-jet/commit/0a1a8403327a9fb95dcd3a901b4fe9d769c9af55))
+
 ### [2.4.7](https://github.com/venkateshsundaram/state-jet/compare/v2.4.6...v2.4.7) (2026-03-27)
 
 
