@@ -75,10 +75,10 @@ function PlaygroundCard({name, image, url, urlTS, urlNxjs, urlTSNxjs, descriptio
           </div>
           <div style={{paddingBottom: '10px'}} className="button-group button-group--block">
             <Link className="button button--secondary" to={url}>
-              Classic JS
+              React JS
             </Link>
             <Link className="button button--secondary" to={urlTS}>
-              Classic TS
+              React TS
             </Link>
           </div>
           <div className="button-group button-group--block">
