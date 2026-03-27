@@ -28,11 +28,8 @@ function App() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div>
             <h1 className="text-4xl font-black text-slate-900 tracking-tight leading-tight">
-              StateJet <span className="text-blue-600 italic">Store</span>
+              <span className="text-blue-600 italic">Store</span>
             </h1>
-            <p className="text-slate-500 mt-2 text-lg font-medium">
-              Ultra-lightweight state management for modern ecommerce.
-            </p>
           </div>
           <div className="flex gap-4">
             <div className="bg-blue-50 text-blue-700 font-bold px-4 py-2 rounded-full text-sm border border-blue-100 flex items-center gap-2">
@@ -56,7 +53,7 @@ function App() {
 
       {/* Footer */}
       <footer className="max-w-7xl mx-auto px-8 py-12 border-t border-slate-200 text-center text-slate-400 font-medium">
-        <p>Built with StateJet & Vite JS • Design by Antigravity</p>
+        <p>Built with StateJet & Vite JS</p>
       </footer>
     </main>
   );
