@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.5](https://github.com/venkateshsundaram/state-jet/compare/v2.4.4...v2.4.5) (2026-03-27)
+
+
+### Bug Fixes
+
+* nextjs remove immer from examples ([fafa925](https://github.com/venkateshsundaram/state-jet/commit/fafa92577ff1de597dbbaede152ee3367e655f73))
+
 ### [2.4.4](https://github.com/venkateshsundaram/state-jet/compare/v2.4.3...v2.4.4) (2026-03-27)
 
 
