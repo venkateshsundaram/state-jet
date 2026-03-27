@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.6](https://github.com/venkateshsundaram/state-jet/compare/v2.4.5...v2.4.6) (2026-03-27)
+
+
+### Bug Fixes
+
+* adding support dev origin for nextjs projects ([0f2c7f5](https://github.com/venkateshsundaram/state-jet/commit/0f2c7f5f588a91a749388c52b9613db9b654763c))
+
 ### [2.4.5](https://github.com/venkateshsundaram/state-jet/compare/v2.4.4...v2.4.5) (2026-03-27)
 
 
