@@ -11,7 +11,7 @@ export default [
       { file: "dist/index.mjs", format: "es", sourcemap: false },
       { file: "dist/index.cjs", format: "cjs", sourcemap: false },
     ],
-    external: ["react", "immer", "use-sync-external-store/shim"],
+    external: ["react", "immer"],
     plugins: [
       resolve(),
       commonjs(),

@@ -15,17 +15,7 @@ export default defineVitestConfig({
         branches: 85,
         statements: 90,
       },
-      exclude: [
-        "src/index.ts",
-        "src/global.ts",
-        "tests/**",
-        "**/*.test.ts",
-        "**/*.test.tsx",
-        "**/*.spec.ts",
-        "**/node_modules/**"
-      ]
+      exclude: ["tests/**", "**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/node_modules/**"],
     },
   },
 });
-
-
