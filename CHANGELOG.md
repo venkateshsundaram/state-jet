@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.12](https://github.com/venkateshsundaram/state-jet/compare/v2.4.11...v2.4.12) (2026-03-28)
+
+
+### Bug Fixes
+
+* adding support dev origin for nextjs projects with suppress hydration warning ([2ff670c](https://github.com/venkateshsundaram/state-jet/commit/2ff670c092f158b9b410161bc2be7b2bb1e91a4b))
+* adding support dev origin for nextjs projects with suppress hydration warning ([7a347b6](https://github.com/venkateshsundaram/state-jet/commit/7a347b66652b3e5fee4797d87845437c94c87ac5))
+* adding support dev origin for nextjs projects with suppress hydration warning ([1b1af2f](https://github.com/venkateshsundaram/state-jet/commit/1b1af2f68ef35ca0f87895fe7bce1d87e58572b3))
+* adding support dev origin for nextjs projects with suppress hydration warning ([eb00c6e](https://github.com/venkateshsundaram/state-jet/commit/eb00c6efd2d64dbd3d564d0e12d95cab634dff04))
+* adding support dev origin for nextjs projects with suppress hydration warning ([0a7a217](https://github.com/venkateshsundaram/state-jet/commit/0a7a21798e9ad6123f7182fa64706dedb4b1b004))
+* adding support dev origin for nextjs projects with suppress hydration warning ([575c0e8](https://github.com/venkateshsundaram/state-jet/commit/575c0e8c3c525228f4676db3c3b5440a64dff7a4))
+* adding support dev origin for nextjs projects with suppress hydration warning ([78677fd](https://github.com/venkateshsundaram/state-jet/commit/78677fd1b8ebae9cfb50d29ef109740615f6e38e))
+* adding support dev origin for nextjs projects with suppress hydration warning ([f94c083](https://github.com/venkateshsundaram/state-jet/commit/f94c08368009f26de23e9c4a3005cc710d1d7c4c))
+* adding support dev origin for nextjs projects with suppress hydration warning ([d4b11eb](https://github.com/venkateshsundaram/state-jet/commit/d4b11eb2683399166786187e7c5245c0434c4f84))
+
 ### [2.4.11](https://github.com/venkateshsundaram/state-jet/compare/v2.4.10...v2.4.11) (2026-03-28)
 
 
