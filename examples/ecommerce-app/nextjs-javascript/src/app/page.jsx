@@ -1,12 +1,17 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useEcommerceStore } from "@/store";
 import { ProductList } from "@/components/ProductList";
 import { Cart } from "@/components/Cart";
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
   const store = useEcommerceStore();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const { productState } = store.products;
@@ -23,8 +28,10 @@ export default function Home() {
     });
   }, [store.products]);
 
+  if (!mounted) return null;
+
   return (
-    <main className="min-h-screen bg-slate-50">
+    <main className="min-h-screen bg-slate-50" suppressHydrationWarning>
       {/* Hero Section */}
       <div className="bg-white border-b border-slate-200 py-12 px-8 mb-12">
         <div className="max-w-7xl mx-auto flex items-center justify-between">

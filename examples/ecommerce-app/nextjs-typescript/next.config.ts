@@ -19,9 +19,10 @@ const nextConfig: NextConfig = {
     ];
     return config;
   },
+  // Keep the old key for backward/forward compatibility if needed
   turbopack: {
     resolveAlias: {
-      tailwindcss: "./node_modules/tailwindcss",
+      tailwindcss: path.resolve(__DIRNAME, "node_modules/tailwindcss"),
     },
   },
 };
