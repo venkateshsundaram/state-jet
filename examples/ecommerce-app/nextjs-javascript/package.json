@@ -12,7 +12,7 @@
     "next": "16.2.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "state-jet": "2.4.11"
+    "state-jet": "2.4.13"
   },
   "devDependencies": {
     "eslint": "^9",
