@@ -1,14 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { todoState } from "@/store/state";
 import TodoList from "@/components/TodoList";
 import TodoStats from "@/components/TodoStats";
 import TodoFilters from "@/components/TodoFilters";
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
   const [text, setText] = useState("");
   const todos = todoState.useState();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const addTodo = (text) => {
     if (!text.trim()) return;
@@ -16,8 +21,10 @@ export default function Home() {
     setText("");
   };
 
+  if (!mounted) return null;
+
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-blue-50 py-20 px-4">
+    <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-blue-50 py-20 px-4" suppressHydrationWarning>
       <div className="max-w-xl mx-auto">
         <div className="bg-white rounded-[2rem] shadow-2xl shadow-indigo-100 overflow-hidden border border-white">
           {/* Header */}
