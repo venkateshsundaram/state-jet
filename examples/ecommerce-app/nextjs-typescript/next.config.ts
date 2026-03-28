@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
       ...config.resolve.alias,
       tailwindcss: path.resolve(__DIRNAME, "node_modules/tailwindcss"),
     };
+    config.resolve.modules = [
+      ...(config.resolve.modules || []),
+      path.resolve(__DIRNAME, "node_modules"),
+    ];
     return config;
   },
   turbopack: {
