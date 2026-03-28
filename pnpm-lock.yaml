@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      immer:
-        specifier: ^10.1.1
-        version: 10.1.1
     devDependencies:
       '@commitlint/cli':
         specifier: ^19.8.0
@@ -63,6 +59,9 @@ importers:
       husky:
         specifier: ^9.1.7
         version: 9.1.7
+      immer:
+        specifier: ^10.1.1
+        version: 10.1.1
       jsdom:
         specifier: ^26.0.0
         version: 26.1.0
