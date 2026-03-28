@@ -12,11 +12,7 @@
     "next": "16.2.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "state-jet": "2.4.7",
-    "tailwindcss": "^4",
-    "@tailwindcss/postcss": "^4",
-    "postcss": "^8",
-    "autoprefixer": "^10"
+    "state-jet": "2.4.7"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -24,6 +20,10 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "tailwindcss": "^4.2.2",
+    "@tailwindcss/postcss": "^4.2.2",
+    "postcss": "^8.5.8",
+    "autoprefixer": "^10.4.27"
   }
 }
