@@ -14,12 +14,12 @@ const nextConfig: NextConfig = {
       tailwindcss: path.resolve(__DIRNAME, "node_modules/tailwindcss"),
     };
     config.resolve.modules = [
-      ...(config.resolve.modules || []),
       path.resolve(__DIRNAME, "node_modules"),
+      "node_modules",
+      ...(config.resolve.modules || []),
     ];
     return config;
   },
-  // Keep the old key for backward/forward compatibility if needed
   turbopack: {
     resolveAlias: {
       tailwindcss: path.resolve(__DIRNAME, "node_modules/tailwindcss"),
