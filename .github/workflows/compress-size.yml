@@ -34,3 +34,4 @@ jobs:
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           pattern: "dist/*.{cjs,mjs}"
+          install-script: "pnpm install --no-frozen-lockfile"
